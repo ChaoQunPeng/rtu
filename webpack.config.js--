@@ -12,7 +12,8 @@ module.exports = {
   },
   devtool: 'inline-source-map',
   output: {
-    filename: '[name].[hash:12].bundle.js'
+    filename: '[name].[hash:12].bundle.js',
+    publicPath: '/'
   },
   plugins: [
     new htmlWebpackPlugin({
