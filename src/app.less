@@ -1,0 +1,148 @@
+@font-size-xs: 12px;
+@font-size-md: 14px;
+@font-size-lg: 16px;
+
+// margin & padding 常用的数值
+@mp-xs  : 5px;
+@size-sm: 10px;
+@size-md: 15px;
+@size-lg: 20px;
+
+* {
+  margin    : 0;
+  padding   : 0;
+  box-sizing: border-box;
+}
+
+html {
+}
+
+body {
+  background: #f5f6fa;
+  overflow-x: hidden;
+}
+
+input {
+  display      : block;
+  border       : 1px solid #c4c7ff;
+  outline      : none;
+  height       : 40px;
+  text-indent  : 10px;
+  font-size    : 16px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  color        : #333;
+  width        : 100%;
+}
+
+textarea {
+  display      : block;
+  border       : 1px solid #c4c7ff;
+  outline      : none;
+  text-indent  : 10px;
+  font-size    : 16px;
+  border-radius: 4px;
+  color        : #333;
+  padding-top  : 10px;
+  height       : 250px;
+  width        : 100%;
+  margin-bottom: 20px;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.float-left {
+  float: left !important;
+}
+
+.float-right {
+  float: right !important;
+}
+
+@base-size: 5px;
+
+.mb {
+  &-1 {
+    margin-bottom: @base-size;
+  }
+
+  &-2 {
+    margin-bottom: @base-size * 2;
+  }
+
+  &-3 {
+    margin-bottom: @base-size * 3;
+  }
+
+  &-4 {
+    margin-bottom: @base-size * 4;
+  }
+
+  &-5 {
+    margin-bottom: @base-size * 5;
+  }
+
+  &-6 {
+    margin-bottom: @base-size * 6;
+  }
+}
+
+.line-height-1 {
+  line-height: 1 !important;
+}
+
+.clearfix {
+  &::after {
+    content: "";
+    clear  : both;
+    display: block;
+  }
+}
+
+.pcq-layout {
+  display: flex;
+  height : 100%;
+}
+
+.route-leave-active {
+  transition: all 0.3s;
+}
+
+.route-leave-to {
+  opacity  : 0;
+  transform: translateX(-50px);
+}
+
+.route-enter-active {
+  opacity   : 0;
+  transform : translateX(50px);
+  transition: all 0.3s;
+}
+
+.route-enter-to {
+  opacity  : 1;
+  transform: translateX(0);
+}
+
+
+.btn {
+  &-primary {
+    display      : block;
+    border       : 1px solid #ddd;
+    background   : #464aa1;
+    color        : #fff;
+    padding      : 10px 20px;
+    border-radius: 4px;
+    outline      : none;
+    cursor       : pointer;
+    border       : 1px solid #2d318f;
+    line-height  : 1.2;
+    transition   : all 0.5s;
+
+    &:active {
+      background: #353989;
+    }
+  }
+}

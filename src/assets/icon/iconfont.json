@@ -1,0 +1,79 @@
+{
+  "id": "1676813",
+  "name": "RTU",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "自用",
+  "glyphs": [
+    {
+      "icon_id": "6150958",
+      "name": "ellipsis-v",
+      "font_class": "ellipsis-vertical",
+      "unicode": "e76a",
+      "unicode_decimal": 59242
+    },
+    {
+      "icon_id": "6150959",
+      "name": "gallery-view",
+      "font_class": "gallery-view",
+      "unicode": "e76b",
+      "unicode_decimal": 59243
+    },
+    {
+      "icon_id": "6151070",
+      "name": "edit",
+      "font_class": "edit",
+      "unicode": "e7a0",
+      "unicode_decimal": 59296
+    },
+    {
+      "icon_id": "6151188",
+      "name": "all",
+      "font_class": "all",
+      "unicode": "e7e6",
+      "unicode_decimal": 59366
+    },
+    {
+      "icon_id": "6151263",
+      "name": "delete",
+      "font_class": "delete",
+      "unicode": "e810",
+      "unicode_decimal": 59408
+    },
+    {
+      "icon_id": "6151293",
+      "name": "plus",
+      "font_class": "plus",
+      "unicode": "e829",
+      "unicode_decimal": 59433
+    },
+    {
+      "icon_id": "6151361",
+      "name": "arrow-to-top",
+      "font_class": "arrow-to-top",
+      "unicode": "e83d",
+      "unicode_decimal": 59453
+    },
+    {
+      "icon_id": "6151396",
+      "name": "angle-right",
+      "font_class": "angle-right",
+      "unicode": "e84e",
+      "unicode_decimal": 59470
+    },
+    {
+      "icon_id": "6151456",
+      "name": "angle-left",
+      "font_class": "angle-left",
+      "unicode": "e84f",
+      "unicode_decimal": 59471
+    },
+    {
+      "icon_id": "9066652",
+      "name": "home",
+      "font_class": "home",
+      "unicode": "e88b",
+      "unicode_decimal": 59531
+    }
+  ]
+}
