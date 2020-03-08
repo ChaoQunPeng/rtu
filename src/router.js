@@ -9,9 +9,9 @@ import Record from "./record/record.vue";
 
 const routes = [
   { path: '', component: Home },
-  { path: '/home', component: Home },
-  { path: '/detail/:id', component: Detail },
-  { path: '/record/:id', component: Record },
+  { path: '/home', component: Home, name: "home" },
+  { path: '/detail/:id', component: Detail, name: "detail" },
+  { path: '/record/:id', component: Record, name: "record" },
 ]
 
 const router = new VueRouter({

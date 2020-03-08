@@ -1,25 +1,19 @@
 <template>
   <div>
     <div class="container-layout">
-      <router-link to="/home" tag="div" class="left-layout-nav" replace>
-        <i class="iconfont icon-home"></i>
-      </router-link>
-      <!-- <div class="left-layout">
-        <img src="./assets/common/pcq.svg">
+      <div class="left-layout">
         <router-link to="/home" tag="div" class="left-layout-nav" replace>
           <i class="iconfont icon-home"></i>
         </router-link>
-      </div>-->
+
+        <div class="more-ellipsis">
+          <i class="iconfont icon-gallery-view" style="font-size:24px;"></i>
+        </div>
+      </div>
       <div class="right-layout">
-        <div class="header-layout">
-          <i class="iconfont icon-angle-left" @click="$router.back()"></i>
-          <i class="iconfont icon-angle-right" @click="$router.forward()"></i>
-        </div>
-        <div class="content-layout">
-          <transition name="route" mode="out-in">
-            <router-view></router-view>
-          </transition>
-        </div>
+        <transition name="route" mode="out-in">
+          <router-view></router-view>
+        </transition>
       </div>
     </div>
   </div>
@@ -37,10 +31,14 @@ export default {
   components: {
     Home
   },
+  created() {
+    document.body.style.backgroundColor =
+      this.$route.name == "home" ? "#183055" : "#f8f8f8";
+  },
   watch: {
     $route(to, from) {
-      console.log(to);
-      console.log(from);
+      document.body.style.backgroundColor =
+        to.name == "home" ? "#183055" : "#f8f8f8";
     }
   }
 };
@@ -48,20 +46,25 @@ export default {
 
 <style lang="less" scoped>
 .container-layout {
-  display: flex;
+  // display: flex;
   height: 100%;
 }
 
 .left-layout {
-  background: #fff;
   width: 80px;
+  position: fixed;
+  height: 100%;
+  color: #fff;
+  background: #0b192e;
 }
 
 .right-layout {
-  flex: 1;
+  margin-left: 80px;
+  padding: 60px;
 }
 
 .header-layout {
+  width: 100%;
   height: 80px;
   background: #f1f1f1;
 }
@@ -72,11 +75,36 @@ export default {
 
 .left-layout-nav {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px auto;
+  background: rgba(255, 255, 255, 0.1);
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  border-radius: 50%;
+  transition: all .3s;
+  &:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
   > i {
     display: block;
-    font-size: 36px;
+    font-size: 24px;
     cursor: pointer;
+  }
+}
+
+.more-ellipsis {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  margin-left: -24px;
+  width: 42px;
+  height: 42px;
+  line-height: 42px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .3s;
+  &:hover {
+    text-shadow: 0 0 6px #fff;
   }
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>{{title}}</h2>
+    <h2 style="margin-bottom:20px;color:#183055;">{{title}}</h2>
     <input type="text" id="overview" v-model="overview" placeholder="一句话" />
     <textarea id="content" v-model="content" placeholder="这里以后替换成CKeditor" style="resize:none"></textarea>
 
-    <button class="plus1" @click="plus1()">Plus 1</button>
+    <button class="btn btn-primary display-block" @click="plus1()">Plus 1</button>
   </div>
 </template>
 

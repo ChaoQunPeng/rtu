@@ -28,7 +28,6 @@ const store = new Vuex.Store({
       });
     },
     add(store, payload) {
-      debugger
       store.mockData.list.push({
         id: store.mockData.list.length + 1,
         name: payload.title,

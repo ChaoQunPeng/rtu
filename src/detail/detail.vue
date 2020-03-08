@@ -2,7 +2,7 @@
   <div class="detail">
     <!-- <router-link to="/home" replace>Go to Home</router-link> -->
     <div class="pcq-layout">
-      <div style="width:250px;">
+      <div style="width:250px;margin-right:30px">
         <div class="name text-center">{{item.name}}</div>
         <!-- <div class="exp">
           <span>{{item.exp}}</span>
@@ -11,8 +11,6 @@
         <div class="halo">
           <p>{{this.item.exp}}</p>
           <div></div>
-          <!-- <div></div>
-          <div></div>-->
         </div>
 
         <button class="plus1" @click="goRecord()">Level Up!</button>
@@ -22,6 +20,7 @@
           <div v-for="(arr,index) in item.items" :key="index" class="exp-container-item">
             <div>{{arr.overview}}</div>
             <div>{{arr.content}}</div>
+            <div>2020-03-09</div>
           </div>
         </div>
       </div>
@@ -42,10 +41,10 @@ export default {
     };
   },
   created() {
-    debugger
     let queryParamsId = this.$router.currentRoute.params["id"];
-    this.item = this.$store.state.mockData.list.find(e => e.id == queryParamsId);
-    console.log(this.$store);
+    this.item = this.$store.state.mockData.list.find(
+      e => e.id == queryParamsId
+    );
   },
   methods: {
     plus1() {
@@ -73,29 +72,29 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
-  margin: 0 auto;
+  margin: 50px auto 30px auto;
   p {
     position: absolute;
     font-size: 40px;
     font-weight: 700;
-    color: #2d318f;
+    color: #183055;
     z-index: 1000;
-    text-shadow: 3px 5px 4px #ccc;
   }
   > div {
     position: absolute;
     font-size: 40px;
     font-weight: 700;
-    border: 10px solid #2d318f;
+    border: 10px solid #183055;
     width: 160px;
     height: 160px;
     display: flex;
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    color: #2d318f;
-    box-shadow: inset 0px 0px 2px 0px #2d318f;
-    border-radius: 50%;
+    color: #183055;
+    box-shadow: inset 0px 0px 2px 0px #fff;
+    border-radius: 0 50% 50% 50%;
+    transform: rotate(45deg);
     &:nth-of-type(1) {
       // animation: haloAni1 3s infinite linear;
       // &::before {
@@ -182,7 +181,7 @@ export default {
 .name {
   font-size: 24px;
   font-weight: 700;
-  color: #2d318f;
+  color: #183055;
   margin-bottom: 20px;
 }
 
@@ -197,7 +196,7 @@ export default {
   align-items: center;
   border-radius: 0 42.6% 44.6% 41.6%;
   margin: 0 auto;
-  color: #2d318f;
+  color: #fff;
   /* background: #2d318f; */
   box-shadow: 0 0 12px #2d318f;
   transform: rotate(-77deg);
@@ -215,23 +214,42 @@ export default {
 }
 
 .exp-container-item {
+  position: relative;
   background: #f1f1f1;
-  height: 60px;
+  min-height: 60px;
   border-radius: 6px;
   margin-bottom: 15px;
+  padding: 15px;
+  > div:nth-child(1) {
+    color: #333;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  > div:nth-child(2) {
+    color: #666;
+    font-size: 16px;
+  }
+
+  > div:nth-child(3) {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 12px;
+    color: #999;
+  }
 }
 
 .plus1 {
   display: block;
   width: 100%;
-  border: 1px solid #ddd;
-  background: #464aa1;
+  background: #3884ff;
   color: #fff;
   padding: 10px 0;
   border-radius: 4px;
   outline: none;
   cursor: pointer;
-  border: 1px solid #2d318f;
+  border: 1px solid #3884ff;
   transition: all 0.5s;
   &:active {
     background: #353989;

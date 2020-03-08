@@ -1,12 +1,14 @@
-@font-size-xs: 12px;
-@font-size-md: 14px;
-@font-size-lg: 16px;
+// @font-size-xs: 12px;
+// @font-size-md: 14px;
+// @font-size-lg: 16px;
 
 // margin & padding 常用的数值
-@mp-xs  : 5px;
-@size-sm: 10px;
-@size-md: 15px;
-@size-lg: 20px;
+// @mp-xs  : 5px;
+// @size-sm: 10px;
+// @size-md: 15px;
+// @size-lg: 20px;
+
+@dominant-color: #183055;
 
 * {
   margin    : 0;
@@ -14,11 +16,13 @@
   box-sizing: border-box;
 }
 
-html {
+p,
+div {
+  line-height: 1;
 }
 
 body {
-  background: #f5f6fa;
+  background: @dominant-color;
   overflow-x: hidden;
 }
 
@@ -59,6 +63,11 @@ textarea {
 
 .float-right {
   float: right !important;
+}
+
+.display-block {
+  display: block !important;
+  width: 100% !important;
 }
 
 @base-size: 5px;
@@ -130,17 +139,16 @@ textarea {
 .btn {
   &-primary {
     display      : block;
-    border       : 1px solid #ddd;
-    background   : #464aa1;
+    background   : rgb(56, 132, 255);
     color        : #fff;
     padding      : 10px 20px;
     border-radius: 4px;
     outline      : none;
     cursor       : pointer;
-    border       : 1px solid #2d318f;
+    border       : 1px solid rgb(56, 132, 255);
     line-height  : 1.2;
     transition   : all 0.5s;
-
+    box-shadow: 0 0 4px #3884ff;
     &:active {
       background: #353989;
     }

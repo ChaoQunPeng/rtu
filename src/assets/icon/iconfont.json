@@ -6,6 +6,41 @@
   "description": "自用",
   "glyphs": [
     {
+      "icon_id": "6151280",
+      "name": "info-circle",
+      "font_class": "info-circle",
+      "unicode": "e81e",
+      "unicode_decimal": 59422
+    },
+    {
+      "icon_id": "6151281",
+      "name": "question-circle",
+      "font_class": "question-circle",
+      "unicode": "e81f",
+      "unicode_decimal": 59423
+    },
+    {
+      "icon_id": "6151282",
+      "name": "exclamation-circle",
+      "font_class": "exclamation-circle",
+      "unicode": "e820",
+      "unicode_decimal": 59424
+    },
+    {
+      "icon_id": "6151294",
+      "name": "times",
+      "font_class": "times",
+      "unicode": "e82a",
+      "unicode_decimal": 59434
+    },
+    {
+      "icon_id": "6151295",
+      "name": "check",
+      "font_class": "check",
+      "unicode": "e82b",
+      "unicode_decimal": 59435
+    },
+    {
       "icon_id": "6150958",
       "name": "ellipsis-v",
       "font_class": "ellipsis-vertical",

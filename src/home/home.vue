@@ -2,7 +2,7 @@
   <div class="pcq-layout">
     <div style="width:100%">
       <div class="clearfix line-height-1 mb-4">
-        <h1 class="float-left" style="font-size: 36px;">Space</h1>
+        <h1 class="float-left" style="font-size: 36px;color:#fff;">Space</h1>
         <button class="btn-primary float-right" style="font-size:18px" @click="handleModal()">Add</button>
       </div>
       <div class="pcq-grid" style="margin-left: -10px;margin-right: -10px;">
@@ -13,7 +13,9 @@
               <div class="title">{{item.name}}</div>
               <div class="exp">
                 {{item.items.length}}
-                <span style="font-size: 12px;color: #666;font-weight: 500;">exp</span>
+                <span
+                  style="font-size: 12px;color: #f0f0f0;font-weight: 500;"
+                >exp</span>
               </div>
               <div class="date">上次更新：2020-03-06</div>
             </div>
@@ -23,9 +25,9 @@
     </div>
 
     <div class="modal" v-if="modalIsVisible">
-      <div class="modal-shade"></div>
+      <div class="modal-shade" @click="handleModal()"></div>
       <div class="modal-body">
-        <i class="iconfont icon-delete modal-close" @click="handleModal()"></i>
+        <i class="iconfont icon-times modal-close" @click="handleModal()"></i>
         <input class="modal-input" type="text" v-model="title" />
         <button class="btn btn-primary float-right" @click="added()">新增</button>
       </div>
@@ -77,17 +79,17 @@ export default {
   position: relative;
   height: 120px;
   padding: 20px 15px;
-  border-radius: 10px;
-  background: #fff;
-  border: 1px solid #f6f6f8;
+  border-radius: 3px;
   cursor: pointer;
   box-shadow: 0 0 0 #ddd;
   transform: translateY(0);
   transition: all 0.3s;
-
+  background-color: rgb(47, 69, 102);
+  color: #fff;
   &:hover {
-    transform: translateY(-10px);
-    box-shadow: 3px 4px 4px #ddd;
+    background-color: #385176;
+    // transform: translateY(-10px);
+    // box-shadow: 3px 4px 4px #ddd;
   }
 }
 
@@ -97,21 +99,19 @@ export default {
   padding-left: 5px;
 
   > .title {
-    margin-bottom: 2px;
-    font-size: 18px;
-    color: #333;
+    margin-bottom: 10px;
+    font-size: 22px;
   }
 
   > .exp {
-    font-size: 22px;
-    color: #333;
+    font-size: 20px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 16px;
   }
 
   > .date {
-    font-size: 14px;
-    color: #999;
+    font-size: 12px;
+    color: #ccc;
   }
 }
 
@@ -121,9 +121,9 @@ export default {
   left: 15px;
   width: 4px;
   height: 80px;
-  background: #5c87ff;
+  background: #40a7ff;
   border-radius: 4px;
-  // border-right: 4px solid #5c87ff;
+  box-shadow: 0 0 4px #40a7ff;
 }
 
 .modal {
@@ -154,8 +154,9 @@ export default {
 
 .modal-close {
   position: absolute;
-  right: 0;
-  top: 0;
+  right: 6px;
+  top: 6px;
+  cursor: pointer;
 }
 </style>
 			
