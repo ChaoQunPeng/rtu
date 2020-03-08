@@ -8,10 +8,10 @@ import Detail from "./detail/detail.vue";
 import Record from "./record/record.vue";
 
 const routes = [
-  { path: '', component: Home },
   { path: '/home', component: Home, name: "home" },
   { path: '/detail/:id', component: Detail, name: "detail" },
   { path: '/record/:id', component: Record, name: "record" },
+  { path: '', component: Home, redirect: '/home' }
 ]
 
 const router = new VueRouter({
