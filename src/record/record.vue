@@ -1,6 +1,12 @@
 <template>
   <div>
     <h2 style="margin-bottom:20px;color:#183055;">{{title}}</h2>
+    <input type="number" placeholder="花费了多少分钟" />
+    <select>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
     <input type="text" id="overview" v-model="overview" placeholder="一句话" />
     <textarea id="content" v-model="content" placeholder="这里以后替换成CKeditor" style="resize:none"></textarea>
 

@@ -41,7 +41,7 @@ export default {
     };
   },
   created() {
-    let queryParamsId = this.$router.currentRoute.params["id"];
+    let queryParamsId = this.$router.currentRoute.params["_id"];
     this.item = this.$store.state.mockData.list.find(
       e => e.id == queryParamsId
     );

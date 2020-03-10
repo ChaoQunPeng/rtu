@@ -6,12 +6,11 @@ import App from "./app.vue";
 import Vuex from 'vuex'
 
 import { mockData } from "./mock.data.js";
-
+import axios from "axios";
 Vue.use(Vuex)
 
 // 出现下面这个错误可能是路由导入出错了
 // Error in render: "TypeError: Cannot read property 'matched' of undefined"
-
 
 const store = new Vuex.Store({
   state: {
@@ -44,6 +43,10 @@ new Vue({
   router: router,
   render: h => h(App)
 });
+
+// axios({
+//   url: `http://localhost:8100/api/home`
+// })
 
 import('./app.less');
 import('./assets/icon/iconfont.css');

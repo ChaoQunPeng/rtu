@@ -12,12 +12,10 @@
             <div class="card-content">
               <div class="title">{{item.name}}</div>
               <div class="exp">
-                {{item.items.length}}
-                <span
-                  style="font-size: 12px;color: #f0f0f0;font-weight: 500;"
-                >exp</span>
+                {{item.exp}}
+                <span style="font-size: 12px;color: #f0f0f0;font-weight: 500;">exp</span>
               </div>
-              <div class="date">上次更新：2020-03-06</div>
+              <div class="date">上次更新：{{item.createDate}}</div>
             </div>
           </div>
         </div>
@@ -37,6 +35,7 @@
 
 <script>
 // import { mockData } from "../mock.data.js";
+import axios from "axios";
 
 export default {
   data() {
@@ -47,18 +46,32 @@ export default {
       title: ""
     };
   },
+  created() {
+    axios.get("/api/home").then(res => {
+      this.arr = res.data;
+    });
+  },
   methods: {
     goDetail(item) {
-      this.$router.push({ path: `/detail/${item.id}` });
+      this.$router.push({ path: `/detail/${item._id}` });
     },
     handleModal() {
       this.modalIsVisible = !this.modalIsVisible;
     },
     added() {
-      this.$store.commit("add", {
-        title: this.title
-      });
-      this.modalIsVisible = false;
+      // this.$store.commit("add", {
+      //   title: this.title
+      // });
+      axios
+        .post(`/api/home`, {
+          name: this.title,
+          exp: 0,
+          list: []
+        })
+        .then(res => {
+          alert(JSON.stringify(res));
+          this.modalIsVisible = false;
+        });
     }
   }
 };

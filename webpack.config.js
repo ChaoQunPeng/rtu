@@ -11,7 +11,15 @@ module.exports = {
   },
   devServer: {
     contentBase: './dist/index.html',
-    port: 8800
+    // port: 8800,
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+    },
+    proxy: {
+      '/api/*': "http://localhost:8100"
+    }
   },
   module: {
     rules: [
