@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx webpack --mode development",
     "prod": "npx webpack --mode=production",
-    "serve": "npx webpack-dev-server --open",
+    "dev": "npx webpack-dev-server --open --port=3100",
     "server": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -1,12 +1,8 @@
 import Vue from "vue";
-import { router } from "./router";
-
-import App from "./app.vue";
-
+import { router } from "./router/index";
+import App from "./App.vue";
 import Vuex from 'vuex'
 
-import { mockData } from "./mock.data.js";
-import axios from "axios";
 Vue.use(Vuex)
 
 // 出现下面这个错误可能是路由导入出错了
@@ -14,26 +10,8 @@ Vue.use(Vuex)
 
 const store = new Vuex.Store({
   state: {
-    mockData: mockData
   },
   mutations: {
-    plus1(store, payload) {
-      const mockDataList = store.mockData.list;
-      mockDataList.forEach(e => {
-        if (e.id == payload.id) {
-          e.items.push(payload);
-          e.exp = e.items.length;
-        }
-      });
-    },
-    add(store, payload) {
-      store.mockData.list.push({
-        id: store.mockData.list.length + 1,
-        name: payload.title,
-        exp: 0,
-        items: []
-      });
-    }
   }
 })
 
@@ -44,9 +22,5 @@ new Vue({
   render: h => h(App)
 });
 
-// axios({
-//   url: `http://localhost:8100/api/home`
-// })
-
-import('./app.less');
+import('./assets/theme/app.less');
 import('./assets/icon/iconfont.css');
