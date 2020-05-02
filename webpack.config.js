@@ -12,7 +12,9 @@ module.exports = {
   devServer: {
     contentBase: './dist/index.html',
     proxy: {
-      '/api/*': "http://localhost:3000"
+      '/api': {
+        target: 'http://localhost:3000'
+      }
     }
   },
   module: {

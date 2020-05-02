@@ -57,6 +57,8 @@ export default {
   },
   methods: {
     getList() {
+      console.log(`Index`);
+      console.log(axios.defaults.baseURL);
       axios.get("/api/skill").then(res => {
         this.arr = res.data.data;
       });
@@ -74,13 +76,13 @@ export default {
     },
     added() {
       axios
-        .post(`/api/skill`, {
+        .post(`skill`, {
           Name: this.title
         })
         .then(
           res => {
             alert(`新增成功！`);
-            axios.get("/api/skill").then(res => {
+            axios.get("skill").then(res => {
               this.arr = res.data.data;
               this.modalIsVisible = false;
               this.title = "";
@@ -96,12 +98,12 @@ export default {
       const value = prompt(`您要把${item.Name}修改成：`, item.Name);
       if (value) {
         axios
-          .put(`/api/skill/${item.SkillID}`, {
+          .put(`skill/${item.SkillID}`, {
             Name: value
           })
           .then(
             res => {
-              axios.get("/api/skill").then(res => {
+              axios.get("skill").then(res => {
                 this.arr = res.data.data;
               });
             },
@@ -114,7 +116,7 @@ export default {
     deleteCard(item) {
       const value = confirm(`您确定要删除${item.Name}吗？`);
       if (value) {
-        axios.delete(`/api/skill/${item.SkillID}`).then(res => {
+        axios.delete(`skill/${item.SkillID}`).then(res => {
           if (res) {
             alert(`删除成功`);
             this.getList();

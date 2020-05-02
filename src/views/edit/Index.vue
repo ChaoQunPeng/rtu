@@ -43,7 +43,7 @@ export default {
   methods: {
     update() {
       axios
-        .put(`/api/experience/${this.editedData.ExperienceID}`, {
+        .put(`experience/${this.editedData.ExperienceID}`, {
           Title: this.title,
           Content: this.content,
           Exp: this.exp,

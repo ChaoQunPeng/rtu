@@ -67,7 +67,7 @@ export default {
   methods: {
     initData() {
       let queryParamsId = this.$router.currentRoute.params["id"];
-      axios.get(`/api/experience/${queryParamsId}`).then(res => {
+      axios.get(`experience/${queryParamsId}`).then(res => {
         this.item = res.data.data;
       });
     },
@@ -90,7 +90,7 @@ export default {
     delExp(arr) {
       const value = confirm(`您确定要删除${arr.Title}吗？`);
       if (value) {
-        axios.delete(`/api/experience/${arr.ExperienceID}`).then(
+        axios.delete(`experience/${arr.ExperienceID}`).then(
           res => {
             this.initData();
             alert(`删除成功!`);

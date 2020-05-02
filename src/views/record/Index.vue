@@ -38,7 +38,7 @@ export default {
   methods: {
     plus1() {
       axios
-        .post(`/api/experience/record`, {
+        .post(`experience/record`, {
           title: this.title,
           content: this.content,
           skillId: this.item.id,
