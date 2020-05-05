@@ -1,29 +1,24 @@
 <template>
-  <div class="pcq-layout">
-    <div style="width:100%;margin-top:60px;">
-      <div class="clearfix line-height-1 mb-4">
-        <h1 class="float-left" style="font-size: 36px;color:#fff;">Space</h1>
-        <button class="btn-primary float-right" style="font-size:18px" @click="handleModal()">Add</button>
-      </div>
-      <div class="pcq-grid" style="margin-left: -10px;margin-right: -10px;">
-        <div v-for="(item,index) in arr" v-bind:key="index" class="pcq-grid-item">
-          <div class="card" @click="goDetail(item)">
-            <span class="decor-line"></span>
-            <div class="handle">
-              <!-- <i class="iconfont icon-ellipsis-vertical"></i> -->
-              <a @click.stop="updateCard(item)">编辑</a>
-              <a @click.stop="deleteCard(item)">删除</a>
-            </div>
-            <div class="card-content">
-              <div class="title">{{item.Name}}</div>
-              <div class="exp">
-                {{item.TotalExp ? item.TotalExp :0}}
-                <span
-                  style="font-size: 12px;color: #f0f0f0;font-weight: 500;"
-                >exp</span>
-              </div>
-              <div class="date">上次更新：{{item.UpdateDate}}</div>
-            </div>
+  <div>
+    <div class="home-header">
+      <!-- <button class="button" @click="handleModal()">Add</button> -->
+      <r-button type="pink" @click.native="handleModal()">Add</r-button>
+    </div>
+    <div class="pcq-grid">
+      <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
+        <div class="skill-card" @click="goDetail(item)">
+          <span class="descr-line"></span>
+          <div class="name">{{item.Name}}</div>
+          <div class="exp">
+            {{item.TotalExp}}
+            <span>exp</span>
+          </div>
+          <div class="skill-card-handle">
+            <i class="iconfont icon-ellipsis-vertical"></i>
+            <ul>
+              <li @click.stop="updateCard(item)">编辑</li>
+              <li @click.stop="deleteCard(item)">删除</li>
+            </ul>
           </div>
         </div>
       </div>
@@ -34,7 +29,7 @@
       <div class="modal-body">
         <i class="iconfont icon-times modal-close" @click="handleModal()"></i>
         <input class="modal-input" type="text" v-model="title" />
-        <button class="btn btn-primary float-right" @click="added()">新增</button>
+        <button class="btn btn-primary float-right" @click="addedCard()">新增</button>
       </div>
     </div>
   </div>
@@ -42,39 +37,41 @@
 
 <script>
 import axios from "axios";
+import RButton from "../../components/common/Button.vue";
 
 export default {
   data() {
     return {
       msg: "home working",
-      arr: [],
-      modalIsVisible: false,
-      title: ""
+      list: [],
+      title: "",
+      modalIsVisible: false
     };
+  },
+  components: {
+    RButton
   },
   created() {
     this.getList();
   },
   methods: {
     getList() {
-      console.log(`Index`);
-      console.log(axios.defaults.baseURL);
-      axios.get("/api/skill").then(res => {
-        this.arr = res.data.data;
+      axios.get("skill").then(res => {
+        this.list = res.data.data;
       });
     },
     goDetail(item) {
       this.$router.push({
         path: `/detail/${item.SkillID}`,
         query: {
-          n:item.Name
+          n: item.Name
         }
       });
     },
     handleModal() {
       this.modalIsVisible = !this.modalIsVisible;
     },
-    added() {
+    addedCard() {
       axios
         .post(`skill`, {
           Name: this.title
@@ -83,7 +80,7 @@ export default {
           res => {
             alert(`新增成功！`);
             axios.get("skill").then(res => {
-              this.arr = res.data.data;
+              this.list = res.data.data;
               this.modalIsVisible = false;
               this.title = "";
             });
@@ -103,9 +100,7 @@ export default {
           })
           .then(
             res => {
-              axios.get("skill").then(res => {
-                this.arr = res.data.data;
-              });
+              this.getList();
             },
             err => {
               alert("修改失败");
@@ -132,69 +127,117 @@ export default {
 .pcq-grid {
   display: flex;
   flex-wrap: wrap;
+  &-item {
+    flex-grow: 0;
+    flex-shrink: 1;
+    flex-basis: 25%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 
-.pcq-grid-item {
-  flex: 0 1 25%;
-  padding: 10px;
-}
-
-.card {
+.skill-card {
   position: relative;
-  height: 120px;
-  padding: 20px 15px;
-  border-radius: 3px;
+  background: #fff;
+  width: 100%;
+  margin: 15px;
+  padding: 20px 30px 20px 40px;
+  border-radius: 8px;
+  border: 1px solid #f1f1f1;
   cursor: pointer;
   box-shadow: 0 0 0 #ddd;
   transform: translateY(0);
   transition: all 0.3s;
-  background-color: rgb(47, 69, 102);
-  color: #fff;
   &:hover {
-    background-color: #385176;
-    // transform: translateY(-10px);
-    // box-shadow: 3px 4px 4px #ddd;
+    transform: translateY(-10px);
+    box-shadow: 6px 6px 10px #ddd;
+    z-index: 10;
   }
 
-  .handle {
+  &-handle {
     position: absolute;
-    right: 5px;
-    top: 12px;
-    cursor: pointer;
+    right: 6px;
+    top: 10px;
+    color: #999;
+    &:hover {
+      > ul {
+        display: block;
+
+        > li {
+          padding: 8px 8px;
+          border-bottom: 1px solid #ddd;
+          &:last-child {
+            border-bottom: none;
+          }
+
+          &:hover {
+            background: #ddd;
+          }
+        }
+      }
+    }
+
+    > ul {
+      display: none;
+      position: absolute;
+      list-style: none;
+      width: 120px;
+      background: #fff;
+      border: 1px solid #f1f1f1;
+      box-shadow: 2px 2px 30px #ddd;
+    }
   }
-}
 
-.card-content {
-  height: 100%;
-  margin-left: 20px;
-  padding-left: 5px;
-
-  > .title {
-    margin-bottom: 10px;
-    font-size: 22px;
-  }
-
-  > .exp {
+  .name {
     font-size: 20px;
-    font-weight: 600;
-    margin-bottom: 16px;
+    margin-bottom: 10px;
   }
 
-  > .date {
-    font-size: 12px;
-    color: #ccc;
+  .exp {
+    font-size: 18px;
+    color: #666;
+
+    > span {
+      font-size: 12px;
+    }
+  }
+
+  .descr-line {
+    position: absolute;
+    width: 4px;
+    height: 60px;
+    background: #1e90ff;
+    border-radius: 2px;
+    left: 12px;
+    top: 14px;
   }
 }
 
-.decor-line {
-  position: absolute;
-  top: 20px;
-  left: 15px;
-  width: 4px;
+.home-header {
   height: 80px;
-  background: #40a7ff;
+  font-size: 30px;
+  line-height: 80px;
+  padding-left: 20px;
+}
+
+.button {
+  --color: #ff6b81;
+  background: #fff;
+  display: inline-block;
+  color: var(--color);
+  font-size: 20px;
+  padding: 10px 20px;
   border-radius: 4px;
-  box-shadow: 0 0 4px #40a7ff;
+  border: 2px solid var(--color);
+  cursor: pointer;
+  box-shadow: 0 0 0 var(--color);
+  transition: all 0.3s;
+  &:hover {
+    background: var(--color);
+    box-shadow: 0 0 5px var(--color);
+    color: #fff;
+  }
 }
 
 .modal {

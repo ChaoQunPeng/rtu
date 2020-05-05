@@ -4,22 +4,21 @@
     <div class="pcq-layout">
       <div style="width:250px;margin-right:30px">
         <div class="name text-center">{{headline}}</div>
-        <!-- <div class="exp">
-          <span>{{item.exp}}</span>
-        </div>-->
 
         <div class="halo">
           <p>{{computeExp}}</p>
           <div></div>
         </div>
 
-        <button class="plus1" @click="goRecord()">Level Up!</button>
+        <r-button type="light-blue" block @click.native="goRecord()">Level Up!</r-button>
       </div>
       <div style="background:#fff;flex:1;padding:20px;border-radius:6px;display:flex;">
         <div class="exp-container clearfix">
           <div v-for="(arr,index) in item" :key="index" class="exp-container-item">
-            <div class="exp">{{arr.Exp}}</div>
-            <div>
+            <div class="exp-box">
+              <div class="exp">{{arr.Exp}}</div>
+            </div>
+            <div style="flex:1;">
               <div class="title">{{arr.Title}}</div>
               <div class="content">{{arr.Content}}</div>
               <div class="date">
@@ -28,7 +27,6 @@
                 <a @click="delExp(arr)">删除</a>
                 |
                 2020-03-09
-                <!-- <i class="iconfont icon-ellipsis-vertical"></i> -->
               </div>
             </div>
           </div>
@@ -40,6 +38,8 @@
 	
 <script>
 import axios from "axios";
+import RButton from "../../components/common/Button.vue";
+
 export default {
   name: "detail",
   data() {
@@ -50,13 +50,15 @@ export default {
       headline: ""
     };
   },
+  components: {
+    RButton
+  },
   computed: {
     computeExp: function() {
       let exp = 0;
       this.item.forEach(e => {
         exp += e.Exp;
       });
-      console.log(exp);
       return exp;
     }
   },
@@ -137,69 +139,6 @@ export default {
     box-shadow: inset 0px 0px 2px 0px #fff;
     border-radius: 0 50% 50% 50%;
     transform: rotate(45deg);
-    &:nth-of-type(1) {
-    }
-    &:nth-of-type(2) {
-      animation: haloAni2 3s infinite linear;
-    }
-    &:nth-of-type(3) {
-      animation: haloAni3 3s infinite linear;
-    }
-  }
-}
-
-@keyframes haloAni1 {
-  0% {
-    transform: rotate(0deg);
-    border-radius: 50% 50% 50% 50%;
-  }
-  50% {
-    transform: rotate(180deg);
-    border-radius: 60% 43% 40% 45%;
-  }
-  75% {
-    transform: rotate(270deg) scale(0.95, 0.95);
-    border-radius: 45% 43% 49% 45%;
-  }
-  100% {
-    transform: rotate(360deg);
-    border-radius: 50% 50% 50% 50%;
-  }
-}
-
-@keyframes haloAni2 {
-  0% {
-    transform: rotate(0);
-    border-radius: 50% 50% 50% 50%;
-  }
-  50% {
-    border-radius: 45% 46% 49% 54%;
-  }
-  75% {
-    transform: rotate(0) scale(0.95, 0.95);
-    border-radius: 51% 52% 48% 48%;
-  }
-  100% {
-    transform: rotate(0);
-    border-radius: 50% 50% 50% 50%;
-  }
-}
-
-@keyframes haloAni3 {
-  0% {
-    transform: rotate(0);
-    border-radius: 50% 50% 50% 50%;
-  }
-  50% {
-    border-radius: 55% 46% 55% 45%;
-  }
-  75% {
-    transform: rotate(0) scale(0.95, 0.95);
-    border-radius: 53% 45% 52% 48%;
-  }
-  100% {
-    transform: rotate(0);
-    border-radius: 50% 50% 50% 50%;
   }
 }
 
@@ -208,23 +147,6 @@ export default {
   font-weight: 700;
   color: #183055;
   margin-bottom: 20px;
-}
-
-.exp {
-  // font-size: 40px;
-  // font-weight: 700;
-  // border: 5px solid #2d318f;
-  // width: 160px;
-  // height: 160px;
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // border-radius: 0 42.6% 44.6% 41.6%;
-  // margin: 0 auto;
-  // color: #fff;
-  // /* background: #2d318f; */
-  // box-shadow: 0 0 12px #2d318f;
-  // transform: rotate(-77deg);
 }
 
 .exp-container {
@@ -240,14 +162,26 @@ export default {
 
 .exp-container-item {
   position: relative;
+  display: flex;
   background: #f1f1f1;
   min-height: 60px;
   border-radius: 6px;
   margin-bottom: 15px;
   padding: 15px;
 
-  .exp {
-    font-size: 14px;
+  .exp-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90px;
+    border: 3px solid;
+    margin-right: 15px;
+    height: 90px;
+    border-radius: 50%;
+    font-size: 40px;
+
+    .exp {
+    }
   }
 
   .title {
@@ -258,7 +192,8 @@ export default {
 
   .content {
     color: #666;
-    font-size: 16px;
+    font-size: 14px;
+    line-height: 1.8;
   }
 
   .date {

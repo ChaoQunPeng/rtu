@@ -5,9 +5,7 @@ import Vuex from 'vuex'
 
 import axios from "axios";
 
-// axios.defaults.baseURL = '/api/';
-
-// axios.defaults.baseURL = 'api/';
+axios.defaults.baseURL = 'http://localhost:3100/api/';
 
 Vue.use(Vuex)
 

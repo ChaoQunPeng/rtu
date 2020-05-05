@@ -1,6 +1,9 @@
+
 <template>
   <div class="container-layout">
     <div class="left-layout">
+      <div class="app-ico">RTU</div>
+
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
         <i class="iconfont icon-home"></i>
       </router-link>
@@ -9,13 +12,14 @@
         <i class="iconfont icon-gallery-view" style="font-size:24px;"></i>
       </div>
     </div>
-    <div class="right-layout">
-      <div class="header-layout">
-        <div class="nav-icon">
-          <i class="iconfont icon-angle-left" @click="back()"></i>
-          <i class="iconfont icon-angle-right" @click="forward()"></i>
-        </div>
-      </div>
+    <div class="header-layout">
+      <!-- Header
+      <div class="nav-icon">
+        <i class="iconfont icon-angle-left" @click="back()"></i>
+        <i class="iconfont icon-angle-right" @click="forward()"></i>
+      </div> -->
+    </div>
+    <div class="content-layout">
       <transition name="route" mode="out-in">
         <router-view></router-view>
       </transition>
@@ -29,8 +33,8 @@ export default {
     return {};
   },
   created() {
-    document.body.style.backgroundColor =
-      this.$route.name == "home" ? "#183055" : "#f8f8f8";
+    // document.body.style.backgroundColor =
+    //   this.$route.name == "home" ? "#183055" : "#f8f8f8";
   },
   methods: {
     forward() {
@@ -41,10 +45,10 @@ export default {
     }
   },
   watch: {
-    $route(to, from) {
-      document.body.style.backgroundColor =
-        to.name == "home" ? "#183055" : "#f8f8f8";
-    }
+    // $route(to, from) {
+    //   document.body.style.backgroundColor =
+    //     to.name == "home" ? "#183055" : "#f8f8f8";
+    // }
   }
 };
 </script>
@@ -57,8 +61,8 @@ export default {
 .header-layout {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
-  padding-top: 30px;
+  margin-left: 120px;
+  height: 60px;
 
   .nav-icon {
     cursor: pointer;
@@ -66,38 +70,43 @@ export default {
 }
 
 .left-layout {
-  width: 80px;
+  width: 120px;
   position: fixed;
   height: 100%;
   color: #fff;
-  background: #0b192e;
-}
+  background: #2f3542;
 
-.right-layout {
-  margin-left: 80px;
-  padding: 0 60px 60px 60px;
+  .app-ico {
+    color: #fff;
+    text-align: center;
+    font-size: 56px;
+    font-weight: bold;
+    font-family: monospace;
+    margin-bottom: 30px;
+    padding: 10px 0;
+  }
 }
 
 .content-layout {
-  padding: 30px 50px;
+  margin-left: 90px;
+  padding: 0 60px 60px 60px;
 }
 
 .left-layout-nav {
+  margin-bottom: 25px;
   text-align: center;
-  margin: 20px auto;
-  background: rgba(255, 255, 255, 0.1);
-  width: 42px;
-  height: 42px;
-  line-height: 42px;
-  border-radius: 50%;
   transition: all 0.3s;
   &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    > i {
+      text-shadow: 0 0 6px #fff;
+    }
   }
   > i {
     display: block;
-    font-size: 24px;
+    font-size: 26px;
+    text-shadow: 0 0 0 #fff;
     cursor: pointer;
+    transition: all 0.3s;
   }
 }
 
