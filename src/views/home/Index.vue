@@ -10,12 +10,23 @@
           <span class="descr-line"></span>
           <div class="name">{{item.Name}}</div>
           <div class="level">
-            {{getPhaseInfo(num).name}}
-            {{getPhaseInfo(num).level}}
+            {{getPhaseInfo(item.TotalExp).name}}
+            {{getPhaseInfo(item.TotalExp).level}}
           </div>
           <div class="exp">
-            {{item.TotalExp || 0}}
-            <span>exp</span>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                :style="getProgressLength(item.TotalExp,getPhaseInfo(item.TotalExp))"
+              >
+                <span
+                  class="progress-text"
+                >{{item.TotalExp || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+              </div>
+              <span
+                class="progress-text"
+              >{{item.TotalExp || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+            </div>
           </div>
           <div class="skill-card-handle">
             <i class="iconfont icon-ellipsis-vertical"></i>
@@ -133,7 +144,7 @@ export default {
           [600, 799],
           [800, 999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "新手");
+        return this.getLevelInfo(totalExp, expRange, "新手", 199);
       } else if (totalExp > 1000 && totalExp <= 3000) {
         const expRange = [
           [1000, 1399],
@@ -142,7 +153,7 @@ export default {
           [2200, 2599],
           [2600, 2999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "高级新手");
+        return this.getLevelInfo(totalExp, expRange, "高级新手", 399);
       } else if (totalExp > 3000 && totalExp <= 6000) {
         const expRange = [
           [3000, 3599],
@@ -151,7 +162,7 @@ export default {
           [4800, 5399],
           [5400, 5999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "胜任者");
+        return this.getLevelInfo(totalExp, expRange, "胜任者", 599);
       } else if (totalExp > 6000 && totalExp <= 10000) {
         const expRange = [
           [6000, 6799],
@@ -160,13 +171,18 @@ export default {
           [8400, 9199],
           [9200, 9999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "精通者");
+        return this.getLevelInfo(totalExp, expRange, "精通者", 799);
       } else {
         return { name: "专家", level: "" };
       }
     },
-    getLevelInfo(totalExp, expRange, levelName) {
-      const data = { name: levelName, level: 0 };
+    getLevelInfo(totalExp, expRange, levelName, levelExp) {
+      const data = {
+        name: levelName,
+        level: 0,
+        baseExp: levelExp,
+        range: []
+      };
       for (let i = 0; i < expRange.length; i++) {
         if (totalExp >= expRange[i][0] && totalExp <= expRange[i][1]) {
           switch (i) {
@@ -186,10 +202,18 @@ export default {
               data.level = "V";
               break;
           }
+          data.range = expRange[i];
         }
       }
-
       return data;
+    },
+    getProgressLength(totalExp, levelData) {
+      // totalExp 可能为null,即0
+      // [0,199]  (2-0) / 199
+      // [6000, 6799] (6500-6000) / 799
+      // let width = Number(totalExp) / Number(levelData.range[1]); // 这是总的经验条
+      let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
+      return { width: width * 100 + "%" };
     }
   }
 };
@@ -314,6 +338,38 @@ export default {
     background: var(--color);
     box-shadow: 0 0 5px var(--color);
     color: #fff;
+  }
+}
+
+.progress {
+  position: relative;
+  display: block;
+  width: 240px;
+  height: 20px;
+  box-sizing: content-box;
+  background: #d5d5d5;
+  border-radius: 2px;
+  font-size: 12px;
+  &-bar {
+    background: #2097ef;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    border-radius: 2px;
+    position: absolute;
+    z-index: 10;
+  }
+
+  &-text {
+    position: absolute;
+    transform: translate(-50%, 0);
+    left: 130px;
+    top: 5px;
   }
 }
 
