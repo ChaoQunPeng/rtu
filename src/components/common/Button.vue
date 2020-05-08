@@ -1,9 +1,7 @@
 <template>
-  <div>
-    <button class="btn" :class="'btn-'+type" :style="styleObject" @click="btnClick()">
+  <button class="btn" :class="'btn-'+type" :style="styleObject" @click="btnClick()">
       <slot></slot>
-    </button>
-  </div>
+  </button>
 </template>
 
 <script>
