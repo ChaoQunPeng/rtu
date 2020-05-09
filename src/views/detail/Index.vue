@@ -20,7 +20,7 @@
             </div>
             <div style="flex:1;">
               <div class="title">{{arr.Title}}</div>
-              <div class="content">{{arr.Content}}</div>
+              <div class="content">{{arr.Content | removeHtmlTag}}</div>
               <div class="date">
                 <a @click="editExp(arr)">编辑</a>
                 |
@@ -80,13 +80,18 @@ export default {
     goRecord() {
       this.$router.push({
         name: `record`,
-        params: this.item
+        params: {
+          sn: this.$route.query.n
+        }
       });
     },
     editExp(arr) {
       this.$router.push({
         name: `edit`,
-        params: arr
+        params: {
+          ...JSON.parse(JSON.stringify(this.item))[0],
+          sn: this.$route.query.n
+        }
       });
     },
     delExp(arr) {
@@ -102,6 +107,11 @@ export default {
           }
         );
       }
+    }
+  },
+  filters: {
+    removeHtmlTag(str, len) {
+      return str.replace(/<[^>]+>/g, "");
     }
   }
 };

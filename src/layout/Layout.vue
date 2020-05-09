@@ -89,7 +89,7 @@ export default {
 
 .content-layout {
   margin-left: 90px;
-  padding: 0 60px 60px 60px;
+  padding: 0 10px 60px 60px;
 }
 
 .left-layout-nav {

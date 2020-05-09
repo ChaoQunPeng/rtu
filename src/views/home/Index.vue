@@ -47,12 +47,14 @@
         <button class="btn btn-primary float-right" @click="addedCard()">新增</button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import RButton from "../../components/common/Button.vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
   data() {
@@ -61,7 +63,7 @@ export default {
       list: [],
       title: "",
       modalIsVisible: false,
-      num: 9999
+      editor: ClassicEditor
     };
   },
   components: {
@@ -71,6 +73,10 @@ export default {
     this.getList();
   },
   methods: {
+    onReady(editor) {
+      console.log(editor.plugins.get('Bold').isEnabled);
+      
+    },
     getList() {
       axios.get("skill").then(res => {
         this.list = res.data.data;
