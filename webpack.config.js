@@ -1,19 +1,26 @@
 const htmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
+const webpack = require('webpack');
+const path = require('path');
+
+console.log(process);
+console.log(process.env.NODE_ENV);
+console.log(process.env.URL);
 
 module.exports = {
   entry: {
     main: './src/main.js'
   },
   output: {
+    path: path.join(__dirname, 'dist'),
     filename: 'main.js'
   },
   devServer: {
-    contentBase: './dist/index.html',
+    // contentBase: path.join(__dirname, 'release'),
     proxy: {
       '/api': {
-        target: 'http://localhost:3000'
+        target: 'http://localhost:3339/'
       }
     }
   },
@@ -58,6 +65,9 @@ module.exports = {
       template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.ENV': JSON.stringify(process.env.NODE_ENV)
+    })
   ]
 }

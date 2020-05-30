@@ -2,12 +2,16 @@ import Vue from "vue";
 import App from "./App.vue";
 import Vuex from 'vuex'
 import CKEditor from '@ckeditor/ckeditor5-vue';
-
 import { router } from "./router/index";
 
 import axios from "axios";
 
-axios.defaults.baseURL = 'http://localhost:3100/api/';
+if (process.env.ENV == 'dev') {
+  axios.defaults.baseURL = 'http://localhost:3100/api/';
+} else {
+  axios.defaults.baseURL = 'http://localhost:3338/api/';
+}
+
 
 Vue.use(Vuex)
 Vue.use(CKEditor)
@@ -29,6 +33,14 @@ new Vue({
   render: h => h(App)
 });
 
+// process.env 这样子写的话process打包时会被去掉
+// console.log(process.env.ENV);
+// console.log(process.env.NODE_ENV);
+if (process.env.ENV == 'dev') {
+  document.title += '-dev';
+} else {
+  document.title += '-prod';
+}
 
 
 import('./assets/theme/app.less');

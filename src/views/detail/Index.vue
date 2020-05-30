@@ -20,7 +20,7 @@
             </div>
             <div style="flex:1;">
               <div class="title">{{arr.Title}}</div>
-              <div class="content">{{arr.Content | removeHtmlTag}}</div>
+              <div class="content">{{arr.Content}}</div>
               <div class="date">
                 <a @click="editExp(arr)">编辑</a>
                 |
@@ -38,6 +38,7 @@
 	
 <script>
 import axios from "axios";
+import trimHtml from "trim-html";
 import RButton from "../../components/common/Button.vue";
 
 export default {
@@ -71,6 +72,12 @@ export default {
       let queryParamsId = this.$router.currentRoute.params["id"];
       axios.get(`experience/${queryParamsId}`).then(res => {
         this.item = res.data.data;
+        this.item.forEach(e => {
+          e.Content = trimHtml(e.Content, {
+            limit: 200,
+            preserveTags: false
+          }).html;
+        });
       });
     },
     plus1() {
@@ -85,11 +92,11 @@ export default {
         }
       });
     },
-    editExp(arr) {
+    editExp(item) {
       this.$router.push({
         name: `edit`,
         params: {
-          ...JSON.parse(JSON.stringify(this.item))[0],
+          ...JSON.parse(JSON.stringify(item)),
           sn: this.$route.query.n
         }
       });
@@ -107,11 +114,6 @@ export default {
           }
         );
       }
-    }
-  },
-  filters: {
-    removeHtmlTag(str, len) {
-      return str.replace(/<[^>]+>/g, "");
     }
   }
 };
@@ -178,6 +180,7 @@ export default {
   border-radius: 6px;
   margin-bottom: 15px;
   padding: 15px;
+  max-height: 135px;
 
   .exp-box {
     display: flex;
@@ -204,6 +207,11 @@ export default {
     color: #666;
     font-size: 14px;
     line-height: 1.8;
+    // 多行文字换行，兼容性不太好
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   .date {
