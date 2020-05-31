@@ -39,21 +39,14 @@
       </div>
     </div>
 
-    <div class="modal" v-if="modalIsVisible">
-      <div class="modal-shade" @click="handleModal()"></div>
-      <div class="modal-body">
-        <i class="iconfont icon-times modal-close" @click="handleModal()"></i>
-        <input class="modal-input" type="text" v-model="title" />
-        <button class="btn btn-primary float-right" @click="addedCard()">新增</button>
-      </div>
-    </div>
-
+    <modal :visible="modalIsVisible" @close="handleModal"></modal>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import RButton from "../../components/common/Button.vue";
+import Modal from "../../components/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
@@ -67,16 +60,13 @@ export default {
     };
   },
   components: {
-    RButton
+    RButton,
+    Modal
   },
   created() {
     this.getList();
   },
   methods: {
-    onReady(editor) {
-      console.log(editor.plugins.get('Bold').isEnabled);
-      
-    },
     getList() {
       axios.get("skill").then(res => {
         this.list = res.data.data;
@@ -86,11 +76,11 @@ export default {
       this.$router.push({
         path: `/detail/${item.SkillID}`,
         query: {
-          n: item.Name
+          skillName: item.Name
         }
       });
     },
-    handleModal() {
+    handleModal(e) {
       this.modalIsVisible = !this.modalIsVisible;
     },
     addedCard() {
@@ -378,39 +368,4 @@ export default {
     top: 5px;
   }
 }
-
-.modal {
-  position: fixed;
-}
-
-.modal-body {
-  position: fixed;
-  width: 500px;
-  height: auto;
-  background: #fff;
-  left: 50%;
-  top: 50%;
-  transform: translate(-250px, -150px);
-  padding: 30px;
-  border-radius: 6px;
-}
-
-.modal-shade {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #333;
-  opacity: 0.4;
-}
-
-.modal-close {
-  position: absolute;
-  right: 6px;
-  top: 6px;
-  cursor: pointer;
-}
 </style>
-			
-				

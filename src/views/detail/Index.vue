@@ -65,7 +65,7 @@ export default {
   },
   created() {
     this.initData();
-    this.headline = this.$route.query.n;
+    this.headline = this.$route.query.skillName;
   },
   methods: {
     initData() {
@@ -87,8 +87,8 @@ export default {
     goRecord() {
       this.$router.push({
         name: `record`,
-        params: {
-          sn: this.$route.query.n
+        query: {
+          skillName: this.$route.query.skillName
         }
       });
     },
@@ -96,8 +96,10 @@ export default {
       this.$router.push({
         name: `edit`,
         params: {
-          ...JSON.parse(JSON.stringify(item)),
-          sn: this.$route.query.n
+          ...JSON.parse(JSON.stringify(item))
+        },
+        query: {
+          skillName: this.$route.query.skillName
         }
       });
     },

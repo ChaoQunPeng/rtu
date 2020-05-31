@@ -1,11 +1,11 @@
 <template>
   <div>
-    <h2 style="margin-bottom:20px;color:#183055;">{{sn}}</h2>
+    <h2 style="margin-bottom:20px;color:#183055;">{{skillName}}</h2>
     <input type="text" id="title" v-model="title" placeholder="一句话" />
 
     <input type="number" v-model="spendTime" placeholder="花费了多少分钟" />
     <select v-model="exp">
-      <option value hidden>--请选择--</option>
+      <option value="" disabled>--请选择--</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -30,7 +30,7 @@ export default {
   name: "record",
   data() {
     return {
-      sn: "",
+      skillName: "",
       title: "",
       content: "",
       exp: "",
@@ -45,7 +45,7 @@ export default {
   },
   created() {
     this.item = this.$route.params;
-    this.sn = this.$route.params.sn;
+    this.skillName = this.$route.query.skillName;
   },
   mounted() {
     document.addEventListener("keydown", this.handleEve);
@@ -62,7 +62,8 @@ export default {
         })
         .then(
           res => {
-            this.$router.push({ path: `/detail/${this.item.id}` });
+            // this.$router.push({ path: `/detail/${this.item.id}` });
+            alert("新增成功！");
           },
           err => {
             console.log(JSON.stringify(err));

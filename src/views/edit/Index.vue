@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 style="margin-bottom:20px;color:#183055;">{{sn}}</h2>
+    <h2 style="margin-bottom:20px;color:#183055;">{{skillName}}</h2>
 
     <input type="text" id="title" v-model="title" placeholder="一句话" />
     <input type="number" v-model="spendTime" placeholder="花费了多少分钟" />
@@ -26,7 +26,7 @@ export default {
   name: "edit",
   data() {
     return {
-      sn: "",
+      skillName: "",
       title: "",
       content: "",
       exp: 1,
@@ -43,7 +43,7 @@ export default {
     this.content = this.editedData.Content;
     this.spendTime = this.editedData.SpendTime;
     this.exp = this.editedData.Exp;
-    this.sn = this.$route.params.sn;
+    this.skillName = this.$route.query.skillName;
   },
   methods: {
     update() {

@@ -2,7 +2,9 @@
 <template>
   <div class="container-layout">
     <div class="left-layout">
-      <div class="app-ico">RTU</div>
+      <div class="app-ico">
+        <!-- RTU -->
+      </div>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
         <i class="iconfont icon-home"></i>
@@ -13,11 +15,7 @@
       </div>
     </div>
     <div class="header-layout">
-      <!-- Header
-      <div class="nav-icon">
-        <i class="iconfont icon-angle-left" @click="back()"></i>
-        <i class="iconfont icon-angle-right" @click="forward()"></i>
-      </div> -->
+      <nav-bar></nav-bar>
     </div>
     <div class="content-layout">
       <transition name="route" mode="out-in">
@@ -28,22 +26,20 @@
 </template>
 
 <script>
+import NavBar from "../components/NavBar.vue";
+
 export default {
   data() {
     return {};
+  },
+  components: {
+    NavBar
   },
   created() {
     // document.body.style.backgroundColor =
     //   this.$route.name == "home" ? "#183055" : "#f8f8f8";
   },
-  methods: {
-    forward() {
-      this.$router.go(1);
-    },
-    back() {
-      this.$router.go(-1);
-    }
-  },
+  methods: {},
   watch: {
     // $route(to, from) {
     //   document.body.style.backgroundColor =
@@ -63,14 +59,15 @@ export default {
   align-items: center;
   margin-left: 120px;
   height: 60px;
-
+  padding-left: 25px;
+  
   .nav-icon {
     cursor: pointer;
   }
 }
 
 .left-layout {
-  width: 120px;
+  width: 70px;
   position: fixed;
   height: 100%;
   color: #fff;
@@ -88,7 +85,7 @@ export default {
 }
 
 .content-layout {
-  margin-left: 90px;
+  margin-left: 70px;
   padding: 0 10px 60px 60px;
 }
 
