@@ -6,8 +6,8 @@
       :class="[visible?'modal-shade-fadeIn':'modal-shade-fadeOut']"
       @click="close()"
     ></div>
-    <div class="modal-body">
-      <i class="iconfont icon-times modal-close" @click="handleModal()"></i>
+    <div class="modal-body" :class="[visible?'modal-body-in':'modal-body-out']">
+      <i class="iconfont icon-times modal-close" @click="close()"></i>
       <input class="modal-input" type="text" v-model="title" />
       <button class="btn btn-primary float-right" @click="addedCard()">新增</button>
     </div>
@@ -37,10 +37,6 @@ export default {
     //   this.$refs.modals.addEventListener("animationend", e => {
     //     if (e.animationName.indexOf("fadeOut") > -1) {
     //       this.$emit("close", !this.visible);
-    //       // setTimeout(() => {
-    //       //   this.$el.firstElementChild.classList.remove("modal-shade-fadeOut");
-    //       //   this.$emit("close", !this.visible);
-    //       // }, 500);
     //     }
     //   });
     // });
@@ -50,8 +46,18 @@ export default {
       this.$emit("close", !this.visible);
     },
     close() {
-      // this.$emit("close", false);
-      // this.$el.firstElementChild.classList.replace("modal-shade-fadeOut","modal-shade-fadeIn");
+      this.$el.firstElementChild.classList.replace(
+        "modal-shade-fadeIn",
+        "modal-shade-fadeOut"
+      );
+      this.$el.lastElementChild.classList.replace(
+        "modal-body-in",
+        "modal-body-out"
+      );
+      setTimeout(() => {
+        this.$emit("close", !this.visible);
+      }, 300);
+      //
     }
   }
 };
@@ -72,7 +78,37 @@ export default {
   transform: translate(-250px, -150px);
   padding: 30px;
   border-radius: 6px;
-  animation: modalBody 0.3s;
+}
+
+.modal-body-in {
+  animation: modalBodyIn 0.3s;
+}
+
+@keyframes modalBodyIn {
+  0% {
+    transform: translate(-250px, -200px);
+    opacity: 0;
+  }
+  100% {
+    transform: translate(-250px, -150px);
+    opacity: 1;
+  }
+}
+
+.modal-body-out {
+  animation: modalBodyOut 0.3s;
+  animation-fill-mode: forwards;
+}
+
+@keyframes modalBodyOut {
+  0% {
+    transform: translate(-250px, -150px);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-250px, -200px);
+    opacity: 0;
+  }
 }
 
 .modal-shade {
