@@ -39,7 +39,9 @@
       </div>
     </div>
 
-    <modal :visible="modalIsVisible" @close="handleModal"></modal>
+    <modal :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
+      <input class="modal-input" type="text" v-model="title" />
+    </modal>
   </div>
 </template>
 
