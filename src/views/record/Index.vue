@@ -5,7 +5,7 @@
 
     <input type="number" v-model="spendTime" placeholder="花费了多少分钟" />
     <select v-model="exp">
-      <option value="" disabled>--请选择--</option>
+      <option value disabled>--请选择--</option>
       <option value="1">1</option>
       <option value="2">2</option>
       <option value="3">3</option>
@@ -13,7 +13,7 @@
     <!-- <textarea id="content" v-model="content" placeholder="这里以后替换成CKeditor" style="resize:none"></textarea> -->
 
     <div style="margin-bottom:30px">
-      <ckeditor ref="ck" :editor="editor" v-model="content" @focus="onEditorFocus"></ckeditor>
+      <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
     </div>
 
     <r-button type="light-blue" block @click.native="plus1()">Plus 1</r-button>
@@ -23,8 +23,9 @@
 
 <script>
 import axios from "axios";
-import RButton from "../../components/common/Button.vue";
+import RButton from "../../components/Button.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { alertMessage } from "../../utils/alert-message.js";
 
 export default {
   name: "record",
@@ -60,17 +61,10 @@ export default {
           exp: this.exp,
           spendTime: this.spendTime
         })
-        .then(
-          res => {
-            // this.$router.push({ path: `/detail/${this.item.id}` });
-            alert("新增成功！");
-          },
-          err => {
-            console.log(JSON.stringify(err));
-          }
-        );
+        .then(res => {
+          alertMessage(res.data.code, "新增成功！", res.data.msg);
+        });
     },
-    onEditorFocus() {},
     handleEve(e) {
       if (e.ctrlKey && e.key == "s") {
         console.log(`Ctrl+S`);

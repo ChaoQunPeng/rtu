@@ -1,5 +1,5 @@
 <template>
-  <div ref="modals" class="modal" v-show="visible">
+  <div ref="modals" class="modal" v-if="visible">
     <!-- {'modal-shade-active':visible} -->
     <div
       class="modal-shade"
@@ -9,7 +9,7 @@
     <div class="modal-content" :class="[visible?'modal-content-in':'modal-content-out']">
       <!-- header -->
       <div class="modal-header">
-        Title
+        {{title}}
         <span class="iconfont icon-times modal-close-btn" @click="close()"></span>
       </div>
       <!-- body -->
@@ -18,15 +18,23 @@
       </div>
       <!-- footer -->
       <div class="modal-footer">
-        <button class="btn btn-primary float-right" @click="ok()">{{okText}}</button>
+        <slot name="footer">
+          <r-button type="default" @click="cancel">{{cancelText}}</r-button>
+          <r-button type="primary" @click="ok">{{okText}}</r-button>
+        </slot>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import RButton from "./Button.vue";
+
 export default {
   name: "Modal",
+  components: {
+    RButton
+  },
   model: {
     prop: ["visible"]
   },
@@ -35,15 +43,24 @@ export default {
       type: Boolean,
       default: false
     },
+    title: {
+      type: String,
+      default: "Title"
+    },
     okText: {
       type: String,
       default: "确定"
+    },
+    cancelText: {
+      type: String,
+      default: "取消"
     }
   },
   data() {
-    return {
-      title: ""
-    };
+    return {};
+  },
+  beforeCreate() {
+    console.log(`beforeCreate`);
   },
   created() {
     // 如果使用了v-if则需要在this.$nextTick中获取
@@ -54,13 +71,22 @@ export default {
     //     }
     //   });
     // });
+    console.log(`created`);
+    // console.log(this.$slots);
+    // this.$nextTick(() => {
+    //   console.log(`$nextTick`);
+    //   console.log(this.$slots);
+    // });
+  },
+  mounted() {
+    console.log(`mounted`);
   },
   methods: {
-    handleModal() {
-      this.$emit("close", !this.visible);
-    },
     ok() {
       this.$emit("ok");
+    },
+    cancel() {
+      this.close();
     },
     close() {
       this.$el.firstElementChild.classList.replace(
@@ -71,10 +97,36 @@ export default {
         "modal-content-in",
         "modal-content-out"
       );
+
       setTimeout(() => {
+        // document.removeEventListener("keydown", this.escEvent);
         this.$emit("close", !this.visible);
+        
       }, 400);
+      // this.$destroy();
+    },
+    escEvent(e) {
+      if (e.key == "Escape") {
+        this.close();
+      }
     }
+  },
+  watch: {
+    visible: function(val) {
+      if (val) {
+        document.addEventListener("keydown", this.escEvent);
+      } else {
+        document.removeEventListener("keydown", this.escEvent);
+      }
+    }
+  },
+  beforeDestroy() {
+    console.log("beforeDestroy");
+    // this.$emit("close", !this.visible);
+    //  document.removeEventListener("keydown", this.escEvent);
+  },
+  destroyed() {
+    console.log("销毁Modal");
   }
 };
 </script>
@@ -91,8 +143,9 @@ export default {
   background: #fff;
   left: 50%;
   top: 50%;
-  transform: translate(-250px, -150px);
-  // padding: 30px;
+  // transform: translate(-250px, -150px);
+  margin-left: -250px;
+  margin-top: -180px;
   border-radius: 4px;
 }
 
@@ -102,11 +155,11 @@ export default {
 
 @keyframes modalCoutentIn {
   0% {
-    transform: translate(-250px, -200px);
+    margin-top: -210px;
     opacity: 0;
   }
   100% {
-    transform: translate(-250px, -150px);
+    margin-top: -180px;
     opacity: 1;
   }
 }
@@ -118,11 +171,11 @@ export default {
 
 @keyframes modalCoutentOut {
   0% {
-    transform: translate(-250px, -150px);
+    margin-top: -180px;
     opacity: 1;
   }
   100% {
-    transform: translate(-250px, -200px);
+    margin-top: -210px;
     opacity: 0;
   }
 }
@@ -130,7 +183,7 @@ export default {
 .modal {
   &-header {
     padding: 16px 24px;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
   }
 
   &-close-btn {
@@ -146,6 +199,9 @@ export default {
   }
 
   &-footer {
+    text-align: right;
+    padding: 10px 16px;
+    border-top: 1px solid #ddd;
   }
 }
 

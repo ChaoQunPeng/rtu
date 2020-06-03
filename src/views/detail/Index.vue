@@ -39,7 +39,7 @@
 <script>
 import axios from "axios";
 import trimHtml from "trim-html";
-import RButton from "../../components/common/Button.vue";
+import RButton from "../../components/Button.vue";
 
 export default {
   name: "detail",

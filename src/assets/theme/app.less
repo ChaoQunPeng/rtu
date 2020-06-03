@@ -8,7 +8,7 @@
 // @size-md: 15px;
 // @size-lg: 20px;
 
-@dominant-color: #dfe4ea;
+// @dominant-color: #dfe4ea;
 
 * {
   margin    : 0;
@@ -22,7 +22,7 @@ div {
 }
 
 body {
-  background: @dominant-color;
+  background: var(--city-lights);
   overflow-x: hidden;
 }
 
@@ -54,16 +54,16 @@ textarea {
 }
 
 select {
-  display: block;
-  border: 1px solid #c4c7ff;
-  outline: none;
-  height: 40px;
-  text-indent: 10px;
-  font-size: 16px;
+  display      : block;
+  border       : 1px solid #c4c7ff;
+  outline      : none;
+  height       : 40px;
+  text-indent  : 10px;
+  font-size    : 16px;
   margin-bottom: 20px;
   border-radius: 4px;
-  color: #333;
-  width: 100%;
+  color        : #333;
+  width        : 100%;
 }
 
 .text-center {
@@ -80,7 +80,7 @@ select {
 
 .display-block {
   display: block !important;
-  width: 100% !important;
+  width  : 100% !important;
 }
 
 @base-size: 5px;
@@ -149,23 +149,27 @@ select {
 }
 
 
-.btn {
-  &-primary {
-    display      : block;
-    background   : rgb(56, 132, 255);
-    color        : #fff;
-    padding      : 10px 20px;
-    border-radius: 4px;
-    outline      : none;
-    cursor       : pointer;
-    border       : 1px solid rgb(56, 132, 255);
-    line-height  : 1.2;
-    transition   : all 0.5s;
-    box-shadow: 0 0 4px #3884ff;
-    &:active {
-      background: #353989;
-    }
-  }
+:root {
+  --clear-chill      : #1e90ff;
+  --french-sky-blue  : #70a1ff;
+  --ufo-green        : #2ed573;
+  --lime-soap        : #7bed9f;
+  --orange           : #ffa502;
+  --golden-sand      : #eccc68;
+  --bruschetta-tomato: #ff6348;
+  --coral            : #ff7f50;
+  --watermelon       : #ff4757;
+  --wild-watermelon  : #ff6b81;
+  --bay-wharf        : #747d8c;
+  --peace            : #a4b0be;
+  --prestige-blue    : #2f3542;
+  --grisaille        : #57606f;
+  --twinkle-blue     : #ced6e0;
+  --city-lights      : #dfe4ea;
+  --anti-flash-white : #f1f2f6;
+  --bright-greek     : #3742fa;
+  --saturated-sky    : #5352ed;
+  --white            : #ffffff;
 }
 
 .ck.ck-editor__main>.ck-editor__editable {

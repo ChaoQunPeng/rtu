@@ -2,7 +2,7 @@
   <div>
     <div class="home-header">
       <!-- <button class="button" @click="handleModal()">Add</button> -->
-      <r-button type="pink" @click.native="handleModal()">Add</r-button>
+      <r-button type="danger" @click.native="handleModal()">Add</r-button>
     </div>
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
@@ -39,7 +39,7 @@
       </div>
     </div>
 
-    <modal :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
+    <modal title="Add Skill" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
       <input class="modal-input" type="text" v-model="title" />
     </modal>
   </div>
@@ -47,7 +47,7 @@
 
 <script>
 import axios from "axios";
-import RButton from "../../components/common/Button.vue";
+import RButton from "../../components/Button.vue";
 import Modal from "../../components/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
@@ -57,7 +57,7 @@ export default {
       msg: "home working",
       list: [],
       title: "",
-      modalIsVisible: false,
+      modalIsVisible: true,
       editor: ClassicEditor
     };
   },
