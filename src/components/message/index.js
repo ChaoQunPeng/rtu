@@ -4,7 +4,10 @@ import MessageComponent from './Message.vue'
 const MessageConstructor = Vue.extend(MessageComponent);
 
 let i = 0;
+let hasMessageContainer = false;
+
 const Message = function (params) {
+  createMessageContainer();
   const data = {};
   if (typeof params === "string") {
     data.content = params;
@@ -13,11 +16,26 @@ const Message = function (params) {
   const instance = new MessageConstructor({
     data: data
   }).$mount();
-  document.body.appendChild(instance.$el);
+  // document.body.appendChild(instance.$el);
+  document.getElementById("messageContainer").appendChild(instance.$el);
   i++;
+  instance._mid = i;
+  console.log(instance);
   return instance;
 }
 
+/**
+ * 创建放置message的容器
+ */
+function createMessageContainer() {
+  if (!hasMessageContainer) {
+    const div = document.createElement("div");
+    div.id = "messageContainer";
+    div.classList.add("message-container");
+    document.body.appendChild(div);
+    hasMessageContainer = true;
+  }
+}
 
 export default {
   install(Vue) {

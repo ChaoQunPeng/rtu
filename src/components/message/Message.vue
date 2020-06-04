@@ -1,6 +1,8 @@
 <template>
-  <div class="message fadeIn" :style="[componentTop]">
-    <div class="message-content">{{content}}</div>
+  <div class="message">
+    <div class="fadeIn" :style="[componentTop]">
+      <div class="message-content">{{content}}</div>
+    </div>
   </div>
 </template>
 
@@ -18,7 +20,8 @@ export default {
   },
   created() {},
   mounted() {
-    this.componentTop.top = this.componentCount * 50 + "px";
+    // this.componentTop.top = this.componentCount * 50 + "px";
+    this.content = this.content + "-" + this.componentCount;
     setTimeout(() => {
       this.$el.classList.replace("fadeIn", "fadeOut");
       setTimeout(() => {
@@ -34,12 +37,7 @@ export default {
 @import url("../../assets/theme/animation.less");
 
 .message {
-  position: fixed;
-  left: 0;
-  top: 0;
-  z-index: 1000;
   width: 100%;
-  padding-top: 20px;
   text-align: center;
 
   &-content {
