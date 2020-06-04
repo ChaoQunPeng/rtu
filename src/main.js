@@ -12,6 +12,8 @@ if (process.env.ENV == 'dev') {
   axios.defaults.baseURL = 'http://localhost:3338/api/';
 }
 
+import Message from "./components/message/index";
+Vue.use(Message)
 
 Vue.use(Vuex)
 Vue.use(CKEditor)
@@ -26,6 +28,7 @@ const store = new Vuex.Store({
   }
 })
 
+
 new Vue({
   el: '#app',
   store: store,
@@ -33,9 +36,6 @@ new Vue({
   render: h => h(App)
 });
 
-// process.env 这样子写的话process打包时会被去掉
-// console.log(process.env.ENV);
-// console.log(process.env.NODE_ENV);
 if (process.env.ENV == 'dev') {
   document.title += '-dev';
 } else {

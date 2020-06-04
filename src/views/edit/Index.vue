@@ -44,6 +44,16 @@ export default {
     this.spendTime = this.editedData.SpendTime;
     this.exp = this.editedData.Exp;
     this.skillName = this.$route.query.skillName;
+
+    window.isCloseHint = true;
+    //初始化关闭
+    window.addEventListener("beforeunload", function(e) {
+      if (window.isCloseHint) {
+        var confirmationMessage = "要记得保存！你确定要离开我吗？";
+        (e || window.event).returnValue = confirmationMessage;
+        return confirmationMessage;
+      }
+    });
   },
   methods: {
     update() {

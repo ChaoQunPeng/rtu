@@ -60,7 +60,6 @@ export default {
     return {};
   },
   beforeCreate() {
-    console.log(`beforeCreate`);
   },
   created() {
     // 如果使用了v-if则需要在this.$nextTick中获取
@@ -71,7 +70,7 @@ export default {
     //     }
     //   });
     // });
-    console.log(`created`);
+    // console.log(`created`);
     // console.log(this.$slots);
     // this.$nextTick(() => {
     //   console.log(`$nextTick`);
@@ -79,7 +78,7 @@ export default {
     // });
   },
   mounted() {
-    console.log(`mounted`);
+    // console.log(`mounted`);
   },
   methods: {
     ok() {
@@ -121,12 +120,12 @@ export default {
     }
   },
   beforeDestroy() {
-    console.log("beforeDestroy");
+    // console.log("beforeDestroy");
     // this.$emit("close", !this.visible);
     //  document.removeEventListener("keydown", this.escEvent);
   },
   destroyed() {
-    console.log("销毁Modal");
+    // console.log("销毁Modal");
   }
 };
 </script>

@@ -47,6 +47,29 @@ export default {
   created() {
     this.item = this.$route.params;
     this.skillName = this.$route.query.skillName;
+
+    // window.isCloseHint = true;
+    // //初始化关闭
+    // window.addEventListener("beforeunload", function(e) {
+    //   if (window.isCloseHint) {
+    //     var confirmationMessage = "要记得保存！你确定要离开我吗？";
+    //     console.log(e);
+    //     console.log(window.event);
+    //     (e || window.event).returnValue = confirmationMessage;
+    //     return confirmationMessage;
+    //   }
+    // });
+
+    window.onbeforeunload = function(e) {
+      e = e || window.event;
+      if (e) {
+        // 按照标准取消事件
+        e.returnValue = "";
+      }
+      // Chrome需要设置returnValue。
+      e.preventDefault();
+      return "";
+    };
   },
   mounted() {
     document.addEventListener("keydown", this.handleEve);
@@ -67,14 +90,25 @@ export default {
     },
     handleEve(e) {
       if (e.ctrlKey && e.key == "s") {
-        console.log(`Ctrl+S`);
+        // alert(`Ctrl+S 保存`);
+        this.$message("Ctrl+S");
+        // this.$message.info();
         e.preventDefault();
       }
+      // else if (e.key == "F5") {
+      //   let options = confirm("内容尚未保存，确定要刷新页面吗？");
+      //   if (!options) e.preventDefault();
+      // } else if (e.ctrlKey && e.key == "r") {
+      //   let options = confirm("内容尚未保存，确定要刷新页面吗？");
+      //   if (!options) e.preventDefault();
+      // }
     }
   },
   destroyed() {
     document.removeEventListener("keydown", this.handleEve);
-    console.log("删除监听");
+    // console.log("删除监听");
+
+    window.onbeforeunload = function() {};
   }
 };
 </script>

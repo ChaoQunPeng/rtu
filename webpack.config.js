@@ -4,10 +4,6 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const webpack = require('webpack');
 const path = require('path');
 
-console.log(process);
-console.log(process.env.NODE_ENV);
-console.log(process.env.URL);
-
 module.exports = {
   entry: {
     main: './src/main.js'
