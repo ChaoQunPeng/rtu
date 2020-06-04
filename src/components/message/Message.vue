@@ -20,15 +20,19 @@ export default {
   },
   created() {},
   mounted() {
-    // this.componentTop.top = this.componentCount * 50 + "px";
     this.content = this.content + "-" + this.componentCount;
     setTimeout(() => {
-      this.$el.classList.replace("fadeIn", "fadeOut");
+      this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
+      this.destroy();
+    }, 2000);
+  },
+  methods: {
+    destroy() {
       setTimeout(() => {
         this.$destroy();
         this.$el.remove();
       }, 500);
-    }, 2000);
+    }
   }
 };
 </script> 
