@@ -1,16 +1,35 @@
 <template>
   <div>
     <h2 style="margin-bottom:20px;color:#183055;">{{skillName}}</h2>
-    <input type="text" id="title" v-model="title" placeholder="一句话" />
 
-    <input type="number" v-model="spendTime" placeholder="花费了多少分钟" />
-    <select v-model="exp">
-      <option value disabled>--请选择--</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-    </select>
-    <!-- <textarea id="content" v-model="content" placeholder="这里以后替换成CKeditor" style="resize:none"></textarea> -->
+    <label class="block">
+      经验标题：
+      <input type="text" id="title" v-model="title" placeholder="标题" style="width:80%;" />
+    </label>
+
+    <label for>
+      开始时间：
+      <input
+        style="width: 240px;"
+        type="datetime-local"
+        v-model="startTime"
+        @input="getExpByDiffTime"
+      />
+    </label>
+    <label for>
+      结束时间：
+      <input
+        style="width: 240px;"
+        type="datetime-local"
+        v-model="endTime"
+        @input="getExpByDiffTime"
+      />
+    </label>
+
+    <label for>
+      经验值：
+      <input type="number" v-model="exp" placeholder="经验值" />
+    </label>
 
     <div style="margin-bottom:30px">
       <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
@@ -25,7 +44,8 @@
 import axios from "axios";
 import RButton from "../../components/Button.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import { alertMessage } from "../../utils/alert-message.js";
+// import { alertMessage } from "../../utils/alert-message.js";
+import dayjs from "dayjs";
 
 export default {
   name: "record",
@@ -34,10 +54,10 @@ export default {
       skillName: "",
       title: "",
       content: "",
-      exp: "",
-      time: 0,
+      exp: 0,
       item: {},
-      spendTime: null,
+      startTime: null,
+      endTime: null,
       editor: ClassicEditor
     };
   },
@@ -47,18 +67,6 @@ export default {
   created() {
     this.item = this.$route.params;
     this.skillName = this.$route.query.skillName;
-
-    // window.isCloseHint = true;
-    // //初始化关闭
-    // window.addEventListener("beforeunload", function(e) {
-    //   if (window.isCloseHint) {
-    //     var confirmationMessage = "要记得保存！你确定要离开我吗？";
-    //     console.log(e);
-    //     console.log(window.event);
-    //     (e || window.event).returnValue = confirmationMessage;
-    //     return confirmationMessage;
-    //   }
-    // });
 
     window.onbeforeunload = function(e) {
       e = e || window.event;
@@ -70,6 +78,12 @@ export default {
       e.preventDefault();
       return "";
     };
+
+    this.startTime = `${dayjs().format("YYYY-MM-DD")}T00:00`;
+    this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
+
+    this.$axios.post({url:'www'});
+    console.log();
   },
   mounted() {
     document.addEventListener("keydown", this.handleEve);
@@ -85,7 +99,7 @@ export default {
           spendTime: this.spendTime
         })
         .then(res => {
-          alertMessage(res.data.code, "新增成功！", res.data.msg);
+          this.$message("新增成功！");
         });
     },
     handleEve(e) {
@@ -102,6 +116,28 @@ export default {
       //   let options = confirm("内容尚未保存，确定要刷新页面吗？");
       //   if (!options) e.preventDefault();
       // }
+    },
+    getExpByDiffTime(val) {
+      let startTime = dayjs(this.startTime);
+      let endTime = dayjs(this.endTime);
+      const data = { month: 0, day: 0, hour: 0, minute: 0 };
+
+      for (const unit in data) {
+        data[unit] = endTime.diff(startTime, unit);
+      }
+
+      // 有些时候可能未满1个小时，按1点经验算
+      if (data.hour == 0 && data.minute > 0) {
+        this.exp = 1;
+        return;
+      }
+
+      // 结束时间小于开始时间的话data.hour为负数，但是这里要显示为0
+      if (data.hour < 0) {
+        this.exp = 0;
+        return;
+      }
+      this.exp = data.hour;
     }
   },
   destroyed() {
@@ -109,7 +145,8 @@ export default {
     // console.log("删除监听");
 
     window.onbeforeunload = function() {};
-  }
+  },
+  computed: {}
 };
 </script>
 

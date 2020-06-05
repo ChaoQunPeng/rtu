@@ -2,19 +2,40 @@
   <div>
     <h2 style="margin-bottom:20px;color:#183055;">{{skillName}}</h2>
 
-    <input type="text" id="title" v-model="title" placeholder="一句话" />
-    <input type="number" v-model="spendTime" placeholder="花费了多少分钟" />
-    <select v-model="exp" placeholder="经验">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-    </select>
+    <label class="block">
+      经验标题：
+      <input type="text" id="title" v-model="title" placeholder="标题" style="width:80%;" />
+    </label>
+
+    <label for>
+      开始时间：
+      <input
+        style="width: 240px;"
+        type="datetime-local"
+        v-model="startTime"
+        @input="getExpByDiffTime"
+      />
+    </label>
+    <label for>
+      结束时间：
+      <input
+        style="width: 240px;"
+        type="datetime-local"
+        v-model="endTime"
+        @input="getExpByDiffTime"
+      />
+    </label>
+
+    <label for>
+      经验值：
+      <input type="number" v-model="exp" placeholder="经验值" />
+    </label>
 
     <div style="margin-bottom:30px">
-      <ckeditor :editor="editor" v-model="content"></ckeditor>
+      <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
     </div>
 
-    <button class="btn btn-primary display-block" @click="update()">修改</button>
+    <r-button type="light-blue" block @click.native="plus1()">Plus 1</r-button>
   </div>
 </template>
 	
@@ -29,10 +50,11 @@ export default {
       skillName: "",
       title: "",
       content: "",
-      exp: 1,
-      time: 0,
+      exp: 0,
+      // time: 0,
       item: {},
-      spendTime: null,
+      startTime: null,
+      endTime: null,
       editedData: null,
       editor: ClassicEditor
     };
@@ -66,10 +88,10 @@ export default {
         })
         .then(
           res => {
-            alert("修改成功！");
+            this.$message(`修改成功！`);
           },
           err => {
-            alert("修改失败！");
+            this.$message(`修改失败！`);
           }
         );
     }

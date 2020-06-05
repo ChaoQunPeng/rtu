@@ -37,6 +37,7 @@
     "@ckeditor/ckeditor5-code-block": "^19.0.0",
     "@ckeditor/ckeditor5-vue": "^1.0.1",
     "axios": "^0.19.2",
+    "dayjs": "^1.8.28",
     "mongoose": "^5.9.3",
     "trim-html": "^0.1.9",
     "vue": "^2.6.11",

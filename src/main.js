@@ -15,6 +15,9 @@ if (process.env.ENV == 'dev') {
 import Message from "./components/message/index";
 Vue.use(Message)
 
+import http from "./utils/http.js";
+Vue.use(http)
+
 Vue.use(Vuex)
 Vue.use(CKEditor)
 

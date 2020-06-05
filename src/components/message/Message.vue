@@ -20,7 +20,7 @@ export default {
   },
   created() {},
   mounted() {
-    this.content = this.content + "-" + this.componentCount;
+    // this.content = this.content + "-" + this.componentCount;
     setTimeout(() => {
       this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
       this.destroy();

@@ -109,10 +109,10 @@ export default {
         axios.delete(`experience/${arr.ExperienceID}`).then(
           res => {
             this.initData();
-            alert(`删除成功!`);
+            this.$message(`删除成功！`);
           },
           err => {
-            alert(`删除失败!`);
+            this.$message(`删除失败！`);
           }
         );
       }

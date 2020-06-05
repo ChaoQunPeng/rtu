@@ -71,7 +71,6 @@ export default {
   },
   created() {
     this.getList();
-    this.$message('消息的内容');
 },
   methods: {
     getList() {
@@ -97,7 +96,7 @@ export default {
         })
         .then(
           res => {
-            alert(`新增成功！`);
+            this.$message(`新增成功！`);
             axios.get("skill").then(res => {
               this.list = res.data.data;
               this.modalIsVisible = false;
@@ -105,8 +104,7 @@ export default {
             });
           },
           err => {
-            alert(JSON.stringify(res));
-            alert(`新增失败！`);
+            this.$message(`新增失败！`);
           }
         );
     },
@@ -122,17 +120,21 @@ export default {
               this.getList();
             },
             err => {
-              alert("修改失败");
+              this.$message(`修改失败`);
             }
           );
       }
     },
     deleteCard(item) {
+      if(item.TotalExp>0) {
+        this.$message("该技能下存在经验，不能删哦~");
+        return;
+      }
       const value = confirm(`您确定要删除${item.Name}吗？`);
       if (value) {
         axios.delete(`skill/${item.SkillID}`).then(res => {
           if (res) {
-            alert(`删除成功`);
+            this.$message(`删除成功`);
             this.getList();
           }
         });
@@ -242,7 +244,7 @@ export default {
   width: 100%;
   margin: 15px;
   padding: 20px 30px 20px 40px;
-  border-radius: 8px;
+  border-radius: 4px;
   border: 1px solid #f1f1f1;
   cursor: pointer;
   box-shadow: 0 0 0 #ddd;

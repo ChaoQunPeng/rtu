@@ -20,7 +20,6 @@ const Message = function (params) {
   document.getElementById("messageContainer").appendChild(instance.$el);
   i++;
   instance._mid = i;
-  console.log(instance);
   return instance;
 }
 

@@ -9,6 +9,28 @@
 // @size-lg: 20px;
 
 // @dominant-color: #dfe4ea;
+:root {
+  --clear-chill      : #1e90ff;
+  --french-sky-blue  : #70a1ff;
+  --ufo-green        : #2ed573;
+  --lime-soap        : #7bed9f;
+  --orange           : #ffa502;
+  --golden-sand      : #eccc68;
+  --bruschetta-tomato: #ff6348;
+  --coral            : #ff7f50;
+  --watermelon       : #ff4757;
+  --wild-watermelon  : #ff6b81;
+  --bay-wharf        : #747d8c;
+  --peace            : #a4b0be;
+  --prestige-blue    : #2f3542;
+  --grisaille        : #57606f;
+  --twinkle-blue     : #ced6e0;
+  --city-lights      : #dfe4ea;
+  --anti-flash-white : #f1f2f6;
+  --bright-greek     : #3742fa;
+  --saturated-sky    : #5352ed;
+  --white            : #ffffff;
+}
 
 @import "./message.less";
 
@@ -20,7 +42,7 @@
 
 p,
 div {
-  line-height: 1;
+  // line-height: 1;
 }
 
 body {
@@ -29,16 +51,13 @@ body {
 }
 
 input {
-  display      : block;
+  display      : inline-block;
   border       : 1px solid #c4c7ff;
-  outline      : none;
   height       : 40px;
   text-indent  : 10px;
   font-size    : 16px;
   margin-bottom: 20px;
   border-radius: 4px;
-  color        : #333;
-  width        : 100%;
 }
 
 textarea {
@@ -56,7 +75,6 @@ textarea {
 }
 
 select {
-  display      : block;
   border       : 1px solid #c4c7ff;
   outline      : none;
   height       : 40px;
@@ -65,7 +83,6 @@ select {
   margin-bottom: 20px;
   border-radius: 4px;
   color        : #333;
-  width        : 100%;
 }
 
 .text-center {
@@ -80,7 +97,7 @@ select {
   float: right !important;
 }
 
-.display-block {
+.block {
   display: block !important;
   width  : 100% !important;
 }
@@ -150,28 +167,12 @@ select {
   transform: translateX(0);
 }
 
+.ck-content {
 
-:root {
-  --clear-chill      : #1e90ff;
-  --french-sky-blue  : #70a1ff;
-  --ufo-green        : #2ed573;
-  --lime-soap        : #7bed9f;
-  --orange           : #ffa502;
-  --golden-sand      : #eccc68;
-  --bruschetta-tomato: #ff6348;
-  --coral            : #ff7f50;
-  --watermelon       : #ff4757;
-  --wild-watermelon  : #ff6b81;
-  --bay-wharf        : #747d8c;
-  --peace            : #a4b0be;
-  --prestige-blue    : #2f3542;
-  --grisaille        : #57606f;
-  --twinkle-blue     : #ced6e0;
-  --city-lights      : #dfe4ea;
-  --anti-flash-white : #f1f2f6;
-  --bright-greek     : #3742fa;
-  --saturated-sky    : #5352ed;
-  --white            : #ffffff;
+  ul,
+  ol {
+    padding-left: 40px;
+  }
 }
 
 .ck.ck-editor__main>.ck-editor__editable {
