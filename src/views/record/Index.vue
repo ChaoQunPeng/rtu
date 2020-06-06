@@ -31,6 +31,8 @@
       <input type="number" v-model="exp" placeholder="经验值" />
     </label>
 
+    <!-- <label>小时数：{{spendTime | toHour}}</label> -->
+
     <div style="margin-bottom:30px">
       <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
     </div>
@@ -58,7 +60,9 @@ export default {
       item: {},
       startTime: null,
       endTime: null,
-      editor: ClassicEditor
+      spendTime: 0,
+      editor: ClassicEditor,
+      isPosting: false
     };
   },
   components: {
@@ -79,45 +83,40 @@ export default {
       return "";
     };
 
-    this.startTime = `${dayjs().format("YYYY-MM-DD")}T00:00`;
-    this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
-
-    this.$axios.post({url:'www'});
-    console.log();
+    this.startTime = this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
   },
   mounted() {
     document.addEventListener("keydown", this.handleEve);
   },
   methods: {
-    plus1() {
+    plus1(successInfo = "新增成功！") {
       axios
         .post(`experience/record`, {
           title: this.title,
           content: this.content,
           skillId: this.item.id,
           exp: this.exp,
-          spendTime: this.spendTime
+          startTime: this.startTime,
+          endTime: this.endTime
         })
         .then(res => {
-          this.$message("新增成功！");
+          this.$message(successInfo);
+        })
+        .catch(err => {
+          this.$message(err.msg);
+        })
+        .finally(() => {
+          this.isPosting = false;
         });
     },
     handleEve(e) {
       if (e.ctrlKey && e.key == "s") {
-        // alert(`Ctrl+S 保存`);
-        this.$message("Ctrl+S");
-        // this.$message.info();
+        this.isPosting = true;
+        this.plus1("已保存！");
         e.preventDefault();
       }
-      // else if (e.key == "F5") {
-      //   let options = confirm("内容尚未保存，确定要刷新页面吗？");
-      //   if (!options) e.preventDefault();
-      // } else if (e.ctrlKey && e.key == "r") {
-      //   let options = confirm("内容尚未保存，确定要刷新页面吗？");
-      //   if (!options) e.preventDefault();
-      // }
     },
-    getExpByDiffTime(val) {
+    getExpByDiffTime() {
       let startTime = dayjs(this.startTime);
       let endTime = dayjs(this.endTime);
       const data = { month: 0, day: 0, hour: 0, minute: 0 };
@@ -126,6 +125,7 @@ export default {
         data[unit] = endTime.diff(startTime, unit);
       }
 
+      this.spendTime = data.minute;
       // 有些时候可能未满1个小时，按1点经验算
       if (data.hour == 0 && data.minute > 0) {
         this.exp = 1;
@@ -137,13 +137,13 @@ export default {
         this.exp = 0;
         return;
       }
+
+      // 以分钟为单位计入花费时间
       this.exp = data.hour;
     }
   },
   destroyed() {
     document.removeEventListener("keydown", this.handleEve);
-    // console.log("删除监听");
-
     window.onbeforeunload = function() {};
   },
   computed: {}

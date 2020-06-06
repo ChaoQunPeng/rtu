@@ -6,7 +6,7 @@ const MessageConstructor = Vue.extend(MessageComponent);
 let i = 0;
 let hasMessageContainer = false;
 
-const Message = function (params) {
+export const Message = function (params) {
   createMessageContainer();
   const data = {};
   if (typeof params === "string") {

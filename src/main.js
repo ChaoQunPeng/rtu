@@ -4,7 +4,8 @@ import Vuex from 'vuex'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import { router } from "./router/index";
 
-import axios from "axios";
+// import axios from "axios";
+import axios from './utils/interceptors.js';
 
 if (process.env.ENV == 'dev') {
   axios.defaults.baseURL = 'http://localhost:3100/api/';
@@ -15,11 +16,22 @@ if (process.env.ENV == 'dev') {
 import Message from "./components/message/index";
 Vue.use(Message)
 
-import http from "./utils/http.js";
-Vue.use(http)
+// import http from "./utils/http.js";
+// Vue.use(http)
+
+// import http from "./utils/interceptors.js";
+
+// Vue.prototype.$http = http;
 
 Vue.use(Vuex)
 Vue.use(CKEditor)
+
+Vue.filter('toHour', (val) => {
+  if (val == null || isNaN(val)) return 0;
+  let min = parseFloat(val);
+  let hour = min / 60;
+  return hour.toFixed(2);
+});
 
 // 出现下面这个错误可能是路由导入出错了
 // Error in render: "TypeError: Cannot read property 'matched' of undefined"

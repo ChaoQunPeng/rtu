@@ -51,7 +51,7 @@
 import axios from "axios";
 import RButton from "../../components/Button.vue";
 import Modal from "../../components/Modal.vue";
-import Message from '../../components/Message.vue';
+import Message from "../../components/Message.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
@@ -71,10 +71,10 @@ export default {
   },
   created() {
     this.getList();
-},
+  },
   methods: {
     getList() {
-      axios.get("skill").then(res => {
+      axios("skill").then(res => {
         this.list = res.data.data;
       });
     },
@@ -126,7 +126,7 @@ export default {
       }
     },
     deleteCard(item) {
-      if(item.TotalExp>0) {
+      if (item.TotalExp > 0) {
         this.$message("该技能下存在经验，不能删哦~");
         return;
       }
