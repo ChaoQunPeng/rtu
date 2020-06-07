@@ -39,8 +39,6 @@
       </div>
     </div>
 
-    <!-- <message></message> -->
-
     <modal title="Add Skill" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
       <input class="modal-input" type="text" v-model="title" />
     </modal>
@@ -51,7 +49,6 @@
 import axios from "axios";
 import RButton from "../../components/Button.vue";
 import Modal from "../../components/Modal.vue";
-import Message from "../../components/Message.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
