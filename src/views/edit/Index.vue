@@ -28,8 +28,13 @@
 
     <label for>
       经验值：
-      <input type="number" v-model="exp" placeholder="经验值" />
+      <input type="number" v-model="exp" placeholder="经验值" min="0" />
     </label>
+
+    <!-- <label>
+      是否发布：
+      <input type="checkbox" style="vertical-align: bottom;" />
+    </label>-->
 
     <!-- <label>小时数：{{spendTime | toHour}}</label> -->
 
@@ -70,7 +75,9 @@ export default {
     this.editedData = this.$route.params;
     this.title = this.$route.params.Title;
     this.content = this.editedData.Content;
-    this.startTime = dayjs(this.editedData.StartTime).format("YYYY-MM-DDTHH:mm");
+    this.startTime = dayjs(this.editedData.StartTime).format(
+      "YYYY-MM-DDTHH:mm"
+    );
     this.endTime = dayjs(this.editedData.EndTime).format("YYYY-MM-DDTHH:mm");
     this.exp = this.editedData.Exp;
     this.skillName = this.$route.query.skillName;
@@ -88,6 +95,7 @@ export default {
   },
   methods: {
     update() {
+      if (!this.checkForm()) return;
       axios
         .put(`experience/${this.editedData.ExperienceID}`, {
           title: this.title,
@@ -129,6 +137,17 @@ export default {
 
       // 以分钟为单位计入花费时间
       this.exp = data.hour;
+    },
+    checkForm() {
+      if (this.title == "") {
+        this.$message("标题不能为空");
+        return false;
+      } else if (this.content == "") {
+        this.$message("内容不能为空");
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   destroyed() {

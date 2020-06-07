@@ -26,18 +26,23 @@
       />
     </label>
 
-    <label for>
+    <label>
       经验值：
-      <input type="number" v-model="exp" placeholder="经验值" />
+      <input type="number" v-model="exp" placeholder="经验值" min="0" />
     </label>
+
+    <!-- <label>
+      是否发布：<input type="checkbox" style="vertical-align: bottom;" />
+    </label>-->
 
     <!-- <label>小时数：{{spendTime | toHour}}</label> -->
 
     <div style="margin-bottom:30px">
-      <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
+      <ckeditor ref="ck" :editor="editor" v-model="content" @ready="onEditorReady"></ckeditor>
     </div>
 
-    <r-button type="light-blue" block @click.native="plus1()">Plus 1</r-button>
+    <r-button type="light-blue" @click.native="plus1()">Plus 1</r-button>
+    {{saveLocalTip}}
   </div>
 </template>
 
@@ -62,7 +67,11 @@ export default {
       endTime: null,
       spendTime: 0,
       editor: ClassicEditor,
-      isPosting: false
+      isPosting: false,
+      actionTimer: null,
+      actionTime: 0,
+      saveLocalTip: "",
+      draftLocalKey: "RTU_Draft_DRAFT"
     };
   },
   components: {
@@ -73,34 +82,40 @@ export default {
     this.skillName = this.$route.query.skillName;
 
     window.onbeforeunload = function(e) {
-      e = e || window.event;
-      if (e) {
-        // 按照标准取消事件
-        e.returnValue = "";
-      }
-      // Chrome需要设置returnValue。
-      e.preventDefault();
-      return "";
+      // e = e || window.event;
+      // if (e) {
+      //   // 按照标准取消事件
+      //   e.returnValue = "";
+      // }
+      // // Chrome需要设置returnValue。
+      // e.preventDefault();
+      // return "";
     };
-
     this.startTime = this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
+    this.setLocalDraftToRecord();
   },
   mounted() {
     document.addEventListener("keydown", this.handleEve);
+    document.addEventListener("mousedown", this.handleEve);
+
+    this.setAutoSaveTimer();
   },
   methods: {
     plus1(successInfo = "新增成功！") {
+      // if (!this.checkForm()) return;
+      // this.isPosting = true;
       axios
         .post(`experience/record`, {
           title: this.title,
           content: this.content,
           skillId: this.item.id,
           exp: this.exp,
-          startTime: this.startTime,
+          startTime: null,
           endTime: this.endTime
         })
         .then(res => {
           this.$message(successInfo);
+          localStorage.removeItem(this.draftLocalKey);
         })
         .catch(err => {
           this.$message(err.msg);
@@ -110,11 +125,57 @@ export default {
         });
     },
     handleEve(e) {
+      this.actionTime = 0;
+
+      if (this.isPosting) {
+        e.preventDefault();
+        return;
+      }
+
       if (e.ctrlKey && e.key == "s") {
-        this.isPosting = true;
-        this.plus1("已保存！");
+        this.saveDraftToLocal();
         e.preventDefault();
       }
+    },
+    // 保存草稿到本地
+    saveDraftToLocal() {
+      this.actionTime = 0;
+      const id = `ID_${new Date().getTime()}`;
+      const data = {
+        title: this.title,
+        content: this.content,
+        skillId: this.item.id,
+        exp: this.exp,
+        startTime: this.startTime,
+        endTime: this.endTime,
+        saveTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
+      };
+      const draftString = { id: id, data: data };
+
+      localStorage.setItem("RTU_DRAFT", JSON.stringify(draftString));
+      this.saveLocalTip = `草稿已于${dayjs().format(
+        "YYYY-MM-DD HH:mm:ss"
+      )}保存`;
+    },
+    // 设置本地草稿到记录页
+    setLocalDraftToRecord() {
+      let value = localStorage.getItem(this.draftLocalKey);
+      if (value) {
+        let draft = JSON.parse(value).data;
+        for (const key in draft) {
+          this[key] = draft[key];
+        }
+      }
+    },
+    // 设置自动保存的计时器
+    setAutoSaveTimer() {
+      this.actionTimer = setInterval(() => {
+        this.actionTime++;
+        // 每10秒保存一下
+        if (this.actionTime % 10 == 0) {
+          this.saveDraftToLocal();
+        }
+      }, 1000);
     },
     getExpByDiffTime() {
       let startTime = dayjs(this.startTime);
@@ -140,11 +201,26 @@ export default {
 
       // 以分钟为单位计入花费时间
       this.exp = data.hour;
+    },
+    onEditorReady() {
+      // this.setLocalDraftToRecord();
+    },
+    checkForm() {
+      if (this.title == "") {
+        this.$message("标题不能为空");
+        return false;
+      } else if (this.content == "") {
+        this.$message("内容不能为空");
+        return false;
+      } else {
+        return true;
+      }
     }
   },
   destroyed() {
     document.removeEventListener("keydown", this.handleEve);
     window.onbeforeunload = function() {};
+    clearInterval(this.actionTimer);
   },
   computed: {}
 };

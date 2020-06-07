@@ -11,13 +11,13 @@ axios.interceptors.request.use(function (config) {
   createLoading();
   return config;
 }, function (error) {
-  div.style.display = "none";
+  closeLoading();
   return Promise.reject(error);
 });
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-  div.style.display = "none";
+  closeLoading();
   response.msg = response.data.msg;
   if (response.data.code != 200) {
     response.isSuccess = false;
@@ -25,17 +25,21 @@ axios.interceptors.response.use(function (response) {
   }
   return response;
 }, function (error) {
-  div.style.display = "none";
+  closeLoading();
   return Promise.reject(error);
 });
 
-function createLoading(display) {
+function createLoading() {
   div = document.createElement("div");
   div.classList.add("loading");
   div.innerHTML = `
     <div class="loading-icon">loading...</div>
   `;
   document.body.appendChild(div);
+}
+
+function closeLoading() {
+  div.remove();
 }
 
 export default axios;
