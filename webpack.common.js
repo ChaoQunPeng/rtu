@@ -1,7 +1,7 @@
-const htmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
-const webpack = require('webpack');
+// const webpack = require('webpack');
 const path = require('path');
 
 module.exports = {
@@ -9,17 +9,7 @@ module.exports = {
     main: './src/main.js'
   },
   output: {
-    // 默认是在dist目录下
-    // path: path.join(__dirname, 'dist'),
     filename: 'main.js'
-  },
-  devServer: {
-    contentBase: path.join(__dirname, 'server'),
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3339/'
-      }
-    }
   },
   module: {
     rules: [
@@ -58,13 +48,10 @@ module.exports = {
     }
   },
   plugins: [
-    new htmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: './src/index.html'
     }),
     new CleanWebpackPlugin(),
-    new VueLoaderPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.ENV': JSON.stringify(process.env.NODE_ENV)
-    })
+    new VueLoaderPlugin()
   ]
 }

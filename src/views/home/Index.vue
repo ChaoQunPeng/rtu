@@ -63,8 +63,7 @@ export default {
   },
   components: {
     RButton,
-    Modal,
-    Message
+    Modal
   },
   created() {
     this.getList();

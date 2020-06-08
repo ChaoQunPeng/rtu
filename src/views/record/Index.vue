@@ -51,7 +51,6 @@
 import axios from "axios";
 import RButton from "../../components/Button.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-// import { alertMessage } from "../../utils/alert-message.js";
 import dayjs from "dayjs";
 
 export default {
