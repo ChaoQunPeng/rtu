@@ -4,28 +4,29 @@
       <!-- <button class="button" @click="handleModal()">Add</button> -->
       <r-button type="danger" @click.native="handleModal()">Add</r-button>
     </div>
+
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
         <div class="skill-card" @click="goDetail(item)">
-          <span class="descr-line"></span>
+          <!-- <span class="descr-line"></span> -->
           <div class="name">{{item.Name}}</div>
           <div class="level">
-            {{getPhaseInfo(item.TotalExp).name}}
-            {{getPhaseInfo(item.TotalExp).level}}
+            {{item.TotalExp | expFormat('name')}}
+            {{item.TotalExp | expFormat('level')}}
+            &nbsp;
+            &nbsp;
+            <span>共{{item.TotalExp}}exp</span>
           </div>
           <div class="exp">
             <div class="progress">
-              <div
-                class="progress-bar"
-                :style="getProgressLength(item.TotalExp,getPhaseInfo(item.TotalExp))"
-              >
+              <div class="progress-bar" :style="'width:'+item.TotalExp | expFormat('width')">
                 <span
                   class="progress-text"
-                >{{item.TotalExp || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+                >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
               </div>
               <span
                 class="progress-text"
-              >{{item.TotalExp || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+              >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
             </div>
           </div>
           <div class="skill-card-handle">
@@ -137,7 +138,7 @@ export default {
       }
     },
     getPhaseInfo(totalExp) {
-      if (totalExp >= 0 && totalExp <= 1000) {
+      if (totalExp >= 0 && totalExp < 1000) {
         const expRange = [
           [0, 199],
           [200, 399],
@@ -146,7 +147,7 @@ export default {
           [800, 999]
         ];
         return this.getLevelInfo(totalExp, expRange, "新手", 199);
-      } else if (totalExp > 1000 && totalExp <= 3000) {
+      } else if (totalExp >= 1000 && totalExp < 3000) {
         const expRange = [
           [1000, 1399],
           [1400, 1799],
@@ -155,7 +156,7 @@ export default {
           [2600, 2999]
         ];
         return this.getLevelInfo(totalExp, expRange, "高级新手", 399);
-      } else if (totalExp > 3000 && totalExp <= 6000) {
+      } else if (totalExp >= 3000 && totalExp < 6000) {
         const expRange = [
           [3000, 3599],
           [3600, 4199],
@@ -164,7 +165,7 @@ export default {
           [5400, 5999]
         ];
         return this.getLevelInfo(totalExp, expRange, "胜任者", 599);
-      } else if (totalExp > 6000 && totalExp <= 10000) {
+      } else if (totalExp >= 6000 && totalExp < 10000) {
         const expRange = [
           [6000, 6799],
           [6800, 7599],
@@ -203,9 +204,13 @@ export default {
               data.level = "V";
               break;
           }
+
+          data.levelLength = totalExp - expRange[i][0];
           data.range = expRange[i];
         }
       }
+
+      console.log(data.levelLength);
       return data;
     },
     getProgressLength(totalExp, levelData) {
@@ -241,7 +246,7 @@ export default {
   margin: 15px;
   padding: 20px 30px 20px 40px;
   border-radius: 4px;
-  border: 1px solid #f1f1f1;
+  border: 3px solid transparent;
   cursor: pointer;
   box-shadow: 0 0 0 #ddd;
   transform: translateY(0);
@@ -250,6 +255,7 @@ export default {
     transform: translateY(-10px);
     box-shadow: 6px 6px 10px #ddd;
     z-index: 10;
+    border: 3px solid #2ed573;
   }
 
   &-handle {
@@ -287,13 +293,13 @@ export default {
   }
 
   .name {
-    font-size: 24px;
+    font-size: 26px;
     margin-bottom: 10px;
   }
 
   .level {
     margin-bottom: 10px;
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .exp {
@@ -351,8 +357,10 @@ export default {
   background: #d5d5d5;
   border-radius: 2px;
   font-size: 12px;
+  overflow: hidden;
+
   &-bar {
-    background: #2097ef;
+    background: #2ed573;
     color: #fff;
     width: 100%;
     text-align: center;
@@ -370,7 +378,7 @@ export default {
     position: absolute;
     transform: translate(-50%, 0);
     left: 130px;
-    top: 5px;
+    top: 2px;
   }
 }
 </style>

@@ -72,14 +72,8 @@ export default {
     };
   },
   created() {
-    this.editedData = this.$route.params;
-    this.title = this.$route.params.Title;
-    this.content = this.editedData.Content;
-    this.startTime = dayjs(this.editedData.StartTime).format(
-      "YYYY-MM-DDTHH:mm"
-    );
-    this.endTime = dayjs(this.editedData.EndTime).format("YYYY-MM-DDTHH:mm");
-    this.exp = this.editedData.Exp;
+    this.getEditData(this.$route.params.experienceId);
+
     this.skillName = this.$route.query.skillName;
 
     window.onbeforeunload = function(e) {
@@ -94,6 +88,21 @@ export default {
     };
   },
   methods: {
+    getEditData(experienceId) {
+      axios
+        .get(`experience/detail/${experienceId}`)
+        .then(res => {
+          this.editedData = res.data.data[0];
+          this.title = this.editedData.Title;
+          this.content = this.editedData.Content;
+          this.startTime = dayjs(this.editedData.StartTime).format("YYYY-MM-DDTHH:mm");
+          this.endTime = dayjs(this.editedData.EndTime).format("YYYY-MM-DDTHH:mm");
+          this.exp = this.editedData.Exp;
+        })
+        .catch(err => {
+          this.$message(`获取编辑数据错误！`);
+        });
+    },
     update() {
       if (!this.checkForm()) return;
       axios

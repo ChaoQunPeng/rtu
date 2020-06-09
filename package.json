@@ -4,9 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx webpack --mode development",
-    "prod": "cross-env NODE_ENV=prod npx webpack --mode=production",
-    "dev": "cross-env NODE_ENV=dev npx webpack-dev-server --open --port=3100",
+    "build": "npx webpack --mode development  --config ./webpack/webpack.prod.js",
+    "prod": "cross-env ENV=prod npx webpack --mode=production --config ./webpack/webpack.prod.js",
+    "dev": "cross-env  ENV=dev npx webpack-dev-server --open --port=3100 --config ./webpack/webpack.dev.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "PCQ",

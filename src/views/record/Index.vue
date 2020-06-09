@@ -70,7 +70,7 @@ export default {
       actionTimer: null,
       actionTime: 0,
       saveLocalTip: "",
-      draftLocalKey: "RTU_Draft_DRAFT"
+      draftLocalKey: "RTU_DRAFT"
     };
   },
   components: {
@@ -81,14 +81,14 @@ export default {
     this.skillName = this.$route.query.skillName;
 
     window.onbeforeunload = function(e) {
-      // e = e || window.event;
-      // if (e) {
-      //   // 按照标准取消事件
-      //   e.returnValue = "";
-      // }
-      // // Chrome需要设置returnValue。
-      // e.preventDefault();
-      // return "";
+      e = e || window.event;
+      if (e) {
+        // 按照标准取消事件
+        e.returnValue = "";
+      }
+      // Chrome需要设置returnValue。
+      e.preventDefault();
+      return "";
     };
     this.startTime = this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
     this.setLocalDraftToRecord();
@@ -109,12 +109,18 @@ export default {
           content: this.content,
           skillId: this.item.id,
           exp: this.exp,
-          startTime: null,
+          startTime: this.startTime,
           endTime: this.endTime
         })
         .then(res => {
           this.$message(successInfo);
-          localStorage.removeItem(this.draftLocalKey);
+          // 清除这个分类的草稿
+          const skillName = this.$route.query.skillName;
+          const draft = JSON.parse(localStorage.getItem(this.draftLocalKey));
+          if (draft.hasOwnProperty(skillName)) {
+            delete draft[skillName];
+            localStorage.setItem(this.draftLocalKey, JSON.stringify(draft));
+          }
         })
         .catch(err => {
           this.$message(err.msg);
@@ -138,7 +144,8 @@ export default {
     },
     // 保存草稿到本地
     saveDraftToLocal() {
-      this.actionTime = 0;
+      const store = JSON.parse(localStorage.getItem(this.draftLocalKey));
+
       const id = `ID_${new Date().getTime()}`;
       const data = {
         title: this.title,
@@ -149,21 +156,25 @@ export default {
         endTime: this.endTime,
         saveTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
       };
-      const draftString = { id: id, data: data };
 
-      localStorage.setItem("RTU_DRAFT", JSON.stringify(draftString));
+      const skillName = this.$route.query.skillName;
+      store[skillName] = { id: id, data: data };
+
+      localStorage.setItem("RTU_DRAFT", JSON.stringify(store));
       this.saveLocalTip = `草稿已于${dayjs().format(
         "YYYY-MM-DD HH:mm:ss"
       )}保存`;
     },
     // 设置本地草稿到记录页
     setLocalDraftToRecord() {
-      let value = localStorage.getItem(this.draftLocalKey);
-      if (value) {
-        let draft = JSON.parse(value).data;
-        for (const key in draft) {
-          this[key] = draft[key];
-        }
+      let store = JSON.parse(localStorage.getItem(this.draftLocalKey));
+      let skillName = this.$route.query.skillName;
+
+      if (!store[skillName]) return;
+      let draft = store[skillName].data;
+
+      for (const key in draft) {
+        this[key] = draft[key];
       }
     },
     // 设置自动保存的计时器

@@ -3,35 +3,32 @@ import App from "./App.vue";
 import Vuex from 'vuex'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import { router } from "./router/index";
+import filter from './utils/filters/filter.js';
 
-// import axios from "axios";
 import axios from './utils/interceptors.js';
 
-if (process.env.ENV == 'dev') {
+if (ENV == 'dev') {
   axios.defaults.baseURL = 'http://localhost:3100/api/';
 } else {
-  axios.defaults.baseURL = 'http://localhost:3338/api/';
+  axios.defaults.baseURL = 'http://localhost:3200/api/';
 }
+
+Vue.prototype.$axios = axios;
+
 
 import Message from "./components/message/index";
 Vue.use(Message)
 
-// import http from "./utils/http.js";
-// Vue.use(http)
-
-// import http from "./utils/interceptors.js";
-
-// Vue.prototype.$http = http;
-
 Vue.use(Vuex)
 Vue.use(CKEditor)
 
-Vue.filter('toHour', (val) => {
-  if (val == null || isNaN(val)) return 0;
-  let min = parseFloat(val);
-  let hour = min / 60;
-  return hour.toFixed(2);
-});
+// 注册过滤器
+filter();
+
+// 设置草稿的localStore
+if (!localStorage.getItem("RTU_DRAFT")) {
+  localStorage.setItem("RTU_DRAFT", "{}");
+}
 
 // 出现下面这个错误可能是路由导入出错了
 // Error in render: "TypeError: Cannot read property 'matched' of undefined"
@@ -43,7 +40,6 @@ const store = new Vuex.Store({
   }
 })
 
-
 new Vue({
   el: '#app',
   store: store,
@@ -51,12 +47,11 @@ new Vue({
   render: h => h(App)
 });
 
-if (process.env.ENV == 'dev') {
+if (ENV == 'dev') {
   document.title += '-dev';
 } else {
   document.title += '-prod';
 }
-
 
 import('./assets/theme/app.less');
 import('./assets/icon/iconfont.css');

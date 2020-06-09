@@ -5,7 +5,6 @@ const http = {};
 
 const post = option => {
   option;
-  debugger
   return new Promise((resolve, reject) => {
     resolve(true);
     reject(false);

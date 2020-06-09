@@ -12,7 +12,7 @@ const routes = [
   { path: '/home', component: Home, name: "home" },
   { path: '/detail/:id', component: Detail, name: "detail" },
   { path: '/record/:id', component: Record, name: "record" },
-  { path: '/edit/:id', component: Edit, name: "edit" },
+  { path: '/edit/:experienceId', component: Edit, name: "edit" },
   { path: '', component: Home, redirect: '/home' }
 ]
 

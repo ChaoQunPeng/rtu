@@ -73,6 +73,7 @@ export default {
       axios.get(`experience/${queryParamsId}`).then(res => {
         this.item = res.data.data;
         this.item.forEach(e => {
+          // 不能这么干，要弄成一个过滤器，因为我后面直接用的就是这里的数据
           e.Content = trimHtml(e.Content, {
             limit: 200,
             preserveTags: false
@@ -94,7 +95,7 @@ export default {
     },
     editExp(item) {
       this.$router.push({
-        name: `edit`,
+        path:`/edit/${item.ExperienceID}`,
         params: {
           ...JSON.parse(JSON.stringify(item))
         },

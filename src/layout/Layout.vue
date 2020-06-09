@@ -85,7 +85,7 @@ export default {
 }
 
 .content-layout {
-  margin-left: 70px;
+  margin-left: 50px;
   padding: 0 10px 60px 60px;
 }
 
