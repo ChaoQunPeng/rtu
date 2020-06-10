@@ -19,9 +19,20 @@
   --bright-greek     : #3742fa;
   --saturated-sky    : #5352ed;
   --white            : #ffffff;
+
+  --primary: var(--saturated-sky);
+  --warning: var(--orange);
+  --danger : var(--watermelon);
+  
+  
 }
 
 @import "./message.less";
+
+::selection {
+  background: var(--primary);
+  color: #fff;
+}
 
 * {
   margin    : 0;
@@ -35,7 +46,6 @@ div {
 }
 
 body {
-  background: var(--city-lights);
   overflow-x: hidden;
 }
 

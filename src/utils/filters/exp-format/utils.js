@@ -44,35 +44,38 @@ function getLevelInfo(totalExp, expRange, levelName, levelExp) {
   const data = {
     name: levelName,
     level: 0,
+    romanNum: 0,
     baseExp: levelExp,
-    range: []
+    range: [],
+    width: {} // 赋值给:style
   };
   for (let i = 0; i < expRange.length; i++) {
     if (totalExp >= expRange[i][0] && totalExp <= expRange[i][1]) {
       switch (i) {
         case 0:
-          data.level = "I";
+          data.romanNum = "I";
           break;
         case 1:
-          data.level = "II";
+          data.romanNum = "II";
           break;
         case 2:
-          data.level = "III";
+          data.romanNum = "III";
           break;
         case 3:
-          data.level = "IV";
+          data.romanNum = "IV";
           break;
         case 4:
-          data.level = "V";
+          data.romanNum = "V";
           break;
       }
 
+      data.level = i + 1;
       data.levelLength = totalExp - expRange[i][0];
       data.range = expRange[i];
+      data.width = getProgressLength(totalExp, data);
     }
   }
 
-  console.log(data.levelLength);
   return data;
 }
 
@@ -83,8 +86,8 @@ function getProgressLength(totalExp, levelData) {
   // let width = Number(totalExp) / Number(levelData.range[1]); // 这是总的经验条
   let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
   return { width: width * 100 + "%" };
+  // return width * 100 + "%";
 }
-
 
 const tools = {
   getPhaseInfo,

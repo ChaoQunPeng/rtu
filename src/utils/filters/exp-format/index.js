@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import { tools } from './utils'
 
-export const expFormat = Vue.filter('expFormat', (value, key) => {
+const expFormatFunc = (value, key) => {
   let a = tools.getPhaseInfo(value);
-  let b = tools.getProgressLength(value, a);
-  let data = { ...a, ...b };
+  let data = { ...a };
   return data[key];
-});
+}
+
+export const expFormat = Vue.filter('expFormat', expFormatFunc);

@@ -1,25 +1,27 @@
 <template>
   <div>
-    <div class="home-header">
-      <!-- <button class="button" @click="handleModal()">Add</button> -->
+    <!-- <div class="home-header">
       <r-button type="danger" @click.native="handleModal()">Add</r-button>
-    </div>
+    </div>-->
 
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
         <div class="skill-card" @click="goDetail(item)">
-          <!-- <span class="descr-line"></span> -->
-          <div class="name">{{item.Name}}</div>
+          <span class="descr-line"></span>
+          <div class="name">
+            <span class="descr-name-dot"></span>
+            {{item.Name}}
+          </div>
           <div class="level">
             {{item.TotalExp | expFormat('name')}}
-            {{item.TotalExp | expFormat('level')}}
-            &nbsp;
-            &nbsp;
-            <span>共{{item.TotalExp}}exp</span>
+            <!-- {{item.TotalExp | expFormat('level')}} -->
+            <level-star :level="item.TotalExp | expFormat('level')"></level-star>
+            <span class="exp-text">{{item.TotalExp}} exp</span>
           </div>
           <div class="exp">
             <div class="progress">
-              <div class="progress-bar" :style="'width:'+item.TotalExp | expFormat('width')">
+              <!-- {{item.TotalExp | expFormat('width')}} -->
+              <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
                 <span
                   class="progress-text"
                 >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
@@ -43,6 +45,10 @@
     <modal title="Add Skill" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
       <input class="modal-input" type="text" v-model="title" />
     </modal>
+
+    <div class="add-skill" @click="handleModal()">
+      <i class="iconfont icon-plus"></i>
+    </div>
   </div>
 </template>
 
@@ -51,6 +57,7 @@ import axios from "axios";
 import RButton from "../../components/Button.vue";
 import Modal from "../../components/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import LevelStar from "../../components/content/level-star/LevelStar.vue";
 
 export default {
   data() {
@@ -64,7 +71,8 @@ export default {
   },
   components: {
     RButton,
-    Modal
+    Modal,
+    LevelStar
   },
   created() {
     this.getList();
@@ -210,7 +218,6 @@ export default {
         }
       }
 
-      console.log(data.levelLength);
       return data;
     },
     getProgressLength(totalExp, levelData) {
@@ -246,23 +253,26 @@ export default {
   margin: 15px;
   padding: 20px 30px 20px 40px;
   border-radius: 4px;
-  border: 3px solid transparent;
-  cursor: pointer;
   box-shadow: 0 0 0 #ddd;
-  transform: translateY(0);
+  overflow: hidden;
+  top: 0;
+  // transform: translateY(0);
   transition: all 0.3s;
+  cursor: pointer;
+
   &:hover {
-    transform: translateY(-10px);
+    // transform: translateY(-10px);
+    top: -10px;
     box-shadow: 6px 6px 10px #ddd;
     z-index: 10;
-    border: 3px solid #2ed573;
+    // border: 3px solid #2ed573;
   }
 
   &-handle {
     position: absolute;
     right: 6px;
     top: 10px;
-    color: #999;
+    color: var(--peace);
     &:hover {
       > ul {
         display: block;
@@ -293,13 +303,36 @@ export default {
   }
 
   .name {
-    font-size: 26px;
-    margin-bottom: 10px;
+    font-size: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #dfe4ea;
+    padding-bottom: 5px;
+
+    // &::before {
+    //   content: "";
+    //   width: 5px;
+    //   height: 5px;
+    //   background: var(--primary);
+    //   position: absolute;
+    //   top: 32px;
+    //   left: 25px;
+    //   border-radius: 2px;
+    // }
+
+    .descr-name-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--primary);
+      position: absolute;
+      top: 32px;
+      left: 25px;
+      border-radius: 2px;
+    }
   }
 
   .level {
-    margin-bottom: 10px;
-    font-size: 20px;
+    margin-bottom: 15px;
+    font-size: 18px;
   }
 
   .exp {
@@ -311,14 +344,21 @@ export default {
     }
   }
 
+  .exp-text {
+    font-size: 12px;
+    float: right;
+    color: #a4b0be;
+    margin-top: 6px;
+  }
+
   .descr-line {
     position: absolute;
-    width: 4px;
-    height: 90px;
-    background: #1e90ff;
-    border-radius: 2px;
-    left: 12px;
-    top: 14px;
+    width: 5px;
+    height: 156px;
+    background: var(--primary);
+    border-radius: 1px;
+    left: 0;
+    top: 0;
   }
 }
 
@@ -351,7 +391,7 @@ export default {
 .progress {
   position: relative;
   display: block;
-  width: 240px;
+  width: 100%;
   height: 20px;
   box-sizing: content-box;
   background: #d5d5d5;
@@ -360,7 +400,7 @@ export default {
   overflow: hidden;
 
   &-bar {
-    background: #2ed573;
+    background: var(--primary);
     color: #fff;
     width: 100%;
     text-align: center;
@@ -379,6 +419,26 @@ export default {
     transform: translate(-50%, 0);
     left: 130px;
     top: 2px;
+  }
+}
+
+.add-skill {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: var(--primary);
+  color: #fff;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 4px var(--primary);
+  cursor: pointer;
+
+  > .iconfont {
+    font-size: 26px;
   }
 }
 </style>

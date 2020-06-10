@@ -13,10 +13,8 @@ const any = Vue.filter('any', (val) => {
   return value;
 });
 
-
-
 const filters = function () {
-  toHour,
+    toHour,
     any,
     expFormat
 }
