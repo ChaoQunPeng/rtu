@@ -142,12 +142,6 @@ body {
   justify-content: center;
   align-items: center;
 
-  &:hover {
-    > i {
-      text-shadow: 0 0 6px #fff;
-    }
-  }
-
   .iconfont {
     display: flex;
     font-size: 24px;
@@ -158,7 +152,12 @@ body {
     height: 40px;
     justify-content: center;
     align-items: center;
+    border-radius: 4px;
     transition: all 0.3s;
+    
+    &:hover {
+      background: #f1f2f6;
+    }
   }
 
   &.bottom {
