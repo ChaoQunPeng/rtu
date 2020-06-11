@@ -2,13 +2,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const webpack = require('webpack');
+const path = require('path');
 
 module.exports = {
   entry: {
     main: './src/main.js'
   },
   output: {
-    filename: 'main.js'
+    filename: 'main.js',
+    // path: path.resolve(__dirname, "dist")
   },
   module: {
     rules: [
@@ -28,15 +30,14 @@ module.exports = {
         test: /\.(ttf|woff|woff2?|eot)(\?.*)?$/,
         loader: 'url-loader',
         options: {
-          limit: 80000
+          limit: 8000
         }
       },
       {
         test: /\.(png|jpg|gif|svg)?$/,
         loader: 'url-loader',
         options: {
-          limit: 80000,
-          esModule: false
+          limit: 8000
         }
       }
     ]

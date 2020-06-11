@@ -59,8 +59,7 @@ export default {
   data() {
     return {};
   },
-  beforeCreate() {
-  },
+  beforeCreate() {},
   created() {
     // 如果使用了v-if则需要在this.$nextTick中获取
     // this.$nextTick(() => {
@@ -100,7 +99,6 @@ export default {
       setTimeout(() => {
         // document.removeEventListener("keydown", this.escEvent);
         this.$emit("close", !this.visible);
-        
       }, 400);
       // this.$destroy();
     },
@@ -146,6 +144,7 @@ export default {
   margin-left: -250px;
   margin-top: -180px;
   border-radius: 4px;
+  z-index: 1001;
 }
 
 .modal-content-in {
@@ -211,6 +210,7 @@ export default {
   bottom: 0;
   left: 0;
   background: #333;
+  z-index: 1000;
   // opacity: 0.4;
 }
 

@@ -7,7 +7,7 @@
       </div>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
-        <i class="iconfont icon-home-fill"></i>
+        <i class="iconfont icon-home"></i>
       </router-link>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
@@ -22,13 +22,8 @@
       <div class="header-layout-item header-layout-item-start">
         <nav-bar></nav-bar>
       </div>
-      <div class="header-layout-item" style="flex:1;">
-        <!-- <input type="text" /> -->
-      </div>
+      <div class="header-layout-item" style="flex:1;"></div>
       <div class="header-layout-item header-layout-item-end">
-        <!-- <span>
-          <i class="iconfont icon-user-fill"></i>
-        </span> -->
         <span>
           <i class="iconfont icon-cog-fill"></i>
         </span>
@@ -67,7 +62,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@layout-theme: #fff;
+@layout-theme: transparent;
 
 body {
   background: @layout-theme;
@@ -103,7 +98,7 @@ body {
 
       > .iconfont {
         font-size: 26px;
-        color: var(--primary);
+        color: #fff;
       }
     }
   }
@@ -123,6 +118,44 @@ body {
   display: flex;
   flex-direction: column;
 
+  &-nav {
+    height: 70px;
+    text-align: center;
+    transition: all 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .iconfont {
+      display: flex;
+      font-size: 24px;
+      text-shadow: 0 0 0 #fff;
+      cursor: pointer;
+      color: #fff;
+      width: 50px;
+      height: 50px;
+      justify-content: center;
+      align-items: center;
+      border-radius: 4px;
+      transition: all 0.3s;
+      text-shadow: 0 0 0 #fff;
+
+      &:hover {
+        border: 1px solid #fff;
+        box-shadow: 0 0 12px #fff;
+        width: 40px;
+        height: 40px;
+        text-shadow: 0 0 2px #fff;
+      }
+    }
+
+    &.bottom {
+      flex: 1;
+      align-items: flex-end;
+      padding-bottom: 15px;
+    }
+  }
+
   .app-ico {
     color: #fff;
     text-align: center;
@@ -132,55 +165,22 @@ body {
     padding: 10px 0;
     height: 80px;
   }
-}
 
-.left-layout-nav {
-  height: 70px;
-  text-align: center;
-  transition: all 0.3s;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  .iconfont {
-    display: flex;
-    font-size: 24px;
-    text-shadow: 0 0 0 #fff;
+  .more-ellipsis {
+    // position: absolute;
+    // bottom: 20px;
+    // left: 50%;
+    // margin-left: -24px;
+    // width: 42px;
+    // height: 42px;
+    // line-height: 42px;
+    text-align: center;
     cursor: pointer;
-    color: var(--primary);
-    width: 40px;
-    height: 40px;
-    justify-content: center;
-    align-items: center;
-    border-radius: 4px;
+    color: #57606f;
     transition: all 0.3s;
-    
     &:hover {
-      background: #f1f2f6;
+      text-shadow: 0 0 6px #fff;
     }
-  }
-
-  &.bottom {
-    flex: 1;
-    align-items: flex-end;
-    padding-bottom: 15px;
-  }
-}
-
-.more-ellipsis {
-  // position: absolute;
-  // bottom: 20px;
-  // left: 50%;
-  // margin-left: -24px;
-  // width: 42px;
-  // height: 42px;
-  // line-height: 42px;
-  text-align: center;
-  cursor: pointer;
-  color: #57606f;
-  transition: all 0.3s;
-  &:hover {
-    text-shadow: 0 0 6px #fff;
   }
 }
 
@@ -188,9 +188,10 @@ body {
   margin-left: 80px;
   // padding: 20px 0 60px 20px;
   padding: 30px 0 60px 30px;
-  background: #f1f2f6;
+  background: @layout-theme;
   border-top-left-radius: 24px;
-  height: calc(100vh - 70px);
+  // height: calc(100vh - 70px);
+  height: 100vh;
 }
 </style>
   

@@ -7,14 +7,14 @@
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
         <div class="skill-card" @click="goDetail(item)">
-          <span class="descr-line"></span>
+          <!-- <span class="descr-line"></span> -->
           <div class="name">
             <span class="descr-name-dot"></span>
             {{item.Name}}
           </div>
           <div class="level">
             {{item.TotalExp | expFormat('name')}}
-            <!-- {{item.TotalExp | expFormat('level')}} -->
+            {{item.TotalExp | expFormat('romanNum')}}
             <level-star :level="item.TotalExp | expFormat('level')"></level-star>
             <span class="exp-text">{{item.TotalExp}} exp</span>
           </div>
@@ -240,6 +240,7 @@ export default {
     flex-grow: 0;
     flex-shrink: 1;
     flex-basis: 25%;
+    // flex-basis: 33.33333%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -248,24 +249,22 @@ export default {
 
 .skill-card {
   position: relative;
-  background: #fff;
+  background-color: rgba(0, 0, 0, 0.45);
   width: 100%;
   margin: 15px;
   padding: 20px 30px 20px 40px;
   border-radius: 4px;
-  box-shadow: 0 0 0 #ddd;
   overflow: hidden;
   top: 0;
-  // transform: translateY(0);
+  color: #fff;
   transition: all 0.3s;
   cursor: pointer;
 
   &:hover {
-    // transform: translateY(-10px);
-    top: -10px;
-    box-shadow: 6px 6px 10px #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    // top: -10px;
     z-index: 10;
-    // border: 3px solid #2ed573;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 
   &-handle {
@@ -305,7 +304,7 @@ export default {
   .name {
     font-size: 20px;
     margin-bottom: 24px;
-    border-bottom: 1px solid #dfe4ea;
+    border-bottom: 1px solid #304470;
     padding-bottom: 5px;
 
     // &::before {
@@ -322,7 +321,7 @@ export default {
     .descr-name-dot {
       width: 5px;
       height: 5px;
-      background: var(--primary);
+      background: #59caf1;
       position: absolute;
       top: 32px;
       left: 25px;
@@ -394,13 +393,14 @@ export default {
   width: 100%;
   height: 20px;
   box-sizing: content-box;
-  background: #d5d5d5;
-  border-radius: 2px;
+  background: #0e101a;
+  border-radius: 1px;
   font-size: 12px;
   overflow: hidden;
+  box-shadow: 0 0 5px #c45cbc;
 
   &-bar {
-    background: var(--primary);
+    background: #c45cbc;
     color: #fff;
     width: 100%;
     text-align: center;
@@ -409,7 +409,6 @@ export default {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    border-radius: 2px;
     position: absolute;
     z-index: 10;
   }
@@ -419,6 +418,7 @@ export default {
     transform: translate(-50%, 0);
     left: 130px;
     top: 2px;
+    color: #fff;
   }
 }
 
@@ -426,7 +426,7 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: var(--primary);
+  background: #00b0ed;
   color: #fff;
   width: 50px;
   height: 50px;
@@ -435,10 +435,16 @@ export default {
   justify-content: center;
   align-items: center;
   box-shadow: 1px 1px 4px var(--primary);
+  transition: all .3s;
   cursor: pointer;
+  transform: scale(1);
 
   > .iconfont {
     font-size: 26px;
+  }
+
+  &:hover {
+     transform: scale(1.1);
   }
 }
 </style>
