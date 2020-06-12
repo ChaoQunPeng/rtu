@@ -36,17 +36,12 @@ axios.interceptors.response.use(function (response) {
   const code = response.data.code;
   if (code != 200) {
     div.style.display = "none";
-    
-    if (code == 500) {
-      router.push({ path: "/page500" });
-    }
-
+    window.location.href = "http://localhost:3100/page500";
     return Promise.reject(response);
   }
   closeLoading(response.config);
   return response;
 }, function (error) {
-  router.push({ path: "/page500" });
   return Promise.reject(error);
 });
 
