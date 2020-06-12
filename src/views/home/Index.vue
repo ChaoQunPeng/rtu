@@ -435,7 +435,7 @@ export default {
   justify-content: center;
   align-items: center;
   box-shadow: 1px 1px 4px var(--primary);
-  transition: all .3s;
+  transition: all 0.3s;
   cursor: pointer;
   transform: scale(1);
 
@@ -444,7 +444,7 @@ export default {
   }
 
   &:hover {
-     transform: scale(1.1);
+    transform: scale(1.1);
   }
 }
 </style>

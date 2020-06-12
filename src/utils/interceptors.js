@@ -2,34 +2,59 @@ import axios from 'axios'   //引入 axios
 
 import { Message } from '../components/message/index.js'
 import Vue from 'vue';
+import Router from 'vue-router';
+
+let router = new Router();
 
 let showLoading = false;
-let div;
+// 多个遮罩
+let divCollection = [];
+let div = null;
+
+// 一个遮罩
+let collection = [];
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-  createLoading();
+  // 根据globalLoading决定是否启用全局loading
+  config.globalLoading = config.hasOwnProperty("globalLoading") ? config.globalLoading : true;
+  if (config.globalLoading) {
+    config.id = `${config.method}_${Date.now()}`
+    collection.push(config);
+    createLoading();
+  }
   return config;
 }, function (error) {
-  closeLoading();
   return Promise.reject(error);
 });
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-  closeLoading();
+  console.log(response)
+
   response.msg = response.data.msg;
-  if (response.data.code != 200) {
-    response.isSuccess = false;
+  const code = response.data.code;
+  if (code != 200) {
+    div.style.display = "none";
+    
+    if (code == 500) {
+      router.push({ path: "/page500" });
+    }
+
     return Promise.reject(response);
   }
+  closeLoading(response.config);
   return response;
 }, function (error) {
-  closeLoading();
+  router.push({ path: "/page500" });
   return Promise.reject(error);
 });
 
 function createLoading() {
+  if (div) {
+    return;
+  }
+
   div = document.createElement("div");
   div.classList.add("loading");
   div.innerHTML = `
@@ -38,8 +63,16 @@ function createLoading() {
   document.body.appendChild(div);
 }
 
-function closeLoading() {
-  div.remove();
+function closeLoading(resConfig) {
+
+  if (collection.length > 0) {
+
+    collection = collection.filter(e => e.id != resConfig.id);
+
+    if (collection.length == 0) {
+      div.style.display = "none";
+    }
+  }
 }
 
 export default axios;

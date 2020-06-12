@@ -3,7 +3,8 @@ import App from "./App.vue";
 import Vuex from 'vuex'
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import { router } from "./router/index";
-import filter from './utils/filters/filter.js';
+import filters from './utils/filters';
+import directives from './utils/directives';
 
 import axios from './utils/interceptors.js';
 
@@ -23,7 +24,9 @@ Vue.use(Vuex)
 Vue.use(CKEditor)
 
 // 注册过滤器
-filter();
+filters();
+// 注册指令
+directives();
 
 // 设置草稿的localStore
 if (!localStorage.getItem("RTU_DRAFT")) {

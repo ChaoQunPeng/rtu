@@ -23,15 +23,15 @@
   --primary: var(--saturated-sky);
   --warning: var(--orange);
   --danger : var(--watermelon);
-  
-  
+
+
 }
 
 @import "./message.less";
 
 ::selection {
   background: var(--primary);
-  color: #fff;
+  color     : #fff;
 }
 
 * {
@@ -40,14 +40,20 @@
   box-sizing: border-box;
 }
 
-p,
-div {
-  // line-height: 1;
+a {
+  cursor: pointer;
+}
+
+a[href] {
+  text-decoration: underline;
 }
 
 body {
-  overflow-x: hidden;
-  background: url('../background/wallhaven-mdg5d8.png');
+  overflow-x           : hidden;
+  background-image     : url('../background/wallhaven-mdg5d8.png');
+  background-attachment: fixed;
+  background-position  : center center;
+  background-size      : cover;
 }
 
 input {
@@ -199,4 +205,15 @@ select {
 .loading-icon {
   color    : #fff;
   font-size: 42px;
+}
+
+::-webkit-scrollbar {
+  width     : 4px;
+  background: #000;
+}
+
+
+::-webkit-scrollbar-thumb {
+  background   : rgba(196, 92, 188, 0.5);
+  border-radius: 5px;
 }

@@ -16,8 +16,7 @@ export default {
   name: "LevelStar",
   props: ["level"],
   created() {
-    console.log("this.level");
-    console.log(this.level);
+    
   }
 };
 </script>

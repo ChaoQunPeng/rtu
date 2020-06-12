@@ -10,7 +10,7 @@
         <i class="iconfont icon-home"></i>
       </router-link>
 
-      <router-link to="/home" tag="div" class="left-layout-nav" replace>
+      <router-link to="/recycle" tag="div" class="left-layout-nav" replace>
         <i class="iconfont icon-delete-fill"></i>
       </router-link>
 
