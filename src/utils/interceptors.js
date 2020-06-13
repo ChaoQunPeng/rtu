@@ -1,28 +1,21 @@
-import axios from 'axios'   //引入 axios
-
 import { Message } from '../components/message/index.js'
 import Vue from 'vue';
 import Router from 'vue-router';
+import axios from 'axios'   //引入 axios
 
-let router = new Router();
-
-let showLoading = false;
-// 多个遮罩
-let divCollection = [];
 let div = null;
+let requestCollection = [];
 
-// 一个遮罩
-let collection = [];
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-  // 根据globalLoading决定是否启用全局loading
-  config.globalLoading = config.hasOwnProperty("globalLoading") ? config.globalLoading : true;
-  if (config.globalLoading) {
-    config.id = `${config.method}_${Date.now()}`
-    collection.push(config);
-    createLoading();
+
+  if (!config.noLoading) {
+    config.id = `${config.method}_${new Date().getTime()}`;
+    requestCollection.push(config);
   }
+
+  createLoading();
   return config;
 }, function (error) {
   return Promise.reject(error);
@@ -30,23 +23,19 @@ axios.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-  console.log(response)
-
-  response.msg = response.data.msg;
-  const code = response.data.code;
-  if (code != 200) {
-    div.style.display = "none";
-    window.location.href = "http://localhost:3100/page500";
-    return Promise.reject(response);
-  }
   closeLoading(response.config);
   return response;
-}, function (error) {
-  return Promise.reject(error);
+}, function (err) {
+  const errorInfo = JSON.parse(JSON.stringify(err));
+  Message(`发生错误：${errorInfo.message}`);
+  requestCollection = requestCollection.filter(e => e.id != errorInfo.config.id);
+  closeLoading(errorInfo.config);
+  return Promise.resolve(err);
 });
 
 function createLoading() {
   if (div) {
+    div.style.display = "block";
     return;
   }
 
@@ -59,14 +48,18 @@ function createLoading() {
 }
 
 function closeLoading(resConfig) {
+  if (resConfig.noLoading) return;
 
-  if (collection.length > 0) {
+  if (requestCollection.length > 0) {
+    requestCollection = requestCollection.filter(e => e.id != resConfig.id);
 
-    collection = collection.filter(e => e.id != resConfig.id);
-
-    if (collection.length == 0) {
+    if (requestCollection.length == 0) {
       div.style.display = "none";
     }
+  }
+  // 如果这个页面上的请求全部出错，在上面的response错误处理中就会把requestCollection清空，length为0
+  else {
+    div.style.display = "none";
   }
 }
 

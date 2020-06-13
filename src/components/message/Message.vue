@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <div class="fadeIn" :style="[componentTop]">
+    <div class="fadeIn">
       <div class="message-content">{{content}}</div>
     </div>
   </div>
@@ -12,10 +12,7 @@ export default {
   data() {
     return {
       content: "",
-      componentCount: 0,
-      componentTop: {
-        top: 0
-      }
+      componentCount: 0
     };
   },
   created() {},

@@ -1,43 +1,16 @@
-<template>
-  <div ref="modals" class="modal" v-if="visible">
-    <!-- {'modal-shade-active':visible} -->
-    <div
-      class="modal-shade"
-      :class="[visible?'modal-shade-fadeIn':'modal-shade-fadeOut']"
-      @click="close()"
-    ></div>
-    <div class="modal-content" :class="[visible?'modal-content-in':'modal-content-out']">
-      <!-- header -->
-      <div class="modal-header">
-        {{title}}
-        <span class="iconfont icon-times modal-close-btn" @click="close()"></span>
-      </div>
-      <!-- body -->
-      <div class="modal-body">
-        <slot></slot>
-      </div>
-      <!-- footer -->
-      <div class="modal-footer">
-        <slot name="footer">
-          <r-button type="default" @click="cancel">{{cancelText}}</r-button>
-          <r-button type="primary" @click="ok">{{okText}}</r-button>
-        </slot>
-      </div>
-    </div>
-  </div>
-</template>
 
 <script>
-import RButton from "./Button.vue";
+import RButton from "../Button.vue";
 
-export default {
-  name: "Modal",
-  components: {
-    RButton
-  },
-  model: {
-    prop: ["visible"]
-  },
+// const defaultFooter = (
+//   <LocaleReceiver
+//     componentName="Modal"
+//     defaultLocale={getConfirmLocale()}
+//     scopedSlots={{ default: this.renderFooter }}
+//   />
+// );
+
+const p = {
   props: {
     visible: {
       type: Boolean,
@@ -55,30 +28,40 @@ export default {
       type: String,
       default: "取消"
     }
+  }
+};
+
+const ModalHeader = function(h) {
+  return (
+    <template>
+      <div class="div">
+        <div class="modal-shade">
+          <b {...p}></b>
+        </div>
+      </div>
+    </template>
+  );
+};
+
+
+
+export default {
+  name: "Modal",
+  components: {
+    RButton,
+    ModalHeader
   },
+  ...p,
   data() {
-    return {};
+    return {
+      show: false
+    };
   },
-  beforeCreate() {},
-  created() {
-    // 如果使用了v-if则需要在this.$nextTick中获取
-    // this.$nextTick(() => {
-    //   this.$refs.modals.addEventListener("animationend", e => {
-    //     if (e.animationName.indexOf("fadeOut") > -1) {
-    //       this.$emit("close", !this.visible);
-    //     }
-    //   });
-    // });
-    // console.log(`created`);
-    // console.log(this.$slots);
-    // this.$nextTick(() => {
-    //   console.log(`$nextTick`);
-    //   console.log(this.$slots);
-    // });
+  beforeCreate() {
+    this.show = this.show;
   },
-  mounted() {
-    // console.log(`mounted`);
-  },
+  created() {},
+  mounted() {},
   methods: {
     ok() {
       this.$emit("ok");
@@ -99,6 +82,7 @@ export default {
       setTimeout(() => {
         // document.removeEventListener("keydown", this.escEvent);
         this.$emit("close", !this.visible);
+        this.$destroy();
       }, 400);
       // this.$destroy();
     },
@@ -123,7 +107,15 @@ export default {
     //  document.removeEventListener("keydown", this.escEvent);
   },
   destroyed() {
-    // console.log("销毁Modal");
+    console.log("销毁Modal");
+    this.$el.remove();
+  },
+  render: function(h) {
+    return (
+      <h1>
+        <ModalHeader {...p} />
+      </h1>
+    );
   }
 };
 </script>
@@ -131,6 +123,7 @@ export default {
 <style lang="less" scoped>
 .modal {
   position: fixed;
+  z-index: 100;
 }
 
 .modal-content {

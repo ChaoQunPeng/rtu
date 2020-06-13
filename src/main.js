@@ -20,6 +20,9 @@ Vue.prototype.$axios = axios;
 import Message from "./components/message/index";
 Vue.use(Message)
 
+import Modal from "./components/modal/index";
+Vue.use(Modal)
+
 Vue.use(Vuex)
 Vue.use(CKEditor)
 

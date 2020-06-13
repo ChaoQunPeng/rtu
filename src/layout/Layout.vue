@@ -12,10 +12,11 @@
 
       <router-link to="/recycle" tag="div" class="left-layout-nav" replace>
         <i class="iconfont icon-delete-fill"></i>
+        <!-- <span class="count">{{recycleCount}}</span> -->
       </router-link>
 
       <div class="left-layout-nav bottom">
-        <i class="iconfont icon-gallery-view"></i>
+        <i class="iconfont icon-gallery-view" @click="gallery"></i>
       </div>
     </div>
     <div class="header-layout">
@@ -42,7 +43,9 @@ import NavBar from "../components/NavBar.vue";
 
 export default {
   data() {
-    return {};
+    return {
+      recycleCount: 0
+    };
   },
   components: {
     NavBar
@@ -50,8 +53,19 @@ export default {
   created() {
     // document.body.style.backgroundColor =
     //   this.$route.name == "home" ? "#183055" : "#f8f8f8";
+    // this.getDataList();
   },
-  methods: {},
+  methods: {
+    getDataList() {
+      this.$axios.get(`experience/info`, { noLoading: false }).then(res => {
+        this.recycleCount = res.data.data[0].recycleCount;
+      });
+    },
+    gallery() {
+      console.log(213);
+      this.$modal();
+    }
+  },
   watch: {
     // $route(to, from) {
     //   document.body.style.backgroundColor =
@@ -119,6 +133,7 @@ body {
   flex-direction: column;
 
   &-nav {
+    position: relative;
     height: 70px;
     text-align: center;
     transition: all 0.3s;
@@ -153,6 +168,19 @@ body {
       flex: 1;
       align-items: flex-end;
       padding-bottom: 15px;
+    }
+
+    .count {
+      position: absolute;
+      color: #fff;
+      right: 24px;
+      top: 18px;
+      background: #f00;
+      width: 15px;
+      height: 15px;
+      border-radius: 50%;
+      font-size: 12px;
+      cursor: pointer;
     }
   }
 

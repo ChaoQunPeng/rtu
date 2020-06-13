@@ -55,7 +55,7 @@
 <script>
 import axios from "axios";
 import RButton from "../../components/Button.vue";
-import Modal from "../../components/Modal.vue";
+import Modal from "../../components/modal/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import LevelStar from "../../components/content/level-star/LevelStar.vue";
 
@@ -438,6 +438,7 @@ export default {
   transition: all 0.3s;
   cursor: pointer;
   transform: scale(1);
+  z-index: 2000;
 
   > .iconfont {
     font-size: 26px;
