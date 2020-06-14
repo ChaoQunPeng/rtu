@@ -4,10 +4,8 @@ import ModalComponent from "./Modal.vue";
 const ModalConstructor = Vue.extend(ModalComponent);
 
 export const Modal = function (params) {
-
   const instance = new ModalConstructor({
     data: {
-      show: true,
       ...params
     }
   });

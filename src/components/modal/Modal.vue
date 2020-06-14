@@ -1,14 +1,37 @@
+<template>
+  <div ref="modals" class="modal" v-if="visible">
+    <div
+      class="modal-shade"
+      :class="[
+          visible?'modal-shade-fadeIn':'modal-shade-fadeOut'
+        ]"
+      @click="close()"
+    ></div>
+    <div
+      class="modal-content"
+      :class="[
+      visible?'modal-content-in':'modal-content-out'
+      ]"
+    >
+      <div class="modal-header">
+        {{title}}
+        <span class="iconfont icon-times modal-close-btn" @click="close()"></span>
+      </div>
+      <div class="modal-body">
+        <slot></slot>
+      </div>
+      <div class="modal-footer">
+        <slot name="footer">
+          <r-button type="default" @click="cancel">{{cancelText}}</r-button>
+          <r-button type="primary" @click="ok">{{okText}}</r-button>
+        </slot>
+      </div>
+    </div>
+  </div>
+</template>
 
 <script>
 import RButton from "../Button.vue";
-
-// const defaultFooter = (
-//   <LocaleReceiver
-//     componentName="Modal"
-//     defaultLocale={getConfirmLocale()}
-//     scopedSlots={{ default: this.renderFooter }}
-//   />
-// );
 
 const p = {
   props: {
@@ -31,36 +54,57 @@ const p = {
   }
 };
 
-const ModalHeader = function(h) {
-  return (
-    <template>
-      <div class="div">
-        <div class="modal-shade">
-          <b {...p}></b>
-        </div>
+const ModalHeader = {
+  props: ["title"],
+  methods: {
+    onClick() {
+      alert("onClick");
+    }
+  },
+  render() {
+    return (
+      <div class="modal-header">
+        {this.title}
+        <span
+          class="iconfont icon-times modal-close-btn"
+          onClick={this.onClick}
+        ></span>
       </div>
-    </template>
-  );
+    );
+  }
 };
 
+const ModalBody = {
+  render() {
+    <div class="modal-body"></div>;
+  }
+};
 
+const ModalFooter = {
+  render(h) {
+    return <div class="modal-footer"></div>;
+  }
+};
 
 export default {
   name: "Modal",
+  model: {
+    prop: 'visible',
+    event: 'change'
+  },
   components: {
-    RButton,
-    ModalHeader
+    RButton
+  },
+  data() {
+    return {};
   },
   ...p,
-  data() {
-    return {
-      show: false
-    };
-  },
   beforeCreate() {
-    this.show = this.show;
+    // this.$props = p;
   },
-  created() {},
+  created() {
+    console.log(`this`);
+  },
   mounted() {},
   methods: {
     ok() {
@@ -69,22 +113,20 @@ export default {
     cancel() {
       this.close();
     },
-    close() {
-      this.$el.firstElementChild.classList.replace(
-        "modal-shade-fadeIn",
-        "modal-shade-fadeOut"
-      );
-      this.$el.lastElementChild.classList.replace(
-        "modal-content-in",
-        "modal-content-out"
-      );
+    // el 整个modal
+    close(el) {
+      const element = el || this.$el;
+
+      const modalShade = element.firstElementChild;
+      const modalContent = element.lastElementChild;
+
+      modalShade.classList.replace("modal-shade-fadeIn", "modal-shade-fadeOut");
+      modalContent.classList.replace("modal-content-in", "modal-content-out");
 
       setTimeout(() => {
-        // document.removeEventListener("keydown", this.escEvent);
         this.$emit("close", !this.visible);
         this.$destroy();
-      }, 400);
-      // this.$destroy();
+      }, 400); // 400ms,比渐入渐出的动画多100ms，等动画执行完毕才销毁
     },
     escEvent(e) {
       if (e.key == "Escape") {
@@ -94,6 +136,8 @@ export default {
   },
   watch: {
     visible: function(val) {
+      debugger;
+      console.log(val);
       if (val) {
         document.addEventListener("keydown", this.escEvent);
       } else {
@@ -101,22 +145,26 @@ export default {
       }
     }
   },
-  beforeDestroy() {
-    // console.log("beforeDestroy");
-    // this.$emit("close", !this.visible);
-    //  document.removeEventListener("keydown", this.escEvent);
-  },
+  beforeDestroy() {},
   destroyed() {
-    console.log("销毁Modal");
     this.$el.remove();
-  },
-  render: function(h) {
-    return (
-      <h1>
-        <ModalHeader {...p} />
-      </h1>
-    );
   }
+  // render: function(h) {
+  //   return (
+  //     <div class="modal" ref="modalIns">
+  //       <div
+  //         class="modal-shade modal-shade-fadeIn"
+  //         // 这里的this也是指向Vue实例
+  //         onClick={() => this.close(this.$el)}
+  //       ></div>
+  //       <div class="modal-content modal-content-in">
+  //         <ModalHeader title={"头部"} />
+  //         <ModalBody />
+  //         <ModalFooter />
+  //       </div>
+  //     </div>
+  //   );
+  // }
 };
 </script>
 
@@ -129,28 +177,28 @@ export default {
 .modal-content {
   position: fixed;
   width: 500px;
-  height: auto;
+  min-height: 180px;
   background: #fff;
   left: 50%;
   top: 50%;
-  // transform: translate(-250px, -150px);
   margin-left: -250px;
-  margin-top: -180px;
+  // margin-top: -120px;
   border-radius: 4px;
   z-index: 1001;
 }
 
 .modal-content-in {
   animation: modalCoutentIn 0.3s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes modalCoutentIn {
   0% {
-    margin-top: -210px;
+    margin-top: -300px;
     opacity: 0;
   }
   100% {
-    margin-top: -180px;
+    margin-top: -270px;
     opacity: 1;
   }
 }
@@ -162,11 +210,11 @@ export default {
 
 @keyframes modalCoutentOut {
   0% {
-    margin-top: -180px;
+    margin-top: -270px;
     opacity: 1;
   }
   100% {
-    margin-top: -210px;
+    margin-top: -300px;
     opacity: 0;
   }
 }
@@ -202,7 +250,7 @@ export default {
   right: 0;
   bottom: 0;
   left: 0;
-  background: #333;
+  background: #000;
   z-index: 1000;
   // opacity: 0.4;
 }
@@ -235,3 +283,4 @@ export default {
   }
 }
 </style>
+

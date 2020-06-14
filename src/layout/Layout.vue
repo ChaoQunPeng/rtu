@@ -62,7 +62,6 @@ export default {
       });
     },
     gallery() {
-      console.log(213);
       this.$modal();
     }
   },
