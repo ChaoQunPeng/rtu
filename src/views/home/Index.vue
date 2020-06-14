@@ -93,7 +93,6 @@ export default {
     },
     handleModal(e) {
       this.modalIsVisible = !this.modalIsVisible;
-      console.log(this.modalIsVisible);
     },
     addedCard() {
       axios

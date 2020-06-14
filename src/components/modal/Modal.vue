@@ -2,9 +2,7 @@
   <div ref="modals" class="modal" v-if="visible">
     <div
       class="modal-shade"
-      :class="[
-          visible?'modal-shade-fadeIn':'modal-shade-fadeOut'
-        ]"
+      :class="[visible?'modal-shade-fadeIn':'modal-shade-fadeOut']"
       @click="close()"
     ></div>
     <div
@@ -54,43 +52,60 @@ const p = {
   }
 };
 
-const ModalHeader = {
-  props: ["title"],
-  methods: {
-    onClick() {
-      alert("onClick");
-    }
-  },
-  render() {
-    return (
-      <div class="modal-header">
-        {this.title}
-        <span
-          class="iconfont icon-times modal-close-btn"
-          onClick={this.onClick}
-        ></span>
-      </div>
-    );
-  }
-};
+// const ModalHeader = {
+//   props: ["title"],
+//   methods: {
+//     onClick() {
+//       alert("onClick");
+//     }
+//   },
+//   render() {
+//     return (
+//       <div class="modal-header">
+//         {this.title}
+//         <span
+//           class="iconfont icon-times modal-close-btn"
+//           onClick={this.onClick}
+//         ></span>
+//       </div>
+//     );
+//   }
+// };
 
-const ModalBody = {
-  render() {
-    <div class="modal-body"></div>;
-  }
-};
+// const ModalBody = {
+//   render() {
+//     <div class="modal-body"></div>;
+//   }
+// };
 
-const ModalFooter = {
-  render(h) {
-    return <div class="modal-footer"></div>;
-  }
-};
+// const ModalFooter = {
+//   render(h) {
+//     return <div class="modal-footer"></div>;
+//   }
+// };
 
 export default {
   name: "Modal",
   model: {
-    prop: 'visible',
-    event: 'change'
+    prop: ["visible"]
+  },
+  props: {
+    visible: {
+      type: Boolean,
+      default: false
+    },
+    title: {
+      type: String,
+      default: "Title"
+    },
+    okText: {
+      type: String,
+      default: "确定"
+    },
+    cancelText: {
+      type: String,
+      default: "取消"
+    }
   },
   components: {
     RButton
@@ -98,12 +113,12 @@ export default {
   data() {
     return {};
   },
-  ...p,
   beforeCreate() {
     // this.$props = p;
   },
   created() {
-    console.log(`this`);
+    // console.log(this);
+    // console.log(this.isPluginCall);
   },
   mounted() {},
   methods: {
@@ -125,7 +140,11 @@ export default {
 
       setTimeout(() => {
         this.$emit("close", !this.visible);
-        this.$destroy();
+        // 这个为true说明是通过this.$modal()方式调用的
+        if (this.isPluginCall) {
+          
+          this.$destroy();
+        }
       }, 400); // 400ms,比渐入渐出的动画多100ms，等动画执行完毕才销毁
     },
     escEvent(e) {
@@ -136,8 +155,6 @@ export default {
   },
   watch: {
     visible: function(val) {
-      debugger;
-      console.log(val);
       if (val) {
         document.addEventListener("keydown", this.escEvent);
       } else {
@@ -147,6 +164,7 @@ export default {
   },
   beforeDestroy() {},
   destroyed() {
+    console.log(`销毁组件`);
     this.$el.remove();
   }
   // render: function(h) {

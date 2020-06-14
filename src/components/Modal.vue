@@ -98,6 +98,7 @@ export default {
 
       setTimeout(() => {
         // document.removeEventListener("keydown", this.escEvent);
+        console.log(this);
         this.$emit("close", !this.visible);
       }, 400);
       // this.$destroy();
