@@ -36,6 +36,9 @@ if (!localStorage.getItem("RTU_DRAFT")) {
   localStorage.setItem("RTU_DRAFT", "{}");
 }
 
+
+
+
 // 出现下面这个错误可能是路由导入出错了
 // Error in render: "TypeError: Cannot read property 'matched' of undefined"
 

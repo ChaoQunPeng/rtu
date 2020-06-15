@@ -28,7 +28,7 @@ export default {
   > div {
     display: inline-block;
     cursor: pointer;
-    color: #fff;
+    color: var(--primary);
   }
 }
 </style>

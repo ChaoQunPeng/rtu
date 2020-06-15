@@ -9,7 +9,13 @@ import Layout from "./layout/Layout.vue";
 
 export default {
   data() {
-    return {}
+    return {};
+  },
+  created() {
+
+  },
+  mounted() {
+
   },
   components: {
     Layout

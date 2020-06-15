@@ -7,7 +7,7 @@
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
         <div class="skill-card" @click="goDetail(item)">
-          <!-- <span class="descr-line"></span> -->
+          <span class="descr-line"></span>
           <div class="name">
             <span class="descr-name-dot"></span>
             {{item.Name}}
@@ -249,7 +249,7 @@ export default {
 
 .skill-card {
   position: relative;
-  background-color: rgba(0, 0, 0, 0.45);
+  background: #fff;
   width: 100%;
   margin: 15px;
   padding: 20px 30px 20px 40px;
@@ -259,12 +259,12 @@ export default {
   color: #fff;
   transition: all 0.3s;
   cursor: pointer;
+  transform: scale(1);
 
   &:hover {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    // top: -10px;
-    z-index: 10;
-    background-color: rgba(0, 0, 0, 0.8);
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    transform: scale(1.05);
+    z-index: 2;
   }
 
   &-handle {
@@ -304,24 +304,14 @@ export default {
   .name {
     font-size: 20px;
     margin-bottom: 24px;
-    border-bottom: 1px solid #304470;
+    border-bottom: 1px solid var(--gray);
     padding-bottom: 5px;
-
-    // &::before {
-    //   content: "";
-    //   width: 5px;
-    //   height: 5px;
-    //   background: var(--primary);
-    //   position: absolute;
-    //   top: 32px;
-    //   left: 25px;
-    //   border-radius: 2px;
-    // }
+    color: var(--dark);
 
     .descr-name-dot {
       width: 5px;
       height: 5px;
-      background: #59caf1;
+      background: var(--primary);
       position: absolute;
       top: 32px;
       left: 25px;
@@ -332,6 +322,7 @@ export default {
   .level {
     margin-bottom: 15px;
     font-size: 18px;
+    color: var(--dark);
   }
 
   .exp {
@@ -393,15 +384,13 @@ export default {
   width: 100%;
   height: 20px;
   box-sizing: content-box;
-  background: #0e101a;
+  background: var(--gray);
   border-radius: 1px;
   font-size: 12px;
   overflow: hidden;
-  box-shadow: 0 0 5px #c45cbc;
 
   &-bar {
-    background: #c45cbc;
-    color: #fff;
+    background: var(--primary);
     width: 100%;
     text-align: center;
     height: 100%;
@@ -411,6 +400,7 @@ export default {
     overflow: hidden;
     position: absolute;
     z-index: 10;
+    color: #fff;
   }
 
   &-text {
@@ -418,7 +408,6 @@ export default {
     transform: translate(-50%, 0);
     left: 130px;
     top: 2px;
-    color: #fff;
   }
 }
 
@@ -426,7 +415,7 @@ export default {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background: #00b0ed;
+  background: var(--primary);
   color: #fff;
   width: 50px;
   height: 50px;

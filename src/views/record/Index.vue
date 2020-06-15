@@ -28,7 +28,7 @@
 
     <label>
       经验值：
-      <input type="number" v-model="exp" placeholder="经验值" min="0" />
+      <input style="width: 240px;" type="number" v-model="exp" placeholder="经验值" min="0" />
     </label>
 
     <!-- <label>

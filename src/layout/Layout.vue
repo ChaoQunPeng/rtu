@@ -7,7 +7,7 @@
       </div>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
-        <i class="iconfont icon-home"></i>
+        <i class="iconfont icon-home-fill"></i>
       </router-link>
 
       <router-link to="/recycle" tag="div" class="left-layout-nav" replace>
@@ -25,6 +25,12 @@
       </div>
       <div class="header-layout-item" style="flex:1;"></div>
       <div class="header-layout-item header-layout-item-end">
+        <span>
+          <i class="iconfont icon-theme">
+            <input ref="themePick" type="color" />
+          </i>
+        </span>
+
         <span>
           <i class="iconfont icon-cog-fill"></i>
         </span>
@@ -55,6 +61,16 @@ export default {
     //   this.$route.name == "home" ? "#183055" : "#f8f8f8";
     // this.getDataList();
   },
+  mounted() {
+    const themePick = this.$refs.themePick;
+    // 好像不能用input
+    themePick.addEventListener("input", event => {
+      document.documentElement.style.setProperty(
+        "--primary",
+        event.target.value
+      );
+    });
+  },
   methods: {
     getDataList() {
       this.$axios.get(`experience/info`, { noLoading: false }).then(res => {
@@ -62,8 +78,7 @@ export default {
       });
     },
     gallery() {
-      this.$modal({
-      });
+      this.$modal({});
     }
   },
   watch: {
@@ -96,6 +111,18 @@ body {
 
   &-item {
     text-align: center;
+
+    .icon-theme {
+      position: relative;
+
+      > input[type="color"] {
+        position: absolute;
+        top: -8px;
+        left: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+    }
   }
 
   &-item-start {
@@ -112,7 +139,7 @@ body {
 
       > .iconfont {
         font-size: 26px;
-        color: #fff;
+        color: var(--primary);
       }
     }
   }
@@ -146,7 +173,7 @@ body {
       font-size: 24px;
       text-shadow: 0 0 0 #fff;
       cursor: pointer;
-      color: #fff;
+      color: var(--primary);
       width: 50px;
       height: 50px;
       justify-content: center;
@@ -156,11 +183,11 @@ body {
       text-shadow: 0 0 0 #fff;
 
       &:hover {
-        border: 1px solid #fff;
-        box-shadow: 0 0 12px #fff;
+        border: 1px solid var(--primary);
+        box-shadow: 0 0 5px var(--primary);
         width: 40px;
         height: 40px;
-        text-shadow: 0 0 2px #fff;
+        text-shadow: 0 0 2px var(--primary);
       }
     }
 
@@ -195,13 +222,6 @@ body {
   }
 
   .more-ellipsis {
-    // position: absolute;
-    // bottom: 20px;
-    // left: 50%;
-    // margin-left: -24px;
-    // width: 42px;
-    // height: 42px;
-    // line-height: 42px;
     text-align: center;
     cursor: pointer;
     color: #57606f;
@@ -214,12 +234,10 @@ body {
 
 .content-layout {
   margin-left: 80px;
-  // padding: 20px 0 60px 20px;
   padding: 30px 0 60px 30px;
-  background: @layout-theme;
+  background: var(--gray);
   border-top-left-radius: 24px;
-  // height: calc(100vh - 70px);
-  height: 100vh;
+  min-height: calc(100vh - 70px);
 }
 </style>
   

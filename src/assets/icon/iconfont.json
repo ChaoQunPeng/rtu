@@ -6,6 +6,13 @@
   "description": "自用",
   "glyphs": [
     {
+      "icon_id": "1509753",
+      "name": "主题",
+      "font_class": "theme",
+      "unicode": "e66f",
+      "unicode_decimal": 58991
+    },
+    {
       "icon_id": "11982118",
       "name": "star",
       "font_class": "star-fill",
