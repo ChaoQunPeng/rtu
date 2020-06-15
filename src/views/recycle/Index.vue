@@ -26,7 +26,7 @@
             </td>
             <td>{{data.Name}}</td>
             <td class="text-left" style="text-align:left;" v-text-ellipsis>{{data.Title}}</td>
-            <td>{{data.Content}}</td>
+            <td class="text-left">{{data.Content}}</td>
             <td>{{data.Exp}}</td>
             <td>{{data.CreateDate | dateFormat("YYYY-MM-DD HH:mm:ss")}}</td>
             <td>

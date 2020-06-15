@@ -195,7 +195,6 @@ export default {
 .modal-content {
   position: fixed;
   width: 500px;
-  min-height: 180px;
   background: #fff;
   left: 50%;
   top: 50%;

@@ -10,7 +10,8 @@ export const Modal = function (params) {
       ...params
     },
     propsData: {
-      visible: true
+      visible: true,
+      ...params
     }
   });
   instance.$mount();
