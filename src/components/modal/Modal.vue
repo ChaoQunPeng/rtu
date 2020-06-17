@@ -1,88 +1,38 @@
-<template>
-  <div ref="modals" class="modal" v-if="visible">
-    <div
-      class="modal-shade"
-      :class="[visible?'modal-shade-fadeIn':'modal-shade-fadeOut']"
-      @click="close()"
-    ></div>
-    <div
-      class="modal-content"
-      :class="[
-      visible?'modal-content-in':'modal-content-out'
-      ]"
-    >
-      <div class="modal-header">
-        {{title}}
-        <span class="iconfont icon-times modal-close-btn" @click="close()"></span>
-      </div>
-      <div class="modal-body">
-        <slot></slot>
-      </div>
-      <div class="modal-footer">
-        <slot name="footer">
-          <r-button type="default" @click="cancel">{{cancelText}}</r-button>
-          <r-button type="primary" @click="ok">{{okText}}</r-button>
-        </slot>
-      </div>
-    </div>
-  </div>
-</template>
 
 <script>
 import RButton from "../Button.vue";
 
-const p = {
-  props: {
-    visible: {
-      type: Boolean,
-      default: false
-    },
-    title: {
-      type: String,
-      default: "Title"
-    },
-    okText: {
-      type: String,
-      default: "确定"
-    },
-    cancelText: {
-      type: String,
-      default: "取消"
+const ModalHeader = {
+  props: ["title"],
+  methods: {
+    onClick() {
+      alert("onClick");
     }
+  },
+  render() {
+    return (
+      <div class="modal-header">
+        {this.title}
+        <span
+          class="iconfont icon-times modal-close-btn"
+          onClick={this.onClick}
+        ></span>
+      </div>
+    );
   }
 };
 
-// const ModalHeader = {
-//   props: ["title"],
-//   methods: {
-//     onClick() {
-//       alert("onClick");
-//     }
-//   },
-//   render() {
-//     return (
-//       <div class="modal-header">
-//         {this.title}
-//         <span
-//           class="iconfont icon-times modal-close-btn"
-//           onClick={this.onClick}
-//         ></span>
-//       </div>
-//     );
-//   }
-// };
+const ModalBody = {
+  render() {
+    <div class="modal-body"></div>;
+  }
+};
 
-// const ModalBody = {
-//   render() {
-//     <div class="modal-body"></div>;
-//   }
-// };
-
-// const ModalFooter = {
-//   render(h) {
-//     return <div class="modal-footer"></div>;
-//   }
-// };
+const ModalFooter = {
+  render(h) {
+    return <div class="modal-footer"></div>;
+  }
+};
 
 export default {
   name: "Modal",
@@ -105,7 +55,9 @@ export default {
     cancelText: {
       type: String,
       default: "取消"
-    }
+    },
+    header: {},
+    footer: {}
   },
   components: {
     RButton
@@ -113,14 +65,6 @@ export default {
   data() {
     return {};
   },
-  beforeCreate() {
-    // this.$props = p;
-  },
-  created() {
-    // console.log(this);
-    // console.log(this.isPluginCall);
-  },
-  mounted() {},
   methods: {
     ok() {
       this.$emit("ok");
@@ -142,7 +86,6 @@ export default {
         this.$emit("close", !this.visible);
         // 这个为true说明是通过this.$modal()方式调用的
         if (this.isPluginCall) {
-          
           this.$destroy();
         }
       }, 400); // 400ms,比渐入渐出的动画多100ms，等动画执行完毕才销毁
@@ -151,7 +94,8 @@ export default {
       if (e.key == "Escape") {
         this.close();
       }
-    }
+    },
+    renderContent() {}
   },
   watch: {
     visible: function(val) {
@@ -162,27 +106,31 @@ export default {
       }
     }
   },
-  beforeDestroy() {},
   destroyed() {
     console.log(`销毁组件`);
     this.$el.remove();
+  },
+  render: function(h) {
+    const fun = () => {
+      if (!this.footer) return;
+      return this.footer();
+    };
+    return (
+      <div class="modal" ref="modalIns">
+        <div
+          class="modal-shade modal-shade-fadeIn"
+          // 这里的this也是指向Vue实例
+          onClick={() => this.close(this.$el)}
+        ></div>
+        <div class="modal-content modal-content-in">
+          <ModalHeader title={"头部"} />
+          {fun()}
+          <ModalBody />
+          <ModalFooter />
+        </div>
+      </div>
+    );
   }
-  // render: function(h) {
-  //   return (
-  //     <div class="modal" ref="modalIns">
-  //       <div
-  //         class="modal-shade modal-shade-fadeIn"
-  //         // 这里的this也是指向Vue实例
-  //         onClick={() => this.close(this.$el)}
-  //       ></div>
-  //       <div class="modal-content modal-content-in">
-  //         <ModalHeader title={"头部"} />
-  //         <ModalBody />
-  //         <ModalFooter />
-  //       </div>
-  //     </div>
-  //   );
-  // }
 };
 </script>
 
@@ -300,4 +248,3 @@ export default {
   }
 }
 </style>
-

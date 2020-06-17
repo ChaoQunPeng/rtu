@@ -1,8 +1,11 @@
 <template>
   <div>
-    <!-- <div class="home-header">
-      <r-button type="danger" @click.native="handleModal()">Add</r-button>
-    </div>-->
+    <div>
+      <label>
+        排序：
+        <input type="text" />
+      </label>
+    </div>
 
     <div class="pcq-grid">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
@@ -42,8 +45,23 @@
       </div>
     </div>
 
-    <modal title="Add Skill" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
+    <modal
+      title="Add Skill"
+      :visible="false"
+      :header="null"
+      :footer="null"
+      @close="handleModal"
+      @ok="addedCard"
+    >
+      <template v-slot:header>
+        <h1>Here might be a page title</h1>
+      </template>
+
       <input class="modal-input" type="text" v-model="title" />
+
+      <template v-slot:footer>
+        <h1>Here might be a page footer</h1>
+      </template>
     </modal>
 
     <div class="add-skill" @click="handleModal()">
@@ -53,11 +71,31 @@
 </template>
 
 <script>
+import Vue from "vue";
 import axios from "axios";
 import RButton from "../../components/Button.vue";
 import Modal from "../../components/modal/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import LevelStar from "../../components/content/level-star/LevelStar.vue";
+
+const temp = {
+  name: "asd",
+  template: `
+    <button onClick="clickMe">点击我！</button>
+  `,
+  methods: {
+    clickMe() {
+      alert(`点击我Render！`);
+    }
+  }
+};
+
+const renderTpl = () => {
+  const clickMe = () => {
+    alert(`点击我Render！`);
+  };
+  return <button onClick={clickMe}>点击我Render！</button>;
+};
 
 export default {
   data() {
@@ -66,7 +104,11 @@ export default {
       list: [],
       title: "",
       modalIsVisible: false,
-      editor: ClassicEditor
+      editor: ClassicEditor,
+      // createHeader: function() {
+      //   // let t = Vue.compile(temp.template);
+      //   return <button>点击我！</button>;
+      // }
     };
   },
   components: {
@@ -78,6 +120,9 @@ export default {
     this.getList();
   },
   methods: {
+    clickMe() {
+      alert();
+    },
     getList() {
       axios("skill").then(res => {
         this.list = res.data.data;

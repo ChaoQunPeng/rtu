@@ -78,7 +78,32 @@ export default {
       });
     },
     gallery() {
-      this.$modal({});
+      let vm = this;
+      this.$modal({
+        footer: function() {
+          function dome(params) {
+            params.target.innerText += params.target.id;
+          }
+
+          const divStyle = {
+            width: "50%",
+            height: "30px",
+            display: "inline-block"
+          };
+
+          return (
+            <div>
+              <button id="b1" style={divStyle} onClick={dome}>
+                Button
+              </button>
+
+              <button id="b2" style={divStyle} onClick={dome}>
+                Button
+              </button>
+            </div>
+          );
+        }
+      });
     }
   },
   watch: {

@@ -7,7 +7,7 @@ export const Modal = function (params) {
   const instance = new ModalConstructor({
     data: {
       isPluginCall: true,
-      ...params
+      // ...params
     },
     propsData: {
       visible: true,
