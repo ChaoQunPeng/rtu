@@ -2,38 +2,6 @@
 <script>
 import RButton from "../Button.vue";
 
-const ModalHeader = {
-  props: ["title"],
-  methods: {
-    onClick() {
-      alert("onClick");
-    }
-  },
-  render() {
-    return (
-      <div class="modal-header">
-        {this.title}
-        <span
-          class="iconfont icon-times modal-close-btn"
-          onClick={this.onClick}
-        ></span>
-      </div>
-    );
-  }
-};
-
-const ModalBody = {
-  render() {
-    <div class="modal-body"></div>;
-  }
-};
-
-const ModalFooter = {
-  render(h) {
-    return <div class="modal-footer"></div>;
-  }
-};
-
 export default {
   name: "Modal",
   model: {
@@ -56,8 +24,15 @@ export default {
       type: String,
       default: "取消"
     },
-    header: {},
-    footer: {}
+    header: {
+      type: Object | Function
+    },
+    body: {
+      type: Object | Function
+    },
+    footer: {
+      type: Object | Function
+    }
   },
   components: {
     RButton
@@ -74,7 +49,7 @@ export default {
     },
     // el 整个modal
     close(el) {
-      const element = el || this.$el;
+      const element = el && el instanceof HTMLElement ? el : this.$el;
 
       const modalShade = element.firstElementChild;
       const modalContent = element.lastElementChild;
@@ -107,144 +82,99 @@ export default {
     }
   },
   destroyed() {
-    console.log(`销毁组件`);
     this.$el.remove();
   },
   render: function(h) {
-    const fun = () => {
-      if (!this.footer) return;
-      return this.footer();
+    const { close } = this;
+    let header, body, footer;
+
+    if (this.isPluginCall) {
+
+      header = checkType(this.header);
+      body = checkType(this.body);
+      footer = checkType(this.footer);
+
+    } else {
+      header = this.header || this.$slots.header;
+      body = this.body || this.$slots.default;
+      footer = this.footer || this.$slots.footer;
+    }
+
+    function checkType(obj) {
+      let o;
+      if (typeof obj === "function") {
+        o = obj();
+      } else if (typeof obj === "string") {
+        o = obj;
+      }
+      return o;
+    }
+
+    /**
+     * 这里this输出是 Proxy [[Handler]]: Object [[Target]]: VueComponent [[IsRevoked]]: false
+     * 但是 this.$data this.$slot 这些还是指向当前的Vue实例
+     */
+    // console.log(this);
+
+    const ModalHeader = {
+      props: {
+        content: {
+          type: Object | String,
+          default: "Title"
+        }
+      },
+      methods: {
+        click() {
+          close();
+        }
+      },
+      render() {
+        return (
+          <div class="modal-header">
+            {this.content}
+            <span
+              class="iconfont icon-times modal-close-btn"
+              onClick={close}
+            ></span>
+          </div>
+        );
+      }
     };
-    return (
-      <div class="modal" ref="modalIns">
-        <div
-          class="modal-shade modal-shade-fadeIn"
-          // 这里的this也是指向Vue实例
-          onClick={() => this.close(this.$el)}
-        ></div>
-        <div class="modal-content modal-content-in">
-          <ModalHeader title={"头部"} />
-          {fun()}
-          <ModalBody />
-          <ModalFooter />
+
+    const ModalBody = {
+      props: ["content"],
+      render() {
+        return <div class="modal-body">{this.content}</div>;
+      }
+    };
+
+    const ModalFooter = {
+      props: {
+        content: {
+          type: Object | String,
+          default: "Footer"
+        }
+      },
+      render() {
+        return <div class="modal-footer">{this.content}</div>;
+      }
+    };
+
+    if (this.visible) {
+      return (
+        <div class="modal" ref="modalIns">
+          <div
+            class="modal-shade modal-shade-fadeIn"
+            onClick={() => close(this.$el)}
+          ></div>
+          <div class="modal-content modal-content-in" style="min-height:50px;">
+            <ModalHeader content={header} />
+            <ModalBody content={body} />
+            <ModalFooter content={footer} />
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 };
 </script>
-
-<style lang="less" scoped>
-.modal {
-  position: fixed;
-  z-index: 100;
-}
-
-.modal-content {
-  position: fixed;
-  width: 500px;
-  background: #fff;
-  left: 50%;
-  top: 50%;
-  margin-left: -250px;
-  // margin-top: -120px;
-  border-radius: 4px;
-  z-index: 1001;
-}
-
-.modal-content-in {
-  animation: modalCoutentIn 0.3s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes modalCoutentIn {
-  0% {
-    margin-top: -300px;
-    opacity: 0;
-  }
-  100% {
-    margin-top: -270px;
-    opacity: 1;
-  }
-}
-
-.modal-content-out {
-  animation: modalCoutentOut 0.3s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes modalCoutentOut {
-  0% {
-    margin-top: -270px;
-    opacity: 1;
-  }
-  100% {
-    margin-top: -300px;
-    opacity: 0;
-  }
-}
-
-.modal {
-  &-header {
-    padding: 16px 24px;
-    border-bottom: 1px solid #ddd;
-  }
-
-  &-close-btn {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 16px;
-    cursor: pointer;
-  }
-
-  &-body {
-    padding: 24px;
-  }
-
-  &-footer {
-    text-align: right;
-    padding: 10px 16px;
-    border-top: 1px solid #ddd;
-  }
-}
-
-.modal-shade {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #000;
-  z-index: 1000;
-  // opacity: 0.4;
-}
-
-.modal-shade-fadeIn {
-  animation: fadeIn 0.5s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 0.4;
-  }
-}
-
-.modal-shade-fadeOut {
-  animation: fadeOut 0.5s;
-  animation-fill-mode: forwards;
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity: 0.4;
-  }
-  100% {
-    opacity: 0;
-  }
-}
-</style>

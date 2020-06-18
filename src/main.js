@@ -5,6 +5,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 import { router } from "./router/index";
 import filters from './utils/filters';
 import directives from './utils/directives';
+import '../src/components/style';
 
 import axios from './utils/interceptors.js';
 

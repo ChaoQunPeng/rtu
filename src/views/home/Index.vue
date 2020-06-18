@@ -46,21 +46,20 @@
     </div>
 
     <modal
-      title="Add Skill"
-      :visible="false"
-      :header="null"
-      :footer="null"
+      header="新增技能"
+      :visible="modalIsVisible"
       @close="handleModal"
       @ok="addedCard"
     >
       <template v-slot:header>
-        <h1>Here might be a page title</h1>
+        <h1>添加技能</h1>
       </template>
 
       <input class="modal-input" type="text" v-model="title" />
 
       <template v-slot:footer>
-        <h1>Here might be a page footer</h1>
+        <r-button @click="handleModal()">取消</r-button>
+        <r-button type="primary" @click="addedCard">确定</r-button>
       </template>
     </modal>
 

@@ -80,6 +80,7 @@ export default {
     gallery() {
       let vm = this;
       this.$modal({
+        body: `说明：`,
         footer: function() {
           function dome(params) {
             params.target.innerText += params.target.id;
