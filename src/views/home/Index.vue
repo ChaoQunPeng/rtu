@@ -2,12 +2,11 @@
   <div>
     <div>
       <label>
-        排序：
-        <input type="text" />
+        <input v-pcq-input type="text" placeholder="查找技能" v-model="searchKey" style="width:200px;" />
       </label>
     </div>
 
-    <div class="pcq-grid">
+    <div class="pcq-grid" style="margin-left: -15px;">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
         <div class="skill-card" @click="goDetail(item)">
           <span class="descr-line"></span>
@@ -45,21 +44,16 @@
       </div>
     </div>
 
-    <modal
-      header="新增技能"
-      :visible="modalIsVisible"
-      @close="handleModal"
-      @ok="addedCard"
-    >
-      <template v-slot:header>
+    <modal title="新增技能1" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
+      <template v-slot:title>
         <h1>添加技能</h1>
       </template>
 
-      <input class="modal-input" type="text" v-model="title" />
+      <input v-pcq-input type="text" v-model="title" />
 
       <template v-slot:footer>
-        <r-button @click="handleModal()">取消</r-button>
-        <r-button type="primary" @click="addedCard">确定</r-button>
+        <button v-pcq-button @click="handleModal">取消</button>
+        <button v-pcq-button btnType="primary" @click="addedCard">确定</button>
       </template>
     </modal>
 
@@ -77,25 +71,6 @@ import Modal from "../../components/modal/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import LevelStar from "../../components/content/level-star/LevelStar.vue";
 
-const temp = {
-  name: "asd",
-  template: `
-    <button onClick="clickMe">点击我！</button>
-  `,
-  methods: {
-    clickMe() {
-      alert(`点击我Render！`);
-    }
-  }
-};
-
-const renderTpl = () => {
-  const clickMe = () => {
-    alert(`点击我Render！`);
-  };
-  return <button onClick={clickMe}>点击我Render！</button>;
-};
-
 export default {
   data() {
     return {
@@ -104,10 +79,8 @@ export default {
       title: "",
       modalIsVisible: false,
       editor: ClassicEditor,
-      // createHeader: function() {
-      //   // let t = Vue.compile(temp.template);
-      //   return <button>点击我！</button>;
-      // }
+      searchKey: "",
+      originData: []
     };
   },
   components: {
@@ -119,12 +92,10 @@ export default {
     this.getList();
   },
   methods: {
-    clickMe() {
-      alert();
-    },
     getList() {
       axios("skill").then(res => {
         this.list = res.data.data;
+        this.originData = this.list;
       });
     },
     goDetail(item) {
@@ -272,6 +243,17 @@ export default {
       let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
       return { width: width * 100 + "%" };
     }
+  },
+  watch: {
+    searchKey: function(val) {
+      this.list = this.originData;
+      this.list = this.list.filter(e => {
+        // 精确查找
+        return e.Name.toLocaleUpperCase().indexOf(val.toLocaleUpperCase()) > -1;
+        // 模糊查找
+        // return e.Name.indexOf(val) > -1;
+      });
+    }
   }
 };
 </script>
@@ -280,14 +262,26 @@ export default {
 .pcq-grid {
   display: flex;
   flex-wrap: wrap;
-  &-item {
-    flex-grow: 0;
-    flex-shrink: 1;
-    flex-basis: 25%;
-    // flex-basis: 33.33333%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.pcq-grid-item {
+  flex-grow: 0;
+  flex-shrink: 1;
+  flex-basis: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@media (max-width: 1430px) {
+  .pcq-grid-item {
+    flex-basis: 33.33333%;
+  }
+}
+
+@media (max-width: 1100px) {
+  .pcq-grid-item {
+    flex-basis: 50%;
   }
 }
 

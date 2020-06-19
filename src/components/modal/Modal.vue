@@ -24,7 +24,7 @@ export default {
       type: String,
       default: "取消"
     },
-    header: {
+    title: {
       type: Object | Function
     },
     body: {
@@ -78,36 +78,51 @@ export default {
         document.addEventListener("keydown", this.escEvent);
       } else {
         document.removeEventListener("keydown", this.escEvent);
+
+        // this.$el 这个动画不知道要不要做
+        const element = this.$el;
+
+        const modalShade = element.firstElementChild;
+        const modalContent = element.lastElementChild;
+
+        modalShade.classList.replace(
+          "modal-shade-fadeIn",
+          "modal-shade-fadeOut"
+        );
+        modalContent.classList.replace("modal-content-in", "modal-content-out");
       }
     }
   },
   destroyed() {
     this.$el.remove();
   },
-  render: function(h) {
+  render: function(h,context) {
+    console.log(context);
+    const vm = this;
     const { close } = this;
-    let header, body, footer;
+    let title, body, footer;
 
-    if (this.isPluginCall) {
+    title = checkType(this.title, "说明");
+    body = checkType(this.body, "default");
+    footer = checkType(this.footer, "footer");
 
-      header = checkType(this.header);
-      body = checkType(this.body);
-      footer = checkType(this.footer);
-
-    } else {
-      header = this.header || this.$slots.header;
-      body = this.body || this.$slots.default;
-      footer = this.footer || this.$slots.footer;
+    function checkType(obj, slotName) {
+      if (isVNode(obj)) {
+        return obj;
+      } else if (typeof obj === "function") {
+        return obj();
+      } else if (typeof obj === "string") {
+        return obj;
+      } else if (typeof obj === "undefined") {
+        return vm.$slots[slotName];
+      }
     }
 
-    function checkType(obj) {
-      let o;
-      if (typeof obj === "function") {
-        o = obj();
-      } else if (typeof obj === "string") {
-        o = obj;
-      }
-      return o;
+    function isVNode(obj) {
+      let vnode = vm.$createElement("div", "");
+      let VNode = vnode.constructor;
+      const isVNode = obj => obj instanceof VNode;
+      return isVNode(obj);
     }
 
     /**
@@ -120,14 +135,10 @@ export default {
       props: {
         content: {
           type: Object | String,
-          default: "Title"
+          default:"Title"
         }
       },
-      methods: {
-        click() {
-          close();
-        }
-      },
+      methods: {},
       render() {
         return (
           <div class="modal-header">
@@ -168,9 +179,9 @@ export default {
             onClick={() => close(this.$el)}
           ></div>
           <div class="modal-content modal-content-in" style="min-height:50px;">
-            <ModalHeader content={header} />
+            {title ? <ModalHeader content={title} /> : null}
             <ModalBody content={body} />
-            <ModalFooter content={footer} />
+            {footer ? <ModalFooter content={footer} /> : null}
           </div>
         </div>
       );

@@ -7,6 +7,8 @@ import filters from './utils/filters';
 import directives from './utils/directives';
 import '../src/components/style';
 
+import './assets/theme/theme';
+
 import axios from './utils/interceptors.js';
 
 if (ENV == 'dev') {
@@ -36,9 +38,6 @@ directives();
 if (!localStorage.getItem("RTU_DRAFT")) {
   localStorage.setItem("RTU_DRAFT", "{}");
 }
-
-
-
 
 // 出现下面这个错误可能是路由导入出错了
 // Error in render: "TypeError: Cannot read property 'matched' of undefined"

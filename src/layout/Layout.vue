@@ -80,28 +80,17 @@ export default {
     gallery() {
       let vm = this;
       this.$modal({
-        body: `说明：`,
+        title: `说明`,
+        body: `road to upgrade`,
         footer: function() {
           function dome(params) {
-            params.target.innerText += params.target.id;
+            console.log(params);
           }
 
-          const divStyle = {
-            width: "50%",
-            height: "30px",
-            display: "inline-block"
-          };
-
           return (
-            <div>
-              <button id="b1" style={divStyle} onClick={dome}>
-                Button
-              </button>
-
-              <button id="b2" style={divStyle} onClick={dome}>
-                Button
-              </button>
-            </div>
+            <button v-pcq-button id="b1" onClick={dome()}>
+              关闭
+            </button>
           );
         }
       });
@@ -144,9 +133,11 @@ body {
       > input[type="color"] {
         position: absolute;
         top: -8px;
-        left: 0;
+        left: -5px;
         opacity: 0;
         cursor: pointer;
+        height: 41px;
+        width: 35px;
       }
     }
   }
