@@ -7,7 +7,7 @@
     </div>
 
     <div class="pcq-grid" style="margin-left: -15px;">
-      <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
+      <div class="pcq-grid-item" draggable="true" v-for="(item,index) in list" :key="index">
         <div :id="'card'+index" class="skill-card" @click="goDetail(item)">
           <span class="descr-line"></span>
           <div class="name">
@@ -18,7 +18,7 @@
             {{item.TotalExp | expFormat('name')}}
             {{item.TotalExp | expFormat('romanNum')}}
             <level-star :level="item.TotalExp | expFormat('level')"></level-star>
-            <span class="exp-text">{{item.TotalExp}} exp</span>
+            <span class="exp-text">{{item.TotalExp || 0}} exp</span>
           </div>
           <div class="exp">
             <div class="progress">
@@ -51,10 +51,10 @@
 
       <input v-pcq-input type="text" v-model="title" />
 
-      <template v-slot:footer>
+      <!-- <template v-slot:footer>
         <button v-pcq-button @click="handleModal">取消</button>
         <button v-pcq-button btnType="primary" @click="addedCard">确定</button>
-      </template>
+      </template> -->
     </modal>
 
     <div class="add-skill" @click="handleModal()">
@@ -110,6 +110,10 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
     addedCard() {
+      if(this.title=="") {
+        this.$message("技能名不能为空。。");
+        return;
+      }
       axios
         .post(`skill`, {
           Name: this.title

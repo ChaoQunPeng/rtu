@@ -80,7 +80,7 @@ export default {
     gallery() {
       let vm = this;
       this.$modal({
-        // title: `说明`,
+        title: `说明`,
         body: function() {
           return (
             <div>

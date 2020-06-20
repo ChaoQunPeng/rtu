@@ -50,7 +50,7 @@
       <ckeditor ref="ck" :editor="editor" v-model="content" @ready="onEditorReady"></ckeditor>
     </div>
 
-    <r-button type="light-blue" @click.native="plus1()">Plus 1</r-button>
+    <button v-pcq-button btnType="primary" @click="plus1()">Plus 1</button>
     {{saveLocalTip}}
   </div>
 </template>
@@ -110,8 +110,8 @@ export default {
   },
   methods: {
     plus1(successInfo = "新增成功！") {
-      // if (!this.checkForm()) return;
-      // this.isPosting = true;
+      if (!this.checkForm()) return;
+      this.isPosting = true;
       axios
         .post(`experience/record`, {
           title: this.title,

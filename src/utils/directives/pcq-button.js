@@ -12,11 +12,12 @@ const pcqButton = Vue.directive('pcq-button', {
     el.classList.add(`${prefix}-${btnType}`);
 
     if (el.hasAttribute("block")) {
-      if (el.getAttribute("block") == "true") {
+      const blockValue = el.getAttribute("block");
+      if (blockValue == "true" || blockValue == "") {
         el.classList.add("block");
       }
     }
-    // console.log(el.getAttribute("block"));
+    console.log();
   }
 })
 

@@ -98,7 +98,7 @@ export default {
   },
   render: function(h, context) {
     const vm = this;
-    const { close } = this;
+    const { ok, close, $slots } = this;
     let title, body, footer;
 
     title = checkType(this.title, "说明");
@@ -113,7 +113,21 @@ export default {
       } else if (typeof obj === "string") {
         return obj;
       } else if (typeof obj === "undefined") {
-        return vm.$slots[slotName];
+        if ($slots[slotName]) {
+          return $slots[slotName];
+        } else {
+          return (
+            <div>
+              <button v-pcq-button onClick={close}>
+                关闭
+              </button>
+              &nbsp;
+              <button v-pcq-button btnType="primary" onClick={ok}>
+                确定
+              </button>
+            </div>
+          );
+        }
       }
     }
 
@@ -154,7 +168,7 @@ export default {
     const ModalBody = {
       props: ["content"],
       render() {
-        const maxHeight = window.innerHeight + "px";
+        const maxHeight = window.innerHeight - 200 + "px";
         const style = {
           "max-height": maxHeight
         };
@@ -172,6 +186,9 @@ export default {
         content: {
           type: Object | String,
           default: "Footer"
+        },
+        cancel: {
+          type: Function
         }
       },
       render() {
@@ -189,7 +206,9 @@ export default {
           <div class="modal-content modal-content-in" style="min-height:50px;">
             {title ? <ModalHeader content={title} /> : null}
             <ModalBody content={body} />
-            {footer ? <ModalFooter content={footer} /> : null}
+            {footer ? (
+              <ModalFooter content={footer} cancel={this.close} />
+            ) : null}
           </div>
         </div>
       );
