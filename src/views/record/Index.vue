@@ -4,12 +4,20 @@
 
     <label class="block">
       经验标题：
-      <input type="text" id="title" v-model="title" placeholder="标题" style="width:80%;" />
+      <input
+        v-pcq-input
+        type="text"
+        id="title"
+        v-model="title"
+        placeholder="标题"
+        style="width:80%;"
+      />
     </label>
 
     <label for>
       开始时间：
       <input
+        v-pcq-input
         style="width: 240px;"
         type="datetime-local"
         v-model="startTime"
@@ -19,6 +27,7 @@
     <label for>
       结束时间：
       <input
+        v-pcq-input
         style="width: 240px;"
         type="datetime-local"
         v-model="endTime"
@@ -28,7 +37,7 @@
 
     <label>
       经验值：
-      <input style="width: 240px;" type="number" v-model="exp" placeholder="经验值" min="0" />
+      <input v-pcq-input style="width: 240px;" type="number" v-model="exp" placeholder="经验值" min="0" />
     </label>
 
     <!-- <label>

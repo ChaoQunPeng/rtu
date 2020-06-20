@@ -10,7 +10,8 @@
           <div></div>
         </div>
 
-        <r-button type="light-blue" block @click.native="goRecord()">Level Up!</r-button>
+        <button v-pcq-button btnType="primary" block="true" @click="goRecord()">Level Up!</button>
+
       </div>
       <div style="background:#fff;flex:1;padding:20px;border-radius:6px;display:flex;">
         <div class="exp-container clearfix">
@@ -136,14 +137,14 @@ export default {
     position: absolute;
     font-size: 40px;
     font-weight: 700;
-    color: #183055;
+    color: var(--primary);
     z-index: 1000;
   }
   > div {
     position: absolute;
     font-size: 40px;
     font-weight: 700;
-    border: 10px solid #183055;
+    border: 10px solid var(--primary);
     width: 160px;
     height: 160px;
     display: flex;
@@ -151,7 +152,7 @@ export default {
     align-items: center;
     margin: 0 auto;
     color: #183055;
-    box-shadow: inset 0px 0px 2px 0px #fff;
+    box-shadow: inset 0px 0px 2px 0px var(--primary);
     border-radius: 0 50% 50% 50%;
     transform: rotate(45deg);
   }
@@ -160,7 +161,7 @@ export default {
 .name {
   font-size: 24px;
   font-weight: 700;
-  color: #183055;
+  color: var(--primary);
   margin-bottom: 20px;
 }
 

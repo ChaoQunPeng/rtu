@@ -96,8 +96,7 @@ export default {
   destroyed() {
     this.$el.remove();
   },
-  render: function(h,context) {
-    console.log(context);
+  render: function(h, context) {
     const vm = this;
     const { close } = this;
     let title, body, footer;
@@ -135,7 +134,7 @@ export default {
       props: {
         content: {
           type: Object | String,
-          default:"Title"
+          default: "Title"
         }
       },
       methods: {},
@@ -155,7 +154,16 @@ export default {
     const ModalBody = {
       props: ["content"],
       render() {
-        return <div class="modal-body">{this.content}</div>;
+        const maxHeight = window.innerHeight + "px";
+        const style = {
+          "max-height": maxHeight
+        };
+
+        return (
+          <div style={style} class="modal-body">
+            {this.content}
+          </div>
+        );
       }
     };
 

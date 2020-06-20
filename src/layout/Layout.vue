@@ -80,15 +80,72 @@ export default {
     gallery() {
       let vm = this;
       this.$modal({
-        title: `说明`,
-        body: `road to upgrade`,
+        // title: `说明`,
+        body: function() {
+          return (
+            <div>
+              <h2 class="text-center">说明</h2>
+              <p>
+                我们会喜欢玩游戏其中一个原因就是反馈快。当我们击杀怪物后，马上就能获得装备，经验或者是升级，非常直观。
+                而学习的话需要一个长时间的积累才能看到成果，而且每次学习完之后我们不能感觉到像玩游戏一样“打了怪，赚了经验,升级了级”。
+                也无法直观的对自己的能力有一个“认识”。不知道自己属于哪一个“级别”。
+              </p>
+              <p>
+                所以RTU(Road To upgrade)
+                升级之路就是想做这件事。希望尽可能的把所学的知识经验具现化。理论上借鉴了
+                <a target="_blank" href="https://www.zybuluo.com/flysmart/note/213521">
+                  德雷福斯模型
+                </a>
+                和
+                <a target="_blank" href="https://zh.wikipedia.org/zh-hans/%E9%81%97%E5%BF%98%E6%9B%B2%E7%BA%BF">
+                  艾宾浩斯记忆曲线（这个还未加入到项目中）
+                </a>
+                设计了一个简单易用的等级系统。
+              </p>
+              <p>
+                <h4>等级划分</h4>
+
+                <p> 新手（novice）</p>
+                <p>
+                  分为五个等级 I II III IV
+                  V。总共经验为1000exp，每个等级200点经验
+                </p>
+                <p> 高级新手（advanced beginner）</p>
+                <p>
+                  分为五个等级 I II III IV
+                  V。总共经验为2000exp，每个等级400点经验
+                </p>
+                <p> 胜任者（competent）</p>
+                <p>
+                  分为五个等级 I II III IV
+                  V。总共经验为3000exp，每个等级600点经验
+                </p>
+                <p> 精通者（proficient）</p>
+                <p>
+                  分为五个等级 I II III IV
+                  V。总共经验为4000exp，每个等级800点经验
+                </p>
+                <p> 专家（expert）</p>
+                <p>
+                  无等级，此App的尽头，专家后应该不需要用这个了~ ヽ(ー_ー)ノ
+                </p>
+                <p>
+                  每1点经验对应为1个小时，所以10000点经验正好就是10000个小时。这正是成为一个专家级人物需要的至少时间。
+                  <u>**而且是有效时间**</u>。当然，天赋极佳者会更短。
+                </p>
+              </p>
+            </div>
+          );
+        },
         footer: function() {
-          function dome(params) {
-            console.log(params);
+          function close(event) {
+            // 总感觉不是长久之计
+            const modal = event.path[event.path.length - 5];
+            modal.remove();
           }
 
           return (
-            <button v-pcq-button id="b1" onClick={dome()}>
+            <button v-pcq-button id="b1" onClick={close}>
               关闭
             </button>
           );

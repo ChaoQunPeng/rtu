@@ -8,7 +8,7 @@
 
     <div class="pcq-grid" style="margin-left: -15px;">
       <div class="pcq-grid-item" v-for="(item,index) in list" :key="index">
-        <div class="skill-card" @click="goDetail(item)">
+        <div :id="'card'+index" class="skill-card" @click="goDetail(item)">
           <span class="descr-line"></span>
           <div class="name">
             <span class="descr-name-dot"></span>
@@ -248,9 +248,9 @@ export default {
     searchKey: function(val) {
       this.list = this.originData;
       this.list = this.list.filter(e => {
-        // 精确查找
-        return e.Name.toLocaleUpperCase().indexOf(val.toLocaleUpperCase()) > -1;
         // 模糊查找
+        return e.Name.toLocaleUpperCase().indexOf(val.toLocaleUpperCase()) > -1;
+        // 精确查找
         // return e.Name.indexOf(val) > -1;
       });
     }
@@ -303,6 +303,10 @@ export default {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     transform: scale(1.05);
     z-index: 2;
+  }
+
+  &:focus {
+    border: 5px solid #f00;
   }
 
   &-handle {
