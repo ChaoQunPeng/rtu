@@ -40,7 +40,6 @@
 <script>
 import axios from "axios";
 import trimHtml from "trim-html";
-import RButton from "../../components/Button.vue";
 
 export default {
   name: "detail",
@@ -51,9 +50,6 @@ export default {
       content: "",
       headline: ""
     };
-  },
-  components: {
-    RButton
   },
   computed: {
     computeExp: function() {

@@ -1,1 +1,3 @@
-import './modal/style';
+import './common/button/style.less';
+
+import './common/modal/style.less';

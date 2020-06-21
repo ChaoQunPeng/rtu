@@ -58,7 +58,6 @@
 
 <script>
 import axios from "axios";
-import RButton from "../../components/Button.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import dayjs from "dayjs";
 
@@ -81,9 +80,6 @@ export default {
       saveLocalTip: "",
       draftLocalKey: "RTU_DRAFT"
     };
-  },
-  components: {
-    RButton
   },
   created() {
     this.item = this.$route.params;

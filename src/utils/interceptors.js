@@ -1,6 +1,4 @@
-import { Message } from '../components/message/index.js'
-import Vue from 'vue';
-import Router from 'vue-router';
+// import message from '../components/common/message'
 import axios from 'axios'   //引入 axios
 
 let div = null;
@@ -27,7 +25,7 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (err) {
   const errorInfo = JSON.parse(JSON.stringify(err));
-  Message(`发生错误：${errorInfo.message}`);
+  // message(`发生错误：${errorInfo.message}`);
   requestCollection = requestCollection.filter(e => e.id != errorInfo.config.id);
   closeLoading(errorInfo.config);
   return Promise.resolve(err);

@@ -9,7 +9,7 @@ module.exports = {
     main: './src/main.js'
   },
   output: {
-    filename: 'main.js',
+    filename: '[name].[hash:12].js',
     // path: path.resolve(__dirname, "dist")
   },
   module: {

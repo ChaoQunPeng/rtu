@@ -21,9 +21,4 @@ const filters = function () {
     dateFormat
 }
 
-// const filters = {
-//   toHour,
-//   any
-// }
-
 export default filters;

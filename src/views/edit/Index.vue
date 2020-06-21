@@ -65,14 +65,10 @@
 <script>
 import axios from "axios";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import RButton from "../../components/Button.vue";
 import dayjs from "dayjs";
 
 export default {
   name: "edit",
-  components: {
-    RButton
-  },
   data() {
     return {
       skillName: "",

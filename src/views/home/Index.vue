@@ -66,8 +66,7 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
-import RButton from "../../components/Button.vue";
-import Modal from "../../components/modal/Modal.vue";
+// import Modal from "../../components/modal/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import LevelStar from "../../components/content/level-star/LevelStar.vue";
 
@@ -84,8 +83,7 @@ export default {
     };
   },
   components: {
-    RButton,
-    Modal,
+    // Modal,
     LevelStar
   },
   created() {

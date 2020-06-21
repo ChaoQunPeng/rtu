@@ -14,10 +14,7 @@
 <script>
 export default {
   name: "LevelStar",
-  props: ["level"],
-  created() {
-    
-  }
+  props: ["level"]
 };
 </script>
 
