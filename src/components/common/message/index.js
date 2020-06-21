@@ -6,13 +6,13 @@ const MessageConstructor = Vue.extend(MessageComponent);
 let i = 0;
 let hasMessageContainer = false;
 
-export const Message = function (params) {
+export const Message = function (params, type) {
   createMessageContainer();
   const data = {};
   if (typeof params === "string") {
     data.content = params;
-    data.componentCount = i;
   }
+  data.type = type;
   const instance = new MessageConstructor({
     data: data
   }).$mount();
@@ -39,6 +39,6 @@ function createMessageContainer() {
 export default {
   install(Vue) {
     Vue.prototype.$message = Message;
-    // Vue.prototype.$message.info = () => alert("INfO");
+    Vue.prototype.$message.info = (params) => Message(params, 'info');
   }
 }

@@ -3,7 +3,7 @@
   <div class="container-layout">
     <div class="left-layout">
       <div class="app-ico">
-        <!-- RTU -->
+        <!-- <img src="../assets/image/pcq.svg" /> -->
       </div>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
@@ -62,6 +62,8 @@ export default {
     // this.getDataList();
   },
   mounted() {
+    this.$message.info(1230);
+
     const themePick = this.$refs.themePick;
     // 好像不能用input
     themePick.addEventListener("input", event => {
@@ -93,11 +95,17 @@ export default {
               <p>
                 所以RTU(Road To upgrade)
                 升级之路就是想做这件事。希望尽可能的把所学的知识经验具现化。理论上借鉴了
-                <a target="_blank" href="https://www.zybuluo.com/flysmart/note/213521">
+                <a
+                  target="_blank"
+                  href="https://www.zybuluo.com/flysmart/note/213521"
+                >
                   德雷福斯模型
                 </a>
                 和
-                <a target="_blank" href="https://zh.wikipedia.org/zh-hans/%E9%81%97%E5%BF%98%E6%9B%B2%E7%BA%BF">
+                <a
+                  target="_blank"
+                  href="https://zh.wikipedia.org/zh-hans/%E9%81%97%E5%BF%98%E6%9B%B2%E7%BA%BF"
+                >
                   艾宾浩斯记忆曲线（这个还未加入到项目中）
                 </a>
                 设计了一个简单易用的等级系统。

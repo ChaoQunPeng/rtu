@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <div class="fadeIn">
+    <div class="fadeIn" :class="type">
       <div class="message-content">{{content}}</div>
     </div>
   </div>
@@ -12,16 +12,16 @@ export default {
   data() {
     return {
       content: "",
-      componentCount: 0
+      type: ""
     };
   },
   created() {},
   mounted() {
-    // this.content = this.content + "-" + this.componentCount;
-    setTimeout(() => {
-      this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
-      this.destroy();
-    }, 2000);
+    console.log(this.$data);
+    // setTimeout(() => {
+    //   this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
+    //   this.destroy();
+    // }, 2000);
   },
   methods: {
     destroy() {
@@ -35,7 +35,6 @@ export default {
 </script> 
 
 <style lang="less" scoped>
-
 .message {
   width: 100%;
   text-align: center;

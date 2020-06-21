@@ -1,8 +1,16 @@
-// import message from '../components/common/message'
+import message from '../components/common/message'
 import axios from 'axios'   //引入 axios
 
 let div = null;
 let requestCollection = [];
+
+
+// 根据环境修改axios的默认地址
+if (ENV == 'dev') {
+  axios.defaults.baseURL = 'http://localhost:3100/api/';
+} else {
+  axios.defaults.baseURL = 'http://localhost:3200/api/';
+}
 
 
 // 添加请求拦截器
@@ -25,7 +33,7 @@ axios.interceptors.response.use(function (response) {
   return response;
 }, function (err) {
   const errorInfo = JSON.parse(JSON.stringify(err));
-  // message(`发生错误：${errorInfo.message}`);
+  message(`发生错误：${errorInfo.message}`);
   requestCollection = requestCollection.filter(e => e.id != errorInfo.config.id);
   closeLoading(errorInfo.config);
   return Promise.resolve(err);

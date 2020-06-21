@@ -37,7 +37,8 @@ module.exports = {
         test: /\.(png|jpg|gif|svg)?$/,
         loader: 'url-loader',
         options: {
-          limit: 8000
+          limit: 8000,
+          publicPath: '../'
         }
       },
       {
@@ -49,6 +50,14 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.svg$/,
+        loader: 'svg-inline-loader'
+      },
+      {
+        test: /\.svg/,
+        use: ['file-loader']
       }
     ]
   },

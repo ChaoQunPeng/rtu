@@ -24,12 +24,6 @@ import './setting';
 //axios 
 import axios from './utils/interceptors.js';
 
-// 根据环境修改axios的默认地址
-if (ENV == 'dev') {
-  axios.defaults.baseURL = 'http://localhost:3100/api/';
-} else {
-  axios.defaults.baseURL = 'http://localhost:3200/api/';
-}
 
 Vue.prototype.$axios = axios;
 
