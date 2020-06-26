@@ -15,13 +15,11 @@ export default {
       type: ""
     };
   },
-  created() {},
   mounted() {
-    console.log(this.$data);
-    // setTimeout(() => {
-    //   this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
-    //   this.destroy();
-    // }, 2000);
+    setTimeout(() => {
+      this.$el.firstElementChild.classList.replace("fadeIn", "fadeOut");
+      this.destroy();
+    }, 2000);
   },
   methods: {
     destroy() {
@@ -33,18 +31,3 @@ export default {
   }
 };
 </script> 
-
-<style lang="less" scoped>
-.message {
-  width: 100%;
-  text-align: center;
-
-  &-content {
-    display: inline-block;
-    background: #fff;
-    padding: 10px 16px;
-    border-radius: 4px;
-    box-shadow: 1px 1px 4px var(--peace);
-  }
-}
-</style>

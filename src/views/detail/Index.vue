@@ -11,7 +11,6 @@
         </div>
 
         <button v-pcq-button btnType="primary" block="true" @click="goRecord()">Level Up!</button>
-
       </div>
       <div style="background:#fff;flex:1;padding:20px;border-radius:6px;display:flex;">
         <div class="exp-container clearfix">
@@ -25,7 +24,12 @@
               <div class="date">
                 <a @click="editExp(arr)">编辑</a>
                 |
-                <a @click="delExp(arr)">删除</a>
+                <a
+                  v-pcq-popconfirm
+                  pcqPopconfirmTitle="您确定要删除这条经验吗？"
+                  @onConfirm="confirmDel(arr)"
+                  @onCancel="cancelDel"
+                >删除</a>
                 |
                 2020-03-09
               </div>
@@ -65,6 +69,10 @@ export default {
     this.headline = this.$route.query.skillName;
   },
   methods: {
+    confirmDel(item) {
+      this.delExp(item);
+    },
+    cancelDel() {},
     initData() {
       let queryParamsId = this.$router.currentRoute.params["id"];
       axios.get(`experience/${queryParamsId}`).then(res => {
@@ -92,7 +100,7 @@ export default {
     },
     editExp(item) {
       this.$router.push({
-        path:`/edit/${item.ExperienceID}`,
+        path: `/edit/${item.ExperienceID}`,
         params: {
           ...JSON.parse(JSON.stringify(item))
         },
@@ -101,19 +109,19 @@ export default {
         }
       });
     },
-    delExp(arr) {
-      const value = confirm(`您确定要删除${arr.Title}吗？`);
-      if (value) {
-        axios.delete(`experience/${arr.ExperienceID}`).then(
-          res => {
-            this.initData();
-            this.$message(`删除成功！`);
-          },
-          err => {
-            this.$message(`删除失败！`);
-          }
-        );
-      }
+    delExp(item) {
+      axios.delete(`experience/${item.ExperienceID}`).then(
+        res => {
+          this.initData();
+          this.$message(`删除成功！`);
+        },
+        err => {
+          this.$message(`删除失败！`);
+        }
+      );
+      // const value = confirm(`您确定要删除${item.Title}吗？`);
+      // if (value) {
+      // }
     }
   }
 };

@@ -5,7 +5,6 @@ if (ENV == 'dev') {
   document.title += '-prod';
 }
 
-
 // 设置草稿的localStore
 if (!localStorage.getItem("RTU_DRAFT")) {
   localStorage.setItem("RTU_DRAFT", "{}");

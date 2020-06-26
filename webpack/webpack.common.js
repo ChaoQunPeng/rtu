@@ -34,11 +34,11 @@ module.exports = {
         }
       },
       {
-        test: /\.(png|jpg|gif|svg)?$/,
+        test: /\.(png|jpg|gif)?$/,
         loader: 'url-loader',
         options: {
           limit: 8000,
-          publicPath: '../'
+          esModule: false
         }
       },
       {
@@ -52,18 +52,18 @@ module.exports = {
         }
       },
       {
-        test: /\.svg$/,
-        loader: 'svg-inline-loader'
-      },
-      {
-        test: /\.svg/,
-        use: ['file-loader']
+        test: /\.(png|jpg|gif|svg)?$/,
+        loader: 'file-loader',
+        options: {
+          esModule: false
+        }
       }
     ]
   },
   resolve: {
     alias: {
-      'vue$': 'vue/dist/vue.esm.js'
+      'vue$': 'vue/dist/vue.esm.js',
+      '@components': path.resolve(__dirname, '../src/components/')
     }
   },
   plugins: [

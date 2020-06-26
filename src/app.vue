@@ -5,20 +5,24 @@
 </template>
 
 <script>
-import Layout from "./layout/Layout.vue";
+import Layout from "./layout/layout.vue";
+
+import svg from "./assets/image/pcq_i.svg";
 
 export default {
-  data() {
-    return {};
-  },
-  created() {
-
-  },
-  mounted() {
-
-  },
   components: {
     Layout
+  },
+  created() {
+    // console.log(
+    //   `%c       `,
+    //   `padding-bottom:50px;
+    //    font-size:62px;
+    //    background-image:url(http://192.168.0.105:3003/pcq_i.svg);
+    //    background-size:cover;
+    //    background-repeat:no-repeat
+    //    `
+    // );
   }
 };
 </script>

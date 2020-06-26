@@ -64,11 +64,9 @@
 </template>
 
 <script>
-import Vue from "vue";
 import axios from "axios";
-// import Modal from "../../components/modal/Modal.vue";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import LevelStar from "../../components/content/level-star/LevelStar.vue";
+import LevelStar from "@components/content/level-star/level-star.vue";
 
 export default {
   data() {

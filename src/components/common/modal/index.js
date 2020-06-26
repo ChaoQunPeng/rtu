@@ -1,5 +1,5 @@
 import Vue from "vue";
-import ModalComponent from "./Modal.vue";
+import ModalComponent from "./modal.vue";
 
 Vue.component('modal', ModalComponent);
 
@@ -17,7 +17,7 @@ export const Modal = function (params) {
   });
   instance.$mount();
   document.body.appendChild(instance.$el);
-
+  
   return instance;
 }
 

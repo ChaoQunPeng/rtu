@@ -3,11 +3,11 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Home from "../views/home/Index.vue";
-import Detail from "../views/detail/Index.vue";
-import Record from "../views/record/Index.vue";
-import Edit from "../views/edit/Index.vue";
-import Recycle from "../views/recycle/Index.vue";
+import Home from "../views/home/index.vue";
+import Detail from "../views/detail/index.vue";
+import Record from "../views/record/index.vue";
+import Edit from "../views/edit/index.vue";
+import Recycle from "../views/recycle/index.vue";
 import Page500 from '../views/exception/500.vue'
 
 const routes = [

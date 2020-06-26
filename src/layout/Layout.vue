@@ -3,7 +3,7 @@
   <div class="container-layout">
     <div class="left-layout">
       <div class="app-ico">
-        <!-- <img src="../assets/image/pcq.svg" /> -->
+        <!-- <img style="width:100%;" src="../assets/image/pcq_i.svg" /> -->
       </div>
 
       <router-link to="/home" tag="div" class="left-layout-nav" replace>
@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import NavBar from "../components/content/nav-bar/NavBar.vue";
+import NavBar from "@components/content/nav-bar/nav-bar.vue";
 
 export default {
   data() {
@@ -62,8 +62,6 @@ export default {
     // this.getDataList();
   },
   mounted() {
-    this.$message.info(1230);
-
     const themePick = this.$refs.themePick;
     // 好像不能用input
     themePick.addEventListener("input", event => {
