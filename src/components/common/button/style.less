@@ -2,14 +2,19 @@
 
 
 .@{class-prefix}-btn {
-  display      : inline-block;
-  outline      : none;
-  border-radius: 4px;
-  padding      : 4px 15px;
-  height       : 32px;
-  cursor       : pointer;
-  transition   : all 0.3s;
-  border       : none;
+  display: inline-block;
+  outline: none;
+  border-radius: 2px;
+  padding: 4px 18px;
+  height: 32px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-size: 14px;
+
+  & + .@{class-prefix}-btn {
+    margin-left: 5px;
+  }
 
   &:hover {
     opacity: .9;
@@ -24,4 +29,13 @@
     background: var(--danger);
     color     : #fff;
   }
+
+  &-sm {
+    font-size: 12px;
+  }
+
+  &-lg {
+    font-size: 16px;
+  }
 }
+
