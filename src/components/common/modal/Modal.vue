@@ -33,14 +33,13 @@ export default {
     },
     onOk: {
       type: Function
+    },
+    onCancel: {
+      type: Function
     }
-  },
-  data() {
-    return {};
   },
   methods: {
     ok() {
-      console.log(`okok`);
       this.$emit("ok");
     },
     cancel() {
@@ -57,7 +56,7 @@ export default {
       modalContent.classList.replace("modal-content-in", "modal-content-out");
 
       setTimeout(() => {
-        this.$emit("close", !this.visible);
+        this.$emit("cancel", !this.visible);
         // 这个为true说明是通过this.$modal()方式调用的
         if (this.isPluginCall) {
           this.$destroy();
@@ -96,7 +95,7 @@ export default {
   },
   render: function(h, context) {
     const vm = this;
-    const { ok, close, $slots, onOk } = this;
+    const { ok, cancel, close, $slots, onOk, onCancel } = this;
     let title, body, footer;
 
     const ModalHeader = {
@@ -147,22 +146,23 @@ export default {
         }
       },
       render() {
-        return (
-          <div class="modal-footer">
-            <button v-pcq-button onClick={close}>
-              关闭
-            </button>
-            &nbsp;
-            <button v-pcq-button btnType="primary" onClick={onOk || ok}>
-              确定
-            </button>
-          </div>
-        );
+        return <div class="modal-footer">{this.content}</div>;
       }
     };
 
-    // debugger;
-    title = checkType(this.title, "说明");
+    const ModalFooterBtns = (
+      <div>
+        <button v-pcq-button onClick={onCancel || cancel}>
+          关闭
+        </button>
+        &nbsp;
+        <button v-pcq-button btnType="primary" onClick={onOk || ok}>
+          确定
+        </button>
+      </div>
+    );
+
+    title = checkType(this.title, "title");
     body = checkType(this.body, "default");
     footer = checkType(this.footer, "footer");
 
@@ -178,7 +178,7 @@ export default {
         if ($slots[slotName]) {
           return $slots[slotName];
         } else if (slotName == "footer") {
-          return <ModalFooter />;
+          return ModalFooterBtns;
         }
       }
     }
@@ -206,7 +206,7 @@ export default {
           <div class="modal-content modal-content-in" style="min-height:50px;">
             <ModalHeader content={title} />
             <ModalBody content={body} />
-            <ModalFooter content={title} />
+            <ModalFooter content={footer} />
           </div>
         </div>
       );

@@ -46,17 +46,8 @@
       </div>
     </div>
 
-    <modal title="新增技能1" :visible="modalIsVisible" @close="handleModal" @ok="addedCard">
-      <template v-slot:title>
-        <h1>添加技能</h1>
-      </template>
-
+    <modal title="新增技能" :visible="modalIsVisible" @ok="addedCard" @cancel="cancel">
       <input v-pcq-input type="text" v-model="title" />
-
-      <!-- <template v-slot:footer>
-        <button v-pcq-button @click="handleModal">取消</button>
-        <button v-pcq-button btnType="primary" @click="addedCard">确定</button>
-      </template>-->
     </modal>
 
     <div class="add-skill" @click="handleModal()">
@@ -89,11 +80,6 @@ export default {
   },
   created() {
     this.getList();
-    this.$message("default");
-    this.$message.info("info");
-    this.$message.success("success");
-    this.$message.error("error");
-    this.$message.warning("warning");
   },
   methods: {
     getList() {
@@ -110,12 +96,15 @@ export default {
         }
       });
     },
+    cancel() {
+      this.handleModal();
+    },
     handleModal(e) {
       this.modalIsVisible = !this.modalIsVisible;
     },
     addedCard() {
       if (this.title == "") {
-        this.$message("技能名不能为空。。");
+        this.$message.warning("技能名不能为空。。");
         return;
       }
       axios
@@ -124,7 +113,7 @@ export default {
         })
         .then(
           res => {
-            this.$message(`新增成功！`);
+            this.$message.success(`新增成功！`);
             axios.get("skill").then(res => {
               this.list = res.data.data;
               this.modalIsVisible = false;
@@ -132,23 +121,18 @@ export default {
             });
           },
           err => {
-            this.$message(`新增失败！`);
+            this.$message.error(`新增失败！`);
           }
         );
     },
     updateCard(item) {
       const vm = this;
       this.value = item.Name;
-      
-      const oi = () => {
-        console.log(this.value);
-      };
 
       const body = (
         <input
           v-pcq-input
           vModel={this.value}
-          onInput={oi}
           type="text"
           placeholder="新的技能名是"
         />
@@ -186,8 +170,8 @@ export default {
         onOk: () => {
           // console.log(this);
           // return;
-          if(this.value=="") {
-            this.$message("新技能名称不能为空");
+          if (this.value == "") {
+            this.$message.warning("新技能名称不能为空");
             return;
           }
 
@@ -197,12 +181,12 @@ export default {
             })
             .then(
               res => {
-                this.$message(`修改成功`);
+                this.$message.success(`修改成功`);
                 modal.close();
                 this.getList();
               },
               err => {
-                this.$message(`修改失败`);
+                this.$message.error(`修改失败`);
               }
             );
         }
@@ -210,12 +194,12 @@ export default {
     },
     deleteCard(item) {
       if (item.TotalExp > 0) {
-        this.$message("该技能下存在经验，不能删哦~");
+        this.$message.warning("该技能下存在经验，不能删哦~");
         return;
       }
       axios.delete(`skill/${item.SkillID}`).then(res => {
         if (res) {
-          this.$message(`删除成功`);
+          this.$message.success(`删除成功`);
           this.getList();
         }
       });
@@ -350,7 +334,6 @@ export default {
   background: #fff;
   width: 100%;
   margin: 15px;
-  padding: 20px 30px 20px 40px;
   border-radius: 4px;
   // overflow: hidden;
   top: 0;
@@ -371,6 +354,11 @@ export default {
 }
 
 .skill-card {
+  padding: 20px 30px 20px 40px;
+  overflow: hidden;
+  border-radius: 3px;
+  position: relative;
+
   .name {
     font-size: 20px;
     margin-bottom: 24px;

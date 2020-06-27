@@ -45,7 +45,10 @@ export default {
       <div class="pcq-popconfirm-wrap">
         <div class="overlay"></div>
         <div class="pcq-popconfirm" onClick={this.prevent}>
-          <div class="pcq-popconfirm-content">{this.content}</div>
+          <div class="pcq-popconfirm-content">
+            <i class="iconfont icon-question-circle color-blue mr-1"></i>
+            {this.content}
+          </div>
           {footer}
         </div>
         <span class="pcq-popconfirm-arrow"></span>

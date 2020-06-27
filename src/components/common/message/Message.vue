@@ -23,13 +23,12 @@ export default {
   },
   mounted() {
     let destroyTime = 0;
-    destroyTime = 2000 + this.index * 300;
+    destroyTime = 1500 + this.index * 300;
     setTimeout(() => {
       this.$el.classList.replace("fadeIn", "fadeOut");
-      // setTimeout(() => {
-      //   this.$destroy();
-      // }, 1000);
-
+      setTimeout(() => {
+        this.$destroy();
+      }, 1000);
     }, destroyTime);
   },
   destroyed() {

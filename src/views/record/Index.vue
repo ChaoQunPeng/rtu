@@ -118,7 +118,7 @@ export default {
           endTime: this.endTime
         })
         .then(res => {
-          this.$message(successInfo);
+          this.$message.success(successInfo);
           // 清除这个分类的草稿
           const skillName = this.$route.query.skillName;
           const draft = JSON.parse(localStorage.getItem(this.draftLocalKey));
@@ -128,7 +128,7 @@ export default {
           }
         })
         .catch(err => {
-          this.$message(err.msg);
+          this.$message.error(err.msg);
         })
         .finally(() => {
           this.isPosting = false;
@@ -222,10 +222,10 @@ export default {
     },
     checkForm() {
       if (this.title == "") {
-        this.$message("标题不能为空");
+        this.$message.warning("标题不能为空");
         return false;
       } else if (this.content == "") {
-        this.$message("内容不能为空");
+        this.$message.warning("内容不能为空");
         return false;
       } else {
         return true;

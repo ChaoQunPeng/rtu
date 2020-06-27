@@ -68,11 +68,11 @@ export default {
       axios
         .delete(`experience/real/${data.ExperienceID}`)
         .then(res => {
-          this.$message("已彻底删除！");
+          this.$message.success("已彻底删除！");
           this.getList();
         })
         .catch(err => {
-          this.$message("删除失败！");
+          this.$message.error("删除失败！");
         });
     },
     restoreExp(data) {
@@ -83,11 +83,11 @@ export default {
       axios
         .put(`experience/restore/${data.ExperienceID}`)
         .then(res => {
-          this.$message("已成功恢复！");
+          this.$message.success("已成功恢复！");
           this.getList();
         })
         .catch(err => {
-          this.$message("恢复失败！");
+          this.$message.error("恢复失败！");
         });
     }
   }

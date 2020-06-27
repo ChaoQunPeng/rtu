@@ -116,7 +116,7 @@ export default {
           this.exp = this.editedData.Exp;
         })
         .catch(err => {
-          this.$message(`获取编辑数据错误！`);
+          this.$message.error(`获取编辑数据错误！`);
         });
     },
     update() {
@@ -131,10 +131,10 @@ export default {
         })
         .then(
           res => {
-            this.$message(`修改成功！`);
+            this.$message.success(`修改成功！`);
           },
           err => {
-            this.$message(`修改失败！`);
+            this.$message.error(`修改失败！`);
           }
         );
     },
@@ -165,10 +165,10 @@ export default {
     },
     checkForm() {
       if (this.title == "") {
-        this.$message("标题不能为空");
+        this.$message.warning("标题不能为空");
         return false;
       } else if (this.content == "") {
-        this.$message("内容不能为空");
+        this.$message.warning("内容不能为空");
         return false;
       } else {
         return true;
