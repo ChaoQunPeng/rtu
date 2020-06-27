@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Layout />
+    <router-view name="layout"></router-view>
+    <router-view name="lock"></router-view>
   </div>
 </template>
 

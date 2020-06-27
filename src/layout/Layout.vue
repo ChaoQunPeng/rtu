@@ -32,7 +32,7 @@
         </span>
 
         <span>
-          <i class="iconfont icon-cog-fill"></i>
+          <i class="iconfont icon-lock-fill" @click="lockApp"></i>
         </span>
       </div>
     </div>
@@ -156,6 +156,11 @@ export default {
             </button>
           );
         }
+      });
+    },
+    lockApp() {
+      this.$router.push({
+        path: `/lock-screen`
       });
     }
   },
