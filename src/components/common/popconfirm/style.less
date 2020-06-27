@@ -20,7 +20,7 @@
   padding       : 12px 16px;
   border-radius : 2px;
   box-shadow    : 0 0 10px #bebebe;
-
+  pointer-events: auto;
 
   &-content {
     font-size     : 14px;
@@ -31,5 +31,19 @@
   &-footer {
     text-align    : right;
     pointer-events: auto;
+  }
+
+  &-arrow {
+    display      : block;
+    width        : 2px;
+    height       : 2px;
+    position     : absolute;
+    z-index      : 1001;
+    left         : 0;
+    bottom       : -30px;
+    border-top   : 20px solid #fff;
+    border-right : 20px solid transparent;
+    border-bottom: 20px solid transparent;
+    border-left  : 20px solid transparent;
   }
 }

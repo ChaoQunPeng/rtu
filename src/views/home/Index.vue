@@ -8,36 +8,38 @@
 
     <div class="pcq-grid" style="margin-left: -15px;">
       <div class="pcq-grid-item" draggable="true" v-for="(item,index) in list" :key="index">
-        <div :id="'card'+index" class="skill-card" @click="goDetail(item)">
-          <span class="descr-line"></span>
-          <div class="name">
-            <span class="descr-name-dot"></span>
-            {{item.Name}}
-          </div>
-          <div class="level">
-            {{item.TotalExp | expFormat('name')}}
-            {{item.TotalExp | expFormat('romanNum')}}
-            <level-star :level="item.TotalExp | expFormat('level')"></level-star>
-            <span class="exp-text">{{item.TotalExp || 0}} exp</span>
-          </div>
-          <div class="exp">
-            <div class="progress">
-              <!-- {{item.TotalExp | expFormat('width')}} -->
-              <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
+        <div class="skill-card-wrap">
+          <div :id="'card'+index" class="skill-card" @click="goDetail(item)">
+            <span class="descr-line"></span>
+            <div class="name">
+              <span class="descr-name-dot"></span>
+              {{item.Name}}
+            </div>
+            <div class="level">
+              {{item.TotalExp | expFormat('name')}}
+              {{item.TotalExp | expFormat('romanNum')}}
+              <level-star :level="item.TotalExp | expFormat('level')"></level-star>
+              <span class="exp-text">{{item.TotalExp || 0}} exp</span>
+            </div>
+            <div class="exp">
+              <div class="progress">
+                <!-- {{item.TotalExp | expFormat('width')}} -->
+                <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
+                  <span
+                    class="progress-text"
+                  >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+                </div>
                 <span
                   class="progress-text"
                 >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
               </div>
-              <span
-                class="progress-text"
-              >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
             </div>
           </div>
           <div class="skill-card-handle">
             <i class="iconfont icon-ellipsis-vertical"></i>
             <ul>
               <li @click.stop="updateCard(item)">编辑</li>
-              <li @click.stop="deleteCard(item)">删除</li>
+              <li v-pcq-popconfirm pcqPopconfirmTitle="您确定要删除此技能吗？" @onConfirm="deleteCard(item)">删除</li>
             </ul>
           </div>
         </div>
@@ -54,7 +56,7 @@
       <!-- <template v-slot:footer>
         <button v-pcq-button @click="handleModal">取消</button>
         <button v-pcq-button btnType="primary" @click="addedCard">确定</button>
-      </template> -->
+      </template>-->
     </modal>
 
     <div class="add-skill" @click="handleModal()">
@@ -77,7 +79,8 @@ export default {
       modalIsVisible: false,
       editor: ClassicEditor,
       searchKey: "",
-      originData: []
+      originData: [],
+      value: ""
     };
   },
   components: {
@@ -86,6 +89,11 @@ export default {
   },
   created() {
     this.getList();
+    this.$message("default");
+    this.$message.info("info");
+    this.$message.success("success");
+    this.$message.error("error");
+    this.$message.warning("warning");
   },
   methods: {
     getList() {
@@ -106,7 +114,7 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
     addedCard() {
-      if(this.title=="") {
+      if (this.title == "") {
         this.$message("技能名不能为空。。");
         return;
       }
@@ -129,36 +137,88 @@ export default {
         );
     },
     updateCard(item) {
-      const value = prompt(`您要把${item.Name}修改成：`, item.Name);
-      if (value) {
-        axios
-          .put(`skill/${item.SkillID}`, {
-            Name: value
-          })
-          .then(
-            res => {
-              this.getList();
-            },
-            err => {
-              this.$message(`修改失败`);
-            }
-          );
-      }
+      const vm = this;
+      this.value = item.Name;
+      
+      const oi = () => {
+        console.log(this.value);
+      };
+
+      const body = (
+        <input
+          v-pcq-input
+          vModel={this.value}
+          onInput={oi}
+          type="text"
+          placeholder="新的技能名是"
+        />
+      );
+
+      const modal = this.$modal({
+        title: `修改技能名`,
+        // 最优方式
+        body: body,
+        // 匿名函数 编译后会生成var _this4 = this; 应该指向了自身...js基础不行...
+        // body: function() {
+        //   return (
+        //     <input
+        //       v-pcq-input
+        //       onInput={oi}
+        //       vModel={vm.value}
+        //       type="text"
+        //       placeholder="新的技能名是"
+        //     />
+        //   );
+        // },
+        // 箭头函数会导致每次输入后input失去焦点，同时无法使用focus再次获取焦点
+        // body: () => {
+        //   return (
+        //     <input
+        //       v-pcq-input
+        //       onInput={oi}
+        //       vModel={vm.value}
+        //       type="text"
+        //       placeholder="新的技能名是"
+        //     />
+        //   );
+        // },
+        // 箭头函数里的this会指向父级
+        onOk: () => {
+          // console.log(this);
+          // return;
+          if(this.value=="") {
+            this.$message("新技能名称不能为空");
+            return;
+          }
+
+          axios
+            .put(`skill/${item.SkillID}`, {
+              Name: this.value
+            })
+            .then(
+              res => {
+                this.$message(`修改成功`);
+                modal.close();
+                this.getList();
+              },
+              err => {
+                this.$message(`修改失败`);
+              }
+            );
+        }
+      });
     },
     deleteCard(item) {
       if (item.TotalExp > 0) {
         this.$message("该技能下存在经验，不能删哦~");
         return;
       }
-      const value = confirm(`您确定要删除${item.Name}吗？`);
-      if (value) {
-        axios.delete(`skill/${item.SkillID}`).then(res => {
-          if (res) {
-            this.$message(`删除成功`);
-            this.getList();
-          }
-        });
-      }
+      axios.delete(`skill/${item.SkillID}`).then(res => {
+        if (res) {
+          this.$message(`删除成功`);
+          this.getList();
+        }
+      });
     },
     getPhaseInfo(totalExp) {
       if (totalExp >= 0 && totalExp < 1000) {
@@ -285,14 +345,14 @@ export default {
   }
 }
 
-.skill-card {
+.skill-card-wrap {
   position: relative;
   background: #fff;
   width: 100%;
   margin: 15px;
   padding: 20px 30px 20px 40px;
   border-radius: 4px;
-  overflow: hidden;
+  // overflow: hidden;
   top: 0;
   color: #fff;
   transition: all 0.3s;
@@ -308,41 +368,9 @@ export default {
   &:focus {
     border: 5px solid #f00;
   }
+}
 
-  &-handle {
-    position: absolute;
-    right: 6px;
-    top: 10px;
-    color: var(--peace);
-    &:hover {
-      > ul {
-        display: block;
-
-        > li {
-          padding: 8px 8px;
-          border-bottom: 1px solid #ddd;
-          &:last-child {
-            border-bottom: none;
-          }
-
-          &:hover {
-            background: #ddd;
-          }
-        }
-      }
-    }
-
-    > ul {
-      display: none;
-      position: absolute;
-      list-style: none;
-      width: 120px;
-      background: #fff;
-      border: 1px solid #f1f1f1;
-      box-shadow: 2px 2px 30px #ddd;
-    }
-  }
-
+.skill-card {
   .name {
     font-size: 20px;
     margin-bottom: 24px;
@@ -391,6 +419,40 @@ export default {
     border-radius: 1px;
     left: 0;
     top: 0;
+  }
+}
+
+.skill-card-handle {
+  position: absolute;
+  right: 6px;
+  top: 10px;
+  color: var(--peace);
+  &:hover {
+    > ul {
+      display: block;
+
+      > li {
+        padding: 8px 8px;
+        border-bottom: 1px solid #ddd;
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &:hover {
+          background: #ddd;
+        }
+      }
+    }
+  }
+
+  > ul {
+    display: none;
+    position: absolute;
+    list-style: none;
+    width: 120px;
+    background: #fff;
+    border: 1px solid #f1f1f1;
+    box-shadow: 2px 2px 30px #ddd;
   }
 }
 
@@ -469,7 +531,7 @@ export default {
   transition: all 0.3s;
   cursor: pointer;
   transform: scale(1);
-  z-index: 2000;
+  z-index: 20;
 
   > .iconfont {
     font-size: 26px;

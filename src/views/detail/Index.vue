@@ -10,7 +10,7 @@
           <div></div>
         </div>
 
-        <button v-pcq-button btnType="primary" block="true" @click="goRecord()">Level Up!</button>
+        <button v-pcq-button btnType="primary" class="block" @click="goRecord()">Level Up!</button>
       </div>
       <div style="background:#fff;flex:1;padding:20px;border-radius:6px;display:flex;">
         <div class="exp-container clearfix">

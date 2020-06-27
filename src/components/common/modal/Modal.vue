@@ -30,6 +30,9 @@ export default {
     },
     footer: {
       type: Object | Function
+    },
+    onOk: {
+      type: Function
     }
   },
   data() {
@@ -37,6 +40,7 @@ export default {
   },
   methods: {
     ok() {
+      console.log(`okok`);
       this.$emit("ok");
     },
     cancel() {
@@ -64,8 +68,7 @@ export default {
       if (e.key == "Escape") {
         this.close();
       }
-    },
-    renderContent() {}
+    }
   },
   watch: {
     visible: function(val) {
@@ -93,51 +96,8 @@ export default {
   },
   render: function(h, context) {
     const vm = this;
-    const { ok, close, $slots } = this;
+    const { ok, close, $slots, onOk } = this;
     let title, body, footer;
-
-    title = checkType(this.title, "说明");
-    body = checkType(this.body, "default");
-    footer = checkType(this.footer, "footer");
-
-    function checkType(obj, slotName) {
-      if (isVNode(obj)) {
-        return obj;
-      } else if (typeof obj === "function") {
-        return obj();
-      } else if (typeof obj === "string") {
-        return obj;
-      } else if (typeof obj === "undefined") {
-        if ($slots[slotName]) {
-          return $slots[slotName];
-        } else {
-          return (
-            <div>
-              <button v-pcq-button onClick={close}>
-                关闭
-              </button>
-              &nbsp;
-              <button v-pcq-button btnType="primary" onClick={ok}>
-                确定
-              </button>
-            </div>
-          );
-        }
-      }
-    }
-
-    function isVNode(obj) {
-      let vnode = vm.$createElement("div", "");
-      let VNode = vnode.constructor;
-      const isVNode = obj => obj instanceof VNode;
-      return isVNode(obj);
-    }
-
-    /**
-     * 这里this输出是 Proxy [[Handler]]: Object [[Target]]: VueComponent [[IsRevoked]]: false
-     * 但是 this.$data this.$slot 这些还是指向当前的Vue实例
-     */
-    // console.log(this);
 
     const ModalHeader = {
       props: {
@@ -187,9 +147,54 @@ export default {
         }
       },
       render() {
-        return <div class="modal-footer">{this.content}</div>;
+        return (
+          <div class="modal-footer">
+            <button v-pcq-button onClick={close}>
+              关闭
+            </button>
+            &nbsp;
+            <button v-pcq-button btnType="primary" onClick={onOk || ok}>
+              确定
+            </button>
+          </div>
+        );
       }
     };
+
+    // debugger;
+    title = checkType(this.title, "说明");
+    body = checkType(this.body, "default");
+    footer = checkType(this.footer, "footer");
+
+    function checkType(obj, slotName) {
+      if (isVNode(obj)) {
+        return obj;
+      } else if (typeof obj === "function") {
+        return obj();
+      } else if (typeof obj === "string") {
+        return obj;
+      } else if (typeof obj === "undefined") {
+        // 没有任何参数的情况下
+        if ($slots[slotName]) {
+          return $slots[slotName];
+        } else if (slotName == "footer") {
+          return <ModalFooter />;
+        }
+      }
+    }
+
+    function isVNode(obj) {
+      let vnode = vm.$createElement("div", "");
+      let VNode = vnode.constructor;
+      const isVNode = obj => obj instanceof VNode;
+      return isVNode(obj);
+    }
+
+    /**
+     * 这里this输出是 Proxy [[Handler]]: Object [[Target]]: VueComponent [[IsRevoked]]: false
+     * 但是 this.$data this.$slot 这些还是指向当前的Vue实例
+     */
+    // console.log(this);
 
     if (this.visible) {
       return (
@@ -199,11 +204,9 @@ export default {
             onClick={() => close(this.$el)}
           ></div>
           <div class="modal-content modal-content-in" style="min-height:50px;">
-            {title ? <ModalHeader content={title} /> : null}
+            <ModalHeader content={title} />
             <ModalBody content={body} />
-            {footer ? (
-              <ModalFooter content={footer} cancel={this.close} />
-            ) : null}
+            <ModalFooter content={title} />
           </div>
         </div>
       );

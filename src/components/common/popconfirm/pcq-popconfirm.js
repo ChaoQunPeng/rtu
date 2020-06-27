@@ -21,10 +21,10 @@ let i = 0;
 
 const pcqPopconfirm = Vue.directive('pcq-popconfirm', {
   bind: function (el, binding, vnode) {
+
     let popconfirm;
 
     el.addEventListener("click", (event) => {
-
       el.style.position = "relative";
 
       if (popconfirm && popconfirm.isTrigger) {
@@ -41,11 +41,9 @@ const pcqPopconfirm = Vue.directive('pcq-popconfirm', {
 
       const title = el.getAttribute("pcqPopconfirmTitle");
       popconfirm = getInstance(title);
-      console.log(popconfirm);
       const $el = popconfirm.$el;
       el.appendChild($el);
       const btnVnode = popconfirm._vnode.children[1].children[1].children[1];
-      console.dir(btnVnode);
 
       btnVnode.elm.addEventListener("click", () => {
         el.dispatchEvent(new CustomEvent(`onConfirm`));
@@ -60,8 +58,6 @@ const pcqPopconfirm = Vue.directive('pcq-popconfirm', {
       //     $el
       //   });
       // }
-
-
 
       // $el.style.top = -(Math.ceil($elRect.height) + 20) + "px";
       // $el.style.marginLeft = -(Math.ceil($elRect.width) / 2) + "px";

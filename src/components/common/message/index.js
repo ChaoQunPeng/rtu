@@ -7,19 +7,21 @@ let i = 0;
 let hasMessageContainer = false;
 
 export const Message = function (params, type) {
+
   createMessageContainer();
   const data = {};
   if (typeof params === "string") {
     data.content = params;
   }
   data.type = type;
+  data.index = i;
   const instance = new MessageConstructor({
     data: data
   }).$mount();
-  // document.body.appendChild(instance.$el);
+
   document.getElementById("messageContainer").appendChild(instance.$el);
   i++;
-  instance._mid = i;
+  
   return instance;
 }
 
@@ -40,5 +42,8 @@ export default {
   install(Vue) {
     Vue.prototype.$message = Message;
     Vue.prototype.$message.info = (params) => Message(params, 'info');
+    Vue.prototype.$message.success = (params) => Message(params, 'success');
+    Vue.prototype.$message.error = (params) => Message(params, 'error');
+    Vue.prototype.$message.warning = (params) => Message(params, 'warning');
   }
 }

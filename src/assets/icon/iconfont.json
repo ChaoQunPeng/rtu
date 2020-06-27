@@ -6,6 +6,76 @@
   "description": "自用",
   "glyphs": [
     {
+      "icon_id": "6151210",
+      "name": "lightbulb",
+      "font_class": "lightbulb",
+      "unicode": "e7ee",
+      "unicode_decimal": 59374
+    },
+    {
+      "icon_id": "6151211",
+      "name": "flag",
+      "font_class": "flag",
+      "unicode": "e7ef",
+      "unicode_decimal": 59375
+    },
+    {
+      "icon_id": "6151212",
+      "name": "tag",
+      "font_class": "tag",
+      "unicode": "e7f0",
+      "unicode_decimal": 59376
+    },
+    {
+      "icon_id": "6151177",
+      "name": "check-circle-fill",
+      "font_class": "check-circle-fill",
+      "unicode": "e7e2",
+      "unicode_decimal": 59362
+    },
+    {
+      "icon_id": "6151287",
+      "name": "check-circle",
+      "font_class": "check-circle",
+      "unicode": "e824",
+      "unicode_decimal": 59428
+    },
+    {
+      "icon_id": "6151288",
+      "name": "compress-alt",
+      "font_class": "compress-alt",
+      "unicode": "e825",
+      "unicode_decimal": 59429
+    },
+    {
+      "icon_id": "6151289",
+      "name": "expand-alt",
+      "font_class": "expand-alt",
+      "unicode": "e826",
+      "unicode_decimal": 59430
+    },
+    {
+      "icon_id": "6151290",
+      "name": "ban",
+      "font_class": "ban",
+      "unicode": "e827",
+      "unicode_decimal": 59431
+    },
+    {
+      "icon_id": "6151176",
+      "name": "times-circle-fill",
+      "font_class": "times-circle-fill",
+      "unicode": "e7e1",
+      "unicode_decimal": 59361
+    },
+    {
+      "icon_id": "6151286",
+      "name": "times-circle",
+      "font_class": "times-circle",
+      "unicode": "e823",
+      "unicode_decimal": 59427
+    },
+    {
       "icon_id": "1509753",
       "name": "主题",
       "font_class": "theme",

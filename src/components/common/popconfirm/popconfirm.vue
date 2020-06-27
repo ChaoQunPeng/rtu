@@ -32,8 +32,12 @@ export default {
 
     const footer = (
       <div class="pcq-popconfirm-footer">
-        <button v-pcq-button onClick={this.close}>取消</button>
-        <button v-pcq-button btnType="primary" btnSize="sm" onClick={this.ok}>确定</button>
+        <button v-pcq-button btnSize="sm" onClick={this.close}>
+          取消
+        </button>
+        <button v-pcq-button btnType="primary" btnSize="sm" onClick={this.ok}>
+          确定
+        </button>
       </div>
     );
 
@@ -44,6 +48,7 @@ export default {
           <div class="pcq-popconfirm-content">{this.content}</div>
           {footer}
         </div>
+        <span class="pcq-popconfirm-arrow"></span>
       </div>
     );
   }
