@@ -28,7 +28,6 @@
                   v-pcq-popconfirm
                   pcqPopconfirmTitle="您确定要删除这条经验吗？"
                   @onConfirm="confirmDel(arr)"
-                  @onCancel="cancelDel"
                 >删除</a>
                 |
                 2020-03-09
