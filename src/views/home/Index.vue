@@ -50,6 +50,10 @@
       <input v-pcq-input type="text" v-model="title" />
     </modal>
 
+    <!-- <test-modal title="test-modal" :visible="modalIsVisible">
+      <input v-pcq-input type="text" v-model="title" />
+    </test-modal>-->
+
     <div class="add-skill" @click="handleModal()">
       <i class="iconfont icon-plus"></i>
     </div>
@@ -57,25 +61,24 @@
 </template>
 
 <script>
-import axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import LevelStar from "@components/content/level-star/level-star.vue";
+import axios from 'axios';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import LevelStar from '@components/content/level-star/level-star.vue';
 
 export default {
   data() {
     return {
-      msg: "home working",
+      msg: 'home working',
       list: [],
-      title: "",
+      title: '',
       modalIsVisible: false,
       editor: ClassicEditor,
-      searchKey: "",
+      searchKey: '',
       originData: [],
-      value: ""
+      value: ''
     };
   },
   components: {
-    // Modal,
     LevelStar
   },
   created() {
@@ -83,7 +86,7 @@ export default {
   },
   methods: {
     getList() {
-      axios("skill").then(res => {
+      axios('skill').then(res => {
         this.list = res.data.data;
         this.originData = this.list;
       });
@@ -103,8 +106,8 @@ export default {
       this.modalIsVisible = !this.modalIsVisible;
     },
     addedCard() {
-      if (this.title == "") {
-        this.$message.warning("技能名不能为空。。");
+      if (this.title == '') {
+        this.$message.warning('技能名不能为空。。');
         return;
       }
       axios
@@ -114,10 +117,10 @@ export default {
         .then(
           res => {
             this.$message.success(`新增成功！`);
-            axios.get("skill").then(res => {
+            axios.get('skill').then(res => {
               this.list = res.data.data;
               this.modalIsVisible = false;
-              this.title = "";
+              this.title = '';
             });
           },
           err => {
@@ -170,11 +173,10 @@ export default {
         onOk: () => {
           // console.log(this);
           // return;
-          if (this.value == "") {
-            this.$message.warning("新技能名称不能为空");
+          if (this.value == '') {
+            this.$message.warning('新技能名称不能为空');
             return;
           }
-
           axios
             .put(`skill/${item.SkillID}`, {
               Name: this.value
@@ -194,7 +196,7 @@ export default {
     },
     deleteCard(item) {
       if (item.TotalExp > 0) {
-        this.$message.warning("该技能下存在经验，不能删哦~");
+        this.$message.warning('该技能下存在经验，不能删哦~');
         return;
       }
       axios.delete(`skill/${item.SkillID}`).then(res => {
@@ -213,7 +215,7 @@ export default {
           [600, 799],
           [800, 999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "新手", 199);
+        return this.getLevelInfo(totalExp, expRange, '新手', 199);
       } else if (totalExp >= 1000 && totalExp < 3000) {
         const expRange = [
           [1000, 1399],
@@ -222,7 +224,7 @@ export default {
           [2200, 2599],
           [2600, 2999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "高级新手", 399);
+        return this.getLevelInfo(totalExp, expRange, '高级新手', 399);
       } else if (totalExp >= 3000 && totalExp < 6000) {
         const expRange = [
           [3000, 3599],
@@ -231,7 +233,7 @@ export default {
           [4800, 5399],
           [5400, 5999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "胜任者", 599);
+        return this.getLevelInfo(totalExp, expRange, '胜任者', 599);
       } else if (totalExp >= 6000 && totalExp < 10000) {
         const expRange = [
           [6000, 6799],
@@ -240,9 +242,9 @@ export default {
           [8400, 9199],
           [9200, 9999]
         ];
-        return this.getLevelInfo(totalExp, expRange, "精通者", 799);
+        return this.getLevelInfo(totalExp, expRange, '精通者', 799);
       } else {
-        return { name: "专家", level: "" };
+        return { name: '专家', level: '' };
       }
     },
     getLevelInfo(totalExp, expRange, levelName, levelExp) {
@@ -256,19 +258,19 @@ export default {
         if (totalExp >= expRange[i][0] && totalExp <= expRange[i][1]) {
           switch (i) {
             case 0:
-              data.level = "I";
+              data.level = 'I';
               break;
             case 1:
-              data.level = "II";
+              data.level = 'II';
               break;
             case 2:
-              data.level = "III";
+              data.level = 'III';
               break;
             case 3:
-              data.level = "IV";
+              data.level = 'IV';
               break;
             case 4:
-              data.level = "V";
+              data.level = 'V';
               break;
           }
 
@@ -285,7 +287,7 @@ export default {
       // [6000, 6799] (6500-6000) / 799
       // let width = Number(totalExp) / Number(levelData.range[1]); // 这是总的经验条
       let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
-      return { width: width * 100 + "%" };
+      return { width: width * 100 + '%' };
     }
   },
   watch: {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 style="color:#fff;" class="mb-3">回收站</h1>
+    <h1 class="mb-3">回收站</h1>
 
     <div class="background">
       <h3 class="mb-5">
@@ -9,6 +9,9 @@
       <table>
         <thead>
           <tr>
+            <th width="50px">
+              <input type="checkbox" />
+            </th>
             <th width="80px">标识</th>
             <th>技能名称</th>
             <th>经验标题</th>
@@ -20,6 +23,9 @@
         </thead>
         <tbody>
           <tr v-for="(data,index) in listData" :key="index">
+            <td>
+              <input type="checkbox" />
+            </td>
             <td>
               {{index+1}}
               <!-- {{data.ExperienceID}} -->
@@ -41,10 +47,10 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios';
 
 export default {
-  name: "recycle",
+  name: 'recycle',
   data() {
     return {
       listData: []
@@ -68,11 +74,12 @@ export default {
       axios
         .delete(`experience/real/${data.ExperienceID}`)
         .then(res => {
-          this.$message.success("已彻底删除！");
+          this.$message.success('删除成功！');
           this.getList();
         })
+
         .catch(err => {
-          this.$message.error("删除失败！");
+          this.$message.error('删除失败！');
         });
     },
     restoreExp(data) {
@@ -83,11 +90,11 @@ export default {
       axios
         .put(`experience/restore/${data.ExperienceID}`)
         .then(res => {
-          this.$message.success("已成功恢复！");
+          this.$message.success('已成功恢复！');
           this.getList();
         })
         .catch(err => {
-          this.$message.error("恢复失败！");
+          this.$message.error('恢复失败！');
         });
     }
   }
@@ -98,23 +105,23 @@ export default {
 @table-border-color: #18355a;
 
 .background {
-  background: #fff;
   padding: 30px;
   margin-right: 60px;
   margin-bottom: 60px;
+  background: #fff;
 }
 
 table {
-  border-collapse: collapse;
   width: 100%;
+  border-collapse: collapse;
 
   > thead {
     > tr {
       > th {
-        border: 1px solid;
-        color: @table-border-color;
         padding: 16px;
+        color: @table-border-color;
         text-align: center;
+        border: 1px solid;
       }
     }
   }
@@ -122,10 +129,10 @@ table {
   > tbody {
     > tr {
       > td {
-        border: 1px solid;
-        color: @table-border-color;
         padding: 16px;
+        color: @table-border-color;
         text-align: center;
+        border: 1px solid;
       }
     }
   }

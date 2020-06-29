@@ -15,6 +15,10 @@
         <!-- <span class="count">{{recycleCount}}</span> -->
       </router-link>
 
+      <router-link to="/chart" tag="div" class="left-layout-nav" replace>
+        <i class="iconfont icon-chart-line"></i>
+      </router-link>
+
       <div class="left-layout-nav bottom">
         <i class="iconfont icon-gallery-view" @click="gallery"></i>
       </div>
@@ -45,7 +49,7 @@
 </template>
 
 <script>
-import NavBar from "@components/content/nav-bar/nav-bar.vue";
+import NavBar from '@components/content/nav-bar/nav-bar.vue';
 
 export default {
   data() {
@@ -64,9 +68,9 @@ export default {
   mounted() {
     const themePick = this.$refs.themePick;
     // 好像不能用input
-    themePick.addEventListener("input", event => {
+    themePick.addEventListener('input', event => {
       document.documentElement.style.setProperty(
-        "--primary",
+        '--primary',
         event.target.value
       );
     });
@@ -79,7 +83,7 @@ export default {
     },
     gallery() {
       let vm = this;
-      this.$modal({
+      const modal = this.$modal({
         title: `说明`,
         body: function() {
           return (
@@ -146,8 +150,10 @@ export default {
         footer: function() {
           function close(event) {
             // 总感觉不是长久之计
-            const modal = event.path[event.path.length - 5];
-            modal.remove();
+            // console.log(modal);
+            // const modalEle = event.path[event.path.length - 5];
+            // modalEle.remove();
+            modal.close();
           }
 
           return (
@@ -198,7 +204,7 @@ body {
     .icon-theme {
       position: relative;
 
-      > input[type="color"] {
+      > input[type='color'] {
         position: absolute;
         top: -8px;
         left: -5px;

@@ -1,9 +1,14 @@
 
 <script>
 export default {
-  name: "Modal",
+  name: 'Modal',
+  data() {
+    return {
+      el: null
+    };
+  },
   model: {
-    prop: ["visible"]
+    prop: ['visible']
   },
   props: {
     visible: {
@@ -12,15 +17,15 @@ export default {
     },
     title: {
       type: String,
-      default: "Title"
+      default: 'Title'
     },
     okText: {
       type: String,
-      default: "确定"
+      default: '确定'
     },
     cancelText: {
       type: String,
-      default: "取消"
+      default: '取消'
     },
     title: {
       type: Object | Function
@@ -38,9 +43,15 @@ export default {
       type: Function
     }
   },
+  created() {
+    // 这个为true说明是通过this.$modal()方式调用的
+    if (this.isPluginCall) {
+      document.addEventListener('keydown', this.escEvent);
+    }
+  },
   methods: {
     ok() {
-      this.$emit("ok");
+      this.$emit('ok');
     },
     cancel() {
       this.close();
@@ -49,14 +60,28 @@ export default {
     close(el) {
       const element = el && el instanceof HTMLElement ? el : this.$el;
 
+      // 突然不需要这个函数了
+      // const getElement = () => {
+      //   if (el && el instanceof HTMLElement) {
+      //     return el;
+      //   } else if (this.$el.nodeName == '#comment') {
+      //     return this.el;
+      //   } else {
+      //     return this.$el;
+      //   }
+      // };
+      // let element = getElement();
+
       const modalShade = element.firstElementChild;
       const modalContent = element.lastElementChild;
 
-      modalShade.classList.replace("modal-shade-fadeIn", "modal-shade-fadeOut");
-      modalContent.classList.replace("modal-content-in", "modal-content-out");
+      modalShade.classList.replace('modal-shade-fadeIn', 'modal-shade-fadeOut');
+      modalContent.classList.replace('modal-content-in', 'modal-content-out');
+
+      document.removeEventListener('keydown', this.escEvent);
 
       setTimeout(() => {
-        this.$emit("cancel", !this.visible);
+        this.$emit('cancel', !this.visible);
         // 这个为true说明是通过this.$modal()方式调用的
         if (this.isPluginCall) {
           this.$destroy();
@@ -64,7 +89,7 @@ export default {
       }, 400); // 400ms,比渐入渐出的动画多100ms，等动画执行完毕才销毁
     },
     escEvent(e) {
-      if (e.key == "Escape") {
+      if (e.key == 'Escape') {
         this.close();
       }
     }
@@ -72,9 +97,9 @@ export default {
   watch: {
     visible: function(val) {
       if (val) {
-        document.addEventListener("keydown", this.escEvent);
+        document.addEventListener('keydown', this.escEvent);
       } else {
-        document.removeEventListener("keydown", this.escEvent);
+        document.removeEventListener('keydown', this.escEvent);
 
         // this.$el 这个动画不知道要不要做
         const element = this.$el;
@@ -83,10 +108,10 @@ export default {
         const modalContent = element.lastElementChild;
 
         modalShade.classList.replace(
-          "modal-shade-fadeIn",
-          "modal-shade-fadeOut"
+          'modal-shade-fadeIn',
+          'modal-shade-fadeOut'
         );
-        modalContent.classList.replace("modal-content-in", "modal-content-out");
+        modalContent.classList.replace('modal-content-in', 'modal-content-out');
       }
     }
   },
@@ -95,96 +120,83 @@ export default {
   },
   render: function(h, context) {
     const vm = this;
-    const { ok, cancel, close, $slots, onOk, onCancel } = this;
+    const {
+      ok,
+      cancel,
+      okText,
+      cancelText,
+      close,
+      $slots,
+      onOk,
+      onCancel
+    } = this;
+
     let title, body, footer;
 
-    const ModalHeader = {
-      props: {
-        content: {
-          type: Object | String,
-          default: "Title"
-        }
-      },
-      methods: {},
-      render() {
-        return (
-          <div class="modal-header">
-            {this.content}
-            <span
-              class="iconfont icon-times modal-close-btn"
-              onClick={close}
-            ></span>
-          </div>
-        );
-      }
+    const ModalHeader = () => {
+      return (
+        <div class="modal-header">
+          {title}
+          <span
+            class="iconfont icon-times modal-close-btn"
+            onClick={close}
+          ></span>
+        </div>
+      );
     };
 
-    const ModalBody = {
-      props: ["content"],
-      render() {
-        const maxHeight = window.innerHeight - 200 + "px";
-        const style = {
-          "max-height": maxHeight
-        };
+    const ModalBody = () => {
+      const maxHeight = window.innerHeight - 200 + 'px';
+      const style = {
+        'max-height': maxHeight
+      };
 
-        return (
-          <div style={style} class="modal-body">
-            {this.content}
-          </div>
-        );
-      }
+      return (
+        <div style={style} class="modal-body">
+          {body}
+        </div>
+      );
     };
 
-    const ModalFooter = {
-      props: {
-        content: {
-          type: Object | String,
-          default: "Footer"
-        },
-        cancel: {
-          type: Function
-        }
-      },
-      render() {
-        return <div class="modal-footer">{this.content}</div>;
-      }
+    const ModalFooter = () => {
+      return <div class="modal-footer">{footer}</div>;
     };
 
     const ModalFooterBtns = (
       <div>
         <button v-pcq-button onClick={onCancel || cancel}>
-          关闭
+          {cancelText}
         </button>
         &nbsp;
         <button v-pcq-button btnType="primary" onClick={onOk || ok}>
-          确定
+          {okText}
         </button>
       </div>
     );
 
-    title = checkType(this.title, "title");
-    body = checkType(this.body, "default");
-    footer = checkType(this.footer, "footer");
+    title = checkType(this.title, 'title');
+    body = checkType(this.body, 'default');
+    footer = checkType(this.footer, 'footer');
 
     function checkType(obj, slotName) {
       if (isVNode(obj)) {
         return obj;
-      } else if (typeof obj === "function") {
+      } else if (typeof obj === 'function') {
         return obj();
-      } else if (typeof obj === "string") {
+      } else if (typeof obj === 'string') {
         return obj;
-      } else if (typeof obj === "undefined") {
+      } else if (typeof obj === 'undefined') {
         // 没有任何参数的情况下
         if ($slots[slotName]) {
           return $slots[slotName];
-        } else if (slotName == "footer") {
+        } else if (slotName == 'footer') {
           return ModalFooterBtns;
         }
       }
     }
 
     function isVNode(obj) {
-      let vnode = vm.$createElement("div", "");
+      let vnode = vm.$createElement('div', '');
       let VNode = vnode.constructor;
       const isVNode = obj => obj instanceof VNode;
       return isVNode(obj);
@@ -196,20 +208,24 @@ export default {
      */
     // console.log(this);
 
-    if (this.visible) {
+    const Modal = () => {
       return (
-        <div class="modal" ref="modalIns">
+        <div class="modal">
           <div
             class="modal-shade modal-shade-fadeIn"
             onClick={() => close(this.$el)}
           ></div>
           <div class="modal-content modal-content-in" style="min-height:50px;">
-            <ModalHeader content={title} />
-            <ModalBody content={body} />
-            <ModalFooter content={footer} />
+            <ModalHeader />
+            <ModalBody />
+            <ModalFooter />
           </div>
         </div>
       );
+    };
+
+    if (this.visible) {
+      return <Modal />;
     }
   }
 };
