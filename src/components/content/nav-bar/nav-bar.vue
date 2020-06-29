@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: "NavBar",
+  name: 'NavBar',
   methods: {
     forward() {
       this.$router.go(1);

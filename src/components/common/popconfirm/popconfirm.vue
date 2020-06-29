@@ -12,7 +12,6 @@ export default {
   },
   methods: {
     ok() {
-      // btnVnode.elm.dispatchEvent(new CustomEvent(`popOk`, { detail: `eventData` }));
     },
     close() {
       this.$destroy();

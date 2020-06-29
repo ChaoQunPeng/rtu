@@ -23,7 +23,6 @@
             </div>
             <div class="exp">
               <div class="progress">
-                <!-- {{item.TotalExp | expFormat('width')}} -->
                 <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
                   <span
                     class="progress-text"
@@ -49,10 +48,6 @@
     <modal title="新增技能" :visible="modalIsVisible" @ok="addedCard" @cancel="cancel">
       <input v-pcq-input type="text" v-model="title" />
     </modal>
-
-    <!-- <test-modal title="test-modal" :visible="modalIsVisible">
-      <input v-pcq-input type="text" v-model="title" />
-    </test-modal>-->
 
     <div class="add-skill" @click="handleModal()">
       <i class="iconfont icon-plus"></i>
@@ -280,14 +275,6 @@ export default {
       }
 
       return data;
-    },
-    getProgressLength(totalExp, levelData) {
-      // totalExp 可能为null,即0
-      // [0,199]  (2-0) / 199
-      // [6000, 6799] (6500-6000) / 799
-      // let width = Number(totalExp) / Number(levelData.range[1]); // 这是总的经验条
-      let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
-      return { width: width * 100 + '%' };
     }
   },
   watch: {
@@ -417,6 +404,7 @@ export default {
   right: 6px;
   top: 10px;
   color: var(--peace);
+
   &:hover {
     > ul {
       display: block;
@@ -424,6 +412,7 @@ export default {
       > li {
         padding: 8px 8px;
         border-bottom: 1px solid #ddd;
+
         &:last-child {
           border-bottom: none;
         }
@@ -465,6 +454,7 @@ export default {
   cursor: pointer;
   box-shadow: 0 0 0 var(--color);
   transition: all 0.3s;
+  
   &:hover {
     background: var(--color);
     box-shadow: 0 0 5px var(--color);

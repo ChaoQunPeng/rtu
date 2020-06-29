@@ -13,11 +13,11 @@
 
 <script>
 export default {
-  name: "Message",
+  name: 'Message',
   data() {
     return {
-      content: "",
-      type: "",
+      content: '',
+      type: '',
       index: 0 // 此message组件的索引
     };
   },
@@ -25,7 +25,7 @@ export default {
     let destroyTime = 0;
     destroyTime = 1500 + this.index * 300;
     setTimeout(() => {
-      this.$el.classList.replace("fadeIn", "fadeOut");
+      this.$el.classList.replace('fadeIn', 'fadeOut');
       setTimeout(() => {
         this.$destroy();
       }, 1000);

@@ -13,8 +13,8 @@
 
 <script>
 export default {
-  name: "LevelStar",
-  props: ["level"]
+  name: 'LevelStar',
+  props: ['level']
 };
 </script>
 

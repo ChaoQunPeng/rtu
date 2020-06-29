@@ -149,10 +149,6 @@ export default {
         },
         footer: function() {
           function close(event) {
-            // 总感觉不是长久之计
-            // console.log(modal);
-            // const modalEle = event.path[event.path.length - 5];
-            // modalEle.remove();
             modal.close();
           }
 

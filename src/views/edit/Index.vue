@@ -63,17 +63,17 @@
 </template>
 	
 <script>
-import axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import dayjs from "dayjs";
+import axios from 'axios';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import dayjs from 'dayjs';
 
 export default {
-  name: "edit",
+  name: 'edit',
   data() {
     return {
-      skillName: "",
-      title: "",
-      content: "",
+      skillName: '',
+      title: '',
+      content: '',
       exp: 0,
       item: {},
       startTime: null,
@@ -92,11 +92,11 @@ export default {
       e = e || window.event;
       if (e) {
         // 按照标准取消事件
-        e.returnValue = "";
+        e.returnValue = '';
       }
       // Chrome需要设置returnValue。
       e.preventDefault();
-      return "";
+      return '';
     };
   },
   methods: {
@@ -108,10 +108,10 @@ export default {
           this.title = this.editedData.Title;
           this.content = this.editedData.Content;
           this.startTime = dayjs(this.editedData.StartTime).format(
-            "YYYY-MM-DDTHH:mm"
+            'YYYY-MM-DDTHH:mm'
           );
           this.endTime = dayjs(this.editedData.EndTime).format(
-            "YYYY-MM-DDTHH:mm"
+            'YYYY-MM-DDTHH:mm'
           );
           this.exp = this.editedData.Exp;
         })
@@ -164,11 +164,11 @@ export default {
       this.exp = data.hour;
     },
     checkForm() {
-      if (this.title == "") {
-        this.$message.warning("标题不能为空");
+      if (this.title == '') {
+        this.$message.warning('标题不能为空');
         return false;
-      } else if (this.content == "") {
-        this.$message.warning("内容不能为空");
+      } else if (this.content == '') {
+        this.$message.warning('内容不能为空');
         return false;
       } else {
         return true;
@@ -180,8 +180,3 @@ export default {
   }
 };
 </script>
-
-<style lang="less">
-</style>
-			
-				

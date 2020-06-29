@@ -22,6 +22,7 @@ Vue.use(CKEditor)
 //axios 
 import axios from './utils/interceptors.js';
 
+// global setting
 import './setting';
 
 Vue.prototype.$axios = axios;
@@ -33,25 +34,6 @@ const store = new Vuex.Store({
   }
 })
 
-
-Vue.component('my-comp', {
-  template: `<input value="click me and check the console" size="40">`
-});
-
-Vue.directive('my-directive', {
-  bind: function (el, binding, vnode) {
-    el.addEventListener('click', function (e) {
-      var eventName = 'my-event';
-      var eventData = {myData: 'stuff - ' + binding.expression}
-      if (vnode.componentInstance) {
-      	vnode.componentInstance.$emit(eventName, {detail: eventData}); // use {detail:} to be uniform
-      } else {
-      	vnode.elm.dispatchEvent(new CustomEvent(eventName, {detail: eventData}));
-      }
-
-    })
-  }
-})
 
 new Vue({
   el: '#app',

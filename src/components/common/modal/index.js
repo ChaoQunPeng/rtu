@@ -1,5 +1,5 @@
-import Vue from "vue";
-import ModalComponent from "./modal.vue";
+import Vue from 'vue';
+import ModalComponent from './modal.vue';
 
 Vue.component('modal', ModalComponent);
 
@@ -17,7 +17,7 @@ export const Modal = function (params) {
   });
   instance.$mount(); // 仔细研究下$mount()
   instance.$set(instance.$data, 'el', instance.$el);
-  // 使用此方法调用时传入$el，不然在执行close方法的时候this.$el的node类型会是"#comment"这种类型
+  // 使用此方法调用时传入$el，不然在执行close方法的时候this.$el的node类型会是'#comment'这种类型
   document.body.appendChild(instance.$el);
 
   return instance;

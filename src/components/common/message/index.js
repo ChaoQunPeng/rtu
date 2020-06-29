@@ -10,7 +10,7 @@ export const Message = function (params, type) {
 
   createMessageContainer();
   const data = {};
-  if (typeof params === "string") {
+  if (typeof params === 'string') {
     data.content = params;
   }
   data.type = type;
@@ -19,7 +19,7 @@ export const Message = function (params, type) {
     data: data
   }).$mount();
 
-  document.getElementById("messageContainer").appendChild(instance.$el);
+  document.getElementById('messageContainer').appendChild(instance.$el);
   i++;
   
   return instance;
@@ -30,9 +30,9 @@ export const Message = function (params, type) {
  */
 function createMessageContainer() {
   if (!hasMessageContainer) {
-    const div = document.createElement("div");
-    div.id = "messageContainer";
-    div.classList.add("message-container");
+    const div = document.createElement('div');
+    div.id = 'messageContainer';
+    div.classList.add('message-container');
     document.body.appendChild(div);
     hasMessageContainer = true;
   }

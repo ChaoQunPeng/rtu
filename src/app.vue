@@ -6,9 +6,9 @@
 </template>
 
 <script>
-import Layout from "./layout/layout.vue";
+import Layout from './layout/layout.vue';
 
-import svg from "./assets/image/pcq_i.svg";
+import svg from './assets/image/pcq_i.svg';
 
 export default {
   components: {

@@ -1,4 +1,4 @@
-import { textEllipsis } from "./text-ellipsis";
+import { textEllipsis } from './text-ellipsis';
 
 
 const directives = () => {

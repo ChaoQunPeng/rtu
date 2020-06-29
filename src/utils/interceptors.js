@@ -45,8 +45,8 @@ function createLoading() {
     return;
   }
 
-  div = document.createElement("div");
-  div.classList.add("loading");
+  div = document.createElement('div');
+  div.classList.add('loading');
   div.innerHTML = `
     <div class="loading-icon">loading...</div>
   `;
@@ -60,12 +60,12 @@ function closeLoading(resConfig) {
     requestCollection = requestCollection.filter(e => e.id != resConfig.id);
 
     if (requestCollection.length == 0) {
-      div.style.display = "none";
+      div.style.display = 'none';
     }
   }
   // 如果这个页面上的请求全部出错，在上面的response错误处理中就会把requestCollection清空，length为0
   else {
-    div.style.display = "none";
+    div.style.display = 'none';
   }
 }
 

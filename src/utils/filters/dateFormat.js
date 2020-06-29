@@ -1,5 +1,5 @@
-import Vue from "vue";
-import dayjs from "dayjs";
+import Vue from 'vue';
+import dayjs from 'dayjs';
 
 
 export const dateFormat = function (value, format) {

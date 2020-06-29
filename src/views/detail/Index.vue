@@ -42,17 +42,17 @@
 </template>
 	
 <script>
-import axios from "axios";
-import trimHtml from "trim-html";
+import axios from 'axios';
+import trimHtml from 'trim-html';
 
 export default {
-  name: "detail",
+  name: 'detail',
   data() {
     return {
       item: [],
-      title: "",
-      content: "",
-      headline: ""
+      title: '',
+      content: '',
+      headline: ''
     };
   },
   computed: {
@@ -72,9 +72,8 @@ export default {
     confirmDel(item) {
       this.delExp(item);
     },
-    cancelDel() {},
     initData() {
-      let queryParamsId = this.$router.currentRoute.params["id"];
+      let queryParamsId = this.$router.currentRoute.params['id'];
       axios.get(`experience/${queryParamsId}`).then(res => {
         this.item = res.data.data;
         this.item.forEach(e => {
@@ -119,9 +118,6 @@ export default {
           this.$message.error(`删除失败！`);
         }
       );
-      // const value = confirm(`您确定要删除${item.Title}吗？`);
-      // if (value) {
-      // }
     }
   }
 };
@@ -137,6 +133,7 @@ export default {
   align-items: center;
   text-align: center;
   margin: 50px auto 30px auto;
+
   p {
     position: absolute;
     font-size: 40px;
@@ -144,6 +141,7 @@ export default {
     color: var(--primary);
     z-index: 1000;
   }
+
   > div {
     position: absolute;
     font-size: 40px;
@@ -172,6 +170,7 @@ export default {
 .exp-container {
   flex: 1;
   padding-left: 20px;
+
   > span {
     float: left;
     border: 1px solid;
@@ -200,9 +199,6 @@ export default {
     height: 90px;
     border-radius: 50%;
     font-size: 40px;
-
-    .exp {
-    }
   }
 
   .title {
@@ -243,6 +239,7 @@ export default {
   cursor: pointer;
   border: 1px solid #3884ff;
   transition: all 0.5s;
+  
   &:active {
     background: #353989;
   }

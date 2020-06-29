@@ -15,13 +15,13 @@
 </template>
 
 <script>
-const TEMPORARY_PASSWORD = "pcq1230.";
+const TEMPORARY_PASSWORD = 'pcq1230.';
 
 export default {
-  name: "LockScreen",
+  name: 'LockScreen',
   data() {
     return {
-      password: ""
+      password: ''
     };
   },
   methods: {
@@ -29,7 +29,7 @@ export default {
       if (this.password === TEMPORARY_PASSWORD) {
         this.$router.push({ path: `/home` });
       } else {
-        this.$message.error("密码错误！");
+        this.$message.error('密码错误！');
       }
     }
   }

@@ -2,8 +2,7 @@ import Vue from 'vue';
 import { tools } from './utils'
 
 const expFormatFunc = (value, key) => {
-  let a = tools.getPhaseInfo(value);
-  let data = { ...a };
+  const data = { ...tools.getPhaseInfo(value) };
   return data[key];
 }
 

@@ -37,7 +37,14 @@
 
     <label>
       经验值：
-      <input v-pcq-input style="width: 240px;" type="number" v-model="exp" placeholder="经验值" min="0" />
+      <input
+        v-pcq-input
+        style="width: 240px;"
+        type="number"
+        v-model="exp"
+        placeholder="经验值"
+        min="0"
+      />
     </label>
 
     <!-- <label>
@@ -47,7 +54,7 @@
     <!-- <label>小时数：{{spendTime | toHour}}</label> -->
 
     <div style="margin-bottom:30px">
-      <ckeditor ref="ck" :editor="editor" v-model="content" @ready="onEditorReady"></ckeditor>
+      <ckeditor :editor="editor" v-model="content"></ckeditor>
     </div>
 
     <button v-pcq-button btnType="primary" @click="plus1()">Plus 1</button>
@@ -57,17 +64,17 @@
 
 
 <script>
-import axios from "axios";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
-import dayjs from "dayjs";
+import axios from 'axios';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import dayjs from 'dayjs';
 
 export default {
-  name: "record",
+  name: 'record',
   data() {
     return {
-      skillName: "",
-      title: "",
-      content: "",
+      skillName: '',
+      title: '',
+      content: '',
       exp: 0,
       item: {},
       startTime: null,
@@ -77,8 +84,8 @@ export default {
       isPosting: false,
       actionTimer: null,
       actionTime: 0,
-      saveLocalTip: "",
-      draftLocalKey: "RTU_DRAFT"
+      saveLocalTip: '',
+      draftLocalKey: 'RTU_DRAFT'
     };
   },
   created() {
@@ -89,23 +96,23 @@ export default {
       e = e || window.event;
       if (e) {
         // 按照标准取消事件
-        e.returnValue = "";
+        e.returnValue = '';
       }
       // Chrome需要设置returnValue。
       e.preventDefault();
-      return "";
+      return '';
     };
-    this.startTime = this.endTime = dayjs().format("YYYY-MM-DDTHH:mm");
+    this.startTime = this.endTime = dayjs().format('YYYY-MM-DDTHH:mm');
     this.setLocalDraftToRecord();
   },
   mounted() {
-    document.addEventListener("keydown", this.handleEve);
-    document.addEventListener("mousedown", this.handleEve);
+    document.addEventListener('keydown', this.handleEve);
+    document.addEventListener('mousedown', this.handleEve);
 
     this.setAutoSaveTimer();
   },
   methods: {
-    plus1(successInfo = "新增成功！") {
+    plus1(successInfo = '新增成功！') {
       if (!this.checkForm()) return;
       this.isPosting = true;
       axios
@@ -142,7 +149,7 @@ export default {
         return;
       }
 
-      if (e.ctrlKey && e.key == "s") {
+      if (e.ctrlKey && e.key == 's') {
         this.saveDraftToLocal();
         e.preventDefault();
       }
@@ -159,15 +166,15 @@ export default {
         exp: this.exp,
         startTime: this.startTime,
         endTime: this.endTime,
-        saveTime: dayjs().format("YYYY-MM-DD HH:mm:ss")
+        saveTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
       };
 
       const skillName = this.$route.query.skillName;
       store[skillName] = { id: id, data: data };
 
-      localStorage.setItem("RTU_DRAFT", JSON.stringify(store));
+      localStorage.setItem('RTU_DRAFT', JSON.stringify(store));
       this.saveLocalTip = `草稿已于${dayjs().format(
-        "YYYY-MM-DD HH:mm:ss"
+        'YYYY-MM-DD HH:mm:ss'
       )}保存`;
     },
     // 设置本地草稿到记录页
@@ -217,15 +224,12 @@ export default {
       // 以分钟为单位计入花费时间
       this.exp = data.hour;
     },
-    onEditorReady() {
-      // this.setLocalDraftToRecord();
-    },
     checkForm() {
-      if (this.title == "") {
-        this.$message.warning("标题不能为空");
+      if (this.title == '') {
+        this.$message.warning('标题不能为空');
         return false;
-      } else if (this.content == "") {
-        this.$message.warning("内容不能为空");
+      } else if (this.content == '') {
+        this.$message.warning('内容不能为空');
         return false;
       } else {
         return true;
@@ -233,11 +237,10 @@ export default {
     }
   },
   destroyed() {
-    document.removeEventListener("keydown", this.handleEve);
+    document.removeEventListener('keydown', this.handleEve);
     window.onbeforeunload = function() {};
     clearInterval(this.actionTimer);
-  },
-  computed: {}
+  }
 };
 </script>
 

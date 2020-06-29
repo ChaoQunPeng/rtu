@@ -5,7 +5,7 @@
 
 <script>
 export default {
-  name: "page500"
+  name: 'page500'
 };
 </script>
 

@@ -1,14 +1,14 @@
-import Vue from "vue";
+import Vue from 'vue';
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
-import Home from "../views/home/index.vue";
-import Detail from "../views/detail/index.vue";
-import Record from "../views/record/index.vue";
-import Edit from "../views/edit/index.vue";
-import Recycle from "../views/recycle/index.vue";
-import Chart from "../views/chart/index.vue";
+import Home from '../views/home/index.vue';
+import Detail from '../views/detail/index.vue';
+import Record from '../views/record/index.vue';
+import Edit from '../views/edit/index.vue';
+import Recycle from '../views/recycle/index.vue';
+import Chart from '../views/chart/index.vue';
 
 
 import Layout from '../layout/layout.vue'
@@ -24,13 +24,13 @@ const routes = [
       {
         path: 'home',
         component: Home,
-        name: "home"
+        name: 'home'
       },
-      { path: 'detail/:id', component: Detail, name: "detail" },
-      { path: 'record/:id', component: Record, name: "record" },
-      { path: 'edit/:experienceId', component: Edit, name: "edit" },
-      { path: 'recycle', component: Recycle, name: "recycle" },
-      { path: 'chart', component: Chart, name: "chart" },
+      { path: 'detail/:id', component: Detail, name: 'detail' },
+      { path: 'record/:id', component: Record, name: 'record' },
+      { path: 'edit/:experienceId', component: Edit, name: 'edit' },
+      { path: 'recycle', component: Recycle, name: 'recycle' },
+      { path: 'chart', component: Chart, name: 'chart' },
       { path: '', component: Home, redirect: '/home' }
     ]
   },
@@ -44,15 +44,13 @@ const routes = [
 ]
 
 const router = new VueRouter({
-  // mode: "history",
+  // mode: 'history',
   routes,
   linkActiveClass: 'actived'
 })
 
 
 router.beforeEach((to, from, next) => {
-  console.log(to);
-  console.log(from);
   next(true);
 })
 

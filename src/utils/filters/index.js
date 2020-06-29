@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { expFormat } from './exp-format/index';
-import { dateFormat } from "./dateFormat";
+import { dateFormat } from './dateFormat';
 
 const toHour = Vue.filter('toHour', (val) => {
   if (val == null || isNaN(val)) return 0;
@@ -15,7 +15,7 @@ const any = Vue.filter('any', (val) => {
 });
 
 const filters = function () {
-    toHour,
+  toHour,
     any,
     expFormat,
     dateFormat
