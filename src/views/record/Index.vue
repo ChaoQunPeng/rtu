@@ -53,12 +53,30 @@
 
     <!-- <label>小时数：{{spendTime | toHour}}</label> -->
 
-    <div style="margin-bottom:30px">
-      <ckeditor :editor="editor" v-model="content"></ckeditor>
+    <div style="margin-bottom:30px;margin-right:30px;">
+      <ckeditor :editor="editor" v-model="content" @ready="ckReady"></ckeditor>
     </div>
 
     <button v-pcq-button btnType="primary" @click="plus1()">Plus 1</button>
+
+    <button
+      v-pcq-button
+      v-pcq-popconfirm
+      pcqPopconfirmTitle="确定要清空内容吗？"
+      @onConfirm="clearForm"
+    >重置所有内容</button>
+    
     {{saveLocalTip}}
+    
+    
+    <button
+      v-pcq-button
+      btnType="danger"
+      v-pcq-popconfirm
+      pcqPopconfirmTitle="确定要删除草稿吗？不能恢复哦~"
+      @onConfirm="clearDraft"
+      class="float-right mr-6"
+    >清除此草稿</button>
   </div>
 </template>
 
@@ -67,6 +85,7 @@
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import dayjs from 'dayjs';
+import UploadAdapter from '@utils/upload-adapter';
 
 export default {
   name: 'record',
@@ -92,16 +111,16 @@ export default {
     this.item = this.$route.params;
     this.skillName = this.$route.query.skillName;
 
-    window.onbeforeunload = function(e) {
-      e = e || window.event;
-      if (e) {
-        // 按照标准取消事件
-        e.returnValue = '';
-      }
-      // Chrome需要设置returnValue。
-      e.preventDefault();
-      return '';
-    };
+    // window.onbeforeunload = function(e) {
+    //   e = e || window.event;
+    //   if (e) {
+    //     // 按照标准取消事件
+    //     e.returnValue = '';
+    //   }
+    //   // Chrome需要设置returnValue。
+    //   e.preventDefault();
+    //   return '';
+    // };
     this.startTime = this.endTime = dayjs().format('YYYY-MM-DDTHH:mm');
     this.setLocalDraftToRecord();
   },
@@ -112,6 +131,11 @@ export default {
     this.setAutoSaveTimer();
   },
   methods: {
+    ckReady(editor) {
+      editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+        return new UploadAdapter(loader);
+      };
+    },
     plus1(successInfo = '新增成功！') {
       if (!this.checkForm()) return;
       this.isPosting = true;
@@ -234,6 +258,19 @@ export default {
       } else {
         return true;
       }
+    },
+    clearForm() {
+      this.title = null;
+      this.startTime = dayjs().format('YYYY-MM-DDTHH:mm');
+      this.endTime = dayjs().format('YYYY-MM-DDTHH:mm');
+      this.exp = 0;
+      this.content = '';
+    },
+    clearDraft() {
+      const draftStore = JSON.parse(localStorage.getItem(this.draftLocalKey));
+      debugger;
+      delete draftStore[this.skillName];
+      console.log(draftStore);
     }
   },
   destroyed() {

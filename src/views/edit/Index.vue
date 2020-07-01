@@ -55,7 +55,7 @@
     <!-- <label>小时数：{{spendTime | toHour}}</label> -->
 
     <div style="margin-bottom:30px">
-      <ckeditor ref="ck" :editor="editor" v-model="content"></ckeditor>
+      <ckeditor ref="ck" :editor="editor" v-model="content" @ready="ckReady"></ckeditor>
     </div>
 
     <button v-pcq-button btnType="primary" block @click="update()">Plus 1</button>
@@ -66,6 +66,7 @@
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import dayjs from 'dayjs';
+import UploadAdapter from '@utils/upload-adapter';
 
 export default {
   name: 'edit',
@@ -173,6 +174,11 @@ export default {
       } else {
         return true;
       }
+    },
+    ckReady(editor) {
+      editor.plugins.get('FileRepository').createUploadAdapter = loader => {
+        return new UploadAdapter(loader);
+      };
     }
   },
   destroyed() {
