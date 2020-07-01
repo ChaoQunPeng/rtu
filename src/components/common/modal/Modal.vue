@@ -54,7 +54,10 @@ export default {
       this.$emit('ok');
     },
     cancel() {
-      this.close();
+      // 标签调用组件必须要监听cancel事件，否则不予操作
+      if (this.$listeners.hasOwnProperty('cancel') || this.isPluginCall) {
+        this.close();
+      }
     },
     // el 整个modal
     close(el) {
@@ -90,7 +93,7 @@ export default {
     },
     escEvent(e) {
       if (e.key == 'Escape') {
-        this.close();
+        this.cancel();
       }
     }
   },
@@ -100,7 +103,6 @@ export default {
         document.addEventListener('keydown', this.escEvent);
       } else {
         document.removeEventListener('keydown', this.escEvent);
-
         // this.$el 这个动画不知道要不要做
         const element = this.$el;
 
@@ -139,7 +141,7 @@ export default {
           {title}
           <span
             class="iconfont icon-times modal-close-btn"
-            onClick={close}
+            onClick={cancel}
           ></span>
         </div>
       );
@@ -174,11 +176,11 @@ export default {
       </div>
     );
 
-    title = checkType(this.title, 'title');
-    body = checkType(this.body, 'default');
-    footer = checkType(this.footer, 'footer');
+    title = getContent(this.title, 'title');
+    body = getContent(this.body, 'default');
+    footer = getContent(this.footer, 'footer');
 
-    function checkType(obj, slotName) {
+    function getContent(obj, slotName) {
       if (isVNode(obj)) {
         return obj;
       } else if (typeof obj === 'function') {
@@ -213,7 +215,7 @@ export default {
         <div class="modal">
           <div
             class="modal-shade modal-shade-fadeIn"
-            onClick={() => close(this.$el)}
+            onClick={() => cancel(this.$el)}
           ></div>
           <div class="modal-content modal-content-in" style="min-height:50px;">
             <ModalHeader />
