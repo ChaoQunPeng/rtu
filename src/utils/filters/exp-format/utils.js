@@ -45,7 +45,7 @@ function getLevelInfo(totalExp, expRange, levelName, levelExp) {
     name: levelName,
     level: 0,
     romanNum: 0,
-    baseExp: levelExp,
+    levelBaseExp: levelExp,
     range: [],
     width: {} // 赋值给:style
   };
@@ -70,7 +70,7 @@ function getLevelInfo(totalExp, expRange, levelName, levelExp) {
       }
 
       data.level = i + 1;
-      data.levelLength = totalExp - expRange[i][0];
+      data.currentExp = totalExp - expRange[i][0];
       data.range = expRange[i];
       data.width = getProgressLength(totalExp, data);
     }
@@ -84,7 +84,7 @@ function getProgressLength(totalExp, levelData) {
   // [0,199]  (2-0) / 199
   // [6000, 6799] (6500-6000) / 799
   // let width = Number(totalExp) / Number(levelData.range[1]); // 这是总的经验条
-  let width = (totalExp - levelData.range[0]) / levelData.baseExp; // 这是每个等级的基础经验条
+  let width = (totalExp - levelData.range[0]) / levelData.levelBaseExp; // 这是每个等级的基础经验条
   return { width: width * 100 + "%" };
   // return width * 100 + "%";
 }

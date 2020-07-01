@@ -42,7 +42,14 @@ module.exports = {
         }
       },
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(png|jpg|gif|svg)?$/,
+        loader: 'file-loader',
+        options: {
+          esModule: false
+        }
+      },
+      {
+        test: /\.m?js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
@@ -50,20 +57,14 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
-      },
-      {
-        test: /\.(png|jpg|gif|svg)?$/,
-        loader: 'file-loader',
-        options: {
-          esModule: false
-        }
       }
     ]
   },
   resolve: {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@components': path.resolve(__dirname, '../src/components/')
+      '@components': path.resolve(__dirname, '../src/components/'),
+      '@utils': path.resolve(__dirname,'../src/utils/')
     }
   },
   plugins: [

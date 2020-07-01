@@ -24,7 +24,7 @@
         <tbody>
           <tr v-for="(data,index) in listData" :key="index">
             <td>
-              <input type="checkbox" />
+              <input type="checkbox" @click="clickCheck(data,$event)"/>
             </td>
             <td>
               {{index+1}}
@@ -32,7 +32,9 @@
             </td>
             <td>{{data.Name}}</td>
             <td class="text-left" style="text-align:left;" v-text-ellipsis>{{data.Title}}</td>
-            <td class="text-left">{{data.Content}}</td>
+            <td class="text-left">
+              <div class="text-ellipsis" style="width:300px;">{{data.Content}}</div>
+            </td>
             <td>{{data.Exp}}</td>
             <td>{{data.CreateDate | dateFormat("YYYY-MM-DD HH:mm:ss")}}</td>
             <td>
@@ -96,6 +98,10 @@ export default {
         .catch(err => {
           this.$message.error('恢复失败！');
         });
+    },
+    clickCheck(data,$event) {
+      console.log(data);
+      console.log($event.target.checked);
     }
   }
 };

@@ -26,11 +26,11 @@
                 <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
                   <span
                     class="progress-text"
-                  >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+                  >{{item.TotalExp | expFormat('currentExp')}}/{{item.TotalExp | expFormat('levelBaseExp')}}exp</span>
                 </div>
                 <span
                   class="progress-text"
-                >{{getPhaseInfo(item.TotalExp).levelLength || 0}}/{{getPhaseInfo(item.TotalExp).baseExp}}exp</span>
+                >{{item.TotalExp | expFormat('currentExp')}}/{{item.TotalExp | expFormat('levelBaseExp')}}exp</span>
               </div>
             </div>
           </div>
@@ -269,7 +269,7 @@ export default {
               break;
           }
 
-          data.levelLength = totalExp - expRange[i][0];
+          data.currentExp = totalExp - expRange[i][0];
           data.range = expRange[i];
         }
       }

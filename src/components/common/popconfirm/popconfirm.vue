@@ -22,7 +22,6 @@ export default {
     }
   },
   destroyed() {
-    console.log(`销毁`);
     this.isTrigger = false;
     this.$el.remove();
   },

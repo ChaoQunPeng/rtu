@@ -26,6 +26,7 @@ export default {
     destroyTime = 1500 + this.index * 300;
     setTimeout(() => {
       this.$el.classList.replace('fadeIn', 'fadeOut');
+
       setTimeout(() => {
         this.$destroy();
       }, 1000);

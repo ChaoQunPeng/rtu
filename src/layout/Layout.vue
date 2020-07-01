@@ -69,6 +69,7 @@ export default {
     const themePick = this.$refs.themePick;
     // 好像不能用input
     themePick.addEventListener('input', event => {
+      // getComputedStyle
       document.documentElement.style.setProperty(
         '--primary',
         event.target.value

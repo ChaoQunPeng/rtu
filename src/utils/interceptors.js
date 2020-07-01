@@ -15,7 +15,6 @@ if (ENV == 'dev') {
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
-
   if (!config.noLoading) {
     config.id = `${config.method}_${new Date().getTime()}`;
     requestCollection.push(config);

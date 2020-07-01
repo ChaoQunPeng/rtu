@@ -14,29 +14,48 @@
       </div>
       <div style="background:#fff;flex:1;padding:20px;border-radius:6px;display:flex;">
         <div class="exp-container clearfix">
-          <div v-for="(arr,index) in item" :key="index" class="exp-container-item">
+          <div v-for="(item,index) in items" :key="index" class="exp-container-item">
             <div class="exp-box">
-              <div class="exp">{{arr.Exp}}</div>
+              <div class="exp">{{item.Exp}}</div>
             </div>
             <div style="flex:1;">
-              <div class="title">{{arr.Title}}</div>
-              <div class="content">{{arr.Content}}</div>
+              <div class="title">{{item.Title}}</div>
+              <div class="content">{{item.Content}}</div>
               <div class="date">
-                <a @click="editExp(arr)">编辑</a>
+                <a @click="editExp(item)">编辑</a>
                 |
                 <a
                   v-pcq-popconfirm
                   pcqPopconfirmTitle="您确定要删除这条经验吗？"
-                  @onConfirm="confirmDel(arr)"
+                  @onConfirm="confirmDel(item)"
                 >删除</a>
                 |
-                2020-03-09
+                <a @click="handleModifyExpClassifyModel(item)">操作</a>
+                |
+                {{ item.CreateDate | dateFormat('YYYY-MM-DD') }}
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <modal
+      title="修改所属技能"
+      :visible="modifyExpClassifyVisible"
+      @ok="modfiyExpClassify"
+      @cancel="handleModifyExpClassifyModel"
+    >
+      <div class="mb-3">经验名称：{{expItem && expItem.Title}}</div>
+      <select v-model="skillIdValue" class="pcq-select">
+        <option value="0" disabled>选择新的所属分类</option>
+        <option
+          v-for="(skill,index) in skillList"
+          :key="index"
+          :value="skill.SkillID"
+        >{{skill.Name}}</option>
+      </select>
+    </modal>
   </div>
 </template>
 	
@@ -48,16 +67,20 @@ export default {
   name: 'detail',
   data() {
     return {
-      item: [],
+      items: [],
       title: '',
       content: '',
-      headline: ''
+      headline: '',
+      modifyExpClassifyVisible: false,
+      skillList: [],
+      expItem: null,
+      skillIdValue: 0
     };
   },
   computed: {
-    computeExp: function() {
+    computeExp() {
       let exp = 0;
-      this.item.forEach(e => {
+      this.items.forEach(e => {
         exp += e.Exp;
       });
       return exp;
@@ -74,8 +97,8 @@ export default {
     initData() {
       let queryParamsId = this.$router.currentRoute.params['id'];
       axios.get(`experience/${queryParamsId}`).then(res => {
-        this.item = res.data.data;
-        this.item.forEach(e => {
+        this.items = res.data.data;
+        this.items.forEach(e => {
           // 不能这么干，要弄成一个过滤器，因为我后面直接用的就是这里的数据
           e.Content = trimHtml(e.Content, {
             limit: 200,
@@ -83,10 +106,6 @@ export default {
           }).html;
         });
       });
-    },
-    plus1() {
-      this.item.items.push({ overview: this.overview, content: this.content });
-      this.item.exp = this.item.items.length;
     },
     goRecord() {
       this.$router.push({
@@ -117,6 +136,37 @@ export default {
           this.$message.error(`删除失败！`);
         }
       );
+    },
+    handleModifyExpClassifyModel(skill) {
+      this.modifyExpClassifyVisible = !this.modifyExpClassifyVisible;
+      if (this.modifyExpClassifyVisible) {
+        this.editedExp = skill;
+        this.getSkillList();
+      }
+    },
+    getSkillList() {
+      this.$axios
+        .get(`/skill`)
+        .then(res => {
+          this.skillList = res.data.data;
+        })
+        .catch(err => {
+          this.$message.error(`获取技能列表错误！`);
+        });
+    },
+    modfiyExpClassify() {
+      this.$axios
+        .put(`/experience/modify/${this.editedExp.ExperienceID}`, {
+          SkillID: this.skillIdValue
+        })
+        .then(res => {
+          this.$message.success(`修改分类成功！`);
+          this.modifyExpClassifyVisible = false;
+          this.initData();
+        })
+        .catch(err => {
+          this.$message.error(`修改分类失败！`);
+        });
     }
   }
 };
@@ -224,23 +274,6 @@ export default {
     font-size: 12px;
     color: #999;
     cursor: pointer;
-  }
-}
-
-.plus1 {
-  display: block;
-  width: 100%;
-  background: #3884ff;
-  color: #fff;
-  padding: 10px 0;
-  border-radius: 4px;
-  outline: none;
-  cursor: pointer;
-  border: 1px solid #3884ff;
-  transition: all 0.5s;
-  
-  &:active {
-    background: #353989;
   }
 }
 </style>

@@ -1,5 +1,3 @@
-@base-size: 5px;
-
 .text-center {
   text-align: center !important;
 }
@@ -42,6 +40,8 @@
     color: #ff4757 !important;
   }
 }
+
+@base-size: 5px;
 
 .mb {
   &-1 {
@@ -93,4 +93,12 @@
   &-6 {
     margin-right: @base-size * 6;
   }
+}
+
+.text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 }
