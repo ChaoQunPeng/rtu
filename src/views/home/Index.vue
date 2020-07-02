@@ -2,15 +2,30 @@
   <div>
     <div>
       <label>
-        <input v-pcq-input type="text" placeholder="查找技能" v-model="searchKey" style="width:200px;" />
+        <input
+          v-pcq-input
+          type="text"
+          ref="searchSkillInput"
+          placeholder="查找技能"
+          v-model="searchKey"
+          style="width:200px;"
+        />
       </label>
     </div>
 
-    <div class="pcq-grid" style="margin-left: -15px;">
+    <div class="pcq-grid" style="margin-left: -15px;" id="GRID">
       <div class="pcq-grid-item" draggable="true" v-for="(item,index) in list" :key="index">
-        <div class="skill-card-wrap">
-          <div :id="'card'+index" class="skill-card" @click="goDetail(item)">
-            <span class="descr-line"></span>
+        <a class="skill-card-wrap" href="javascript:;" @click="goDetail(item)">
+          <div :id="'card'+index" class="skill-card">
+            <div class="descr-line" @click="$event.stopPropagation()">
+              <div style="width:150px;">
+                <label>
+                  选择一个颜色：
+                  <input type="color" tabindex="-1"/>
+                  <button v-pcq-button btnType="primary" btnSize="sm" tabindex="-1">确定</button>
+                </label>
+              </div>
+            </div>
             <div class="name">
               <span class="descr-name-dot"></span>
               {{item.Name}}
@@ -41,7 +56,7 @@
               <li v-pcq-popconfirm pcqPopconfirmTitle="您确定要删除此技能吗？" @onConfirm="deleteCard(item)">删除</li>
             </ul>
           </div>
-        </div>
+        </a>
       </div>
     </div>
 
@@ -79,11 +94,34 @@ export default {
   created() {
     this.getList();
   },
+  mounted() {
+    // const searchSkillInput = this.$refs.searchSkillInput;
+    // searchSkillInput.addEventListener('focus', () => {
+    //   console.log(`focus`);
+    // });
+    // searchSkillInput.addEventListener('blur', () => {
+    //   console.log(`blur`);
+    // });
+    // this.$refs.searchSkillInput.onfocus = function(params) {
+    // };
+  },
   methods: {
+    descr(){},
     getList() {
       axios('skill').then(res => {
         this.list = res.data.data;
         this.originData = this.list;
+
+        // TODO: 仔细研究一下
+        // this.$nextTick(() => {
+        //   const skillCardWraps = document.querySelectorAll('.skill-card-wrap');
+        //   if (skillCardWraps[0] instanceof HTMLElement) {
+        //     skillCardWraps[0].focus();
+        //     skillCardWraps[0].onfocus = function(params) {
+        //       console.log(params);
+        //     };
+        //   }
+        // });
       });
     },
     goDetail(item) {
@@ -324,21 +362,20 @@ export default {
   width: 100%;
   margin: 15px;
   border-radius: 4px;
-  // overflow: hidden;
   top: 0;
   color: #fff;
   transition: all 0.3s;
   cursor: pointer;
-  transform: scale(1);
+  transform: translateY(0);
 
   &:hover {
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    transform: scale(1.05);
+    transform: translateY(-15px);
     z-index: 2;
   }
 
   &:focus {
-    border: 5px solid #f00;
+    outline: 2px dashed #5352ed;
   }
 }
 
@@ -392,10 +429,31 @@ export default {
     position: absolute;
     width: 5px;
     height: 156px;
-    background: var(--primary);
-    border-radius: 1px;
+    // background: rgba(47, 53, 66, 0.75);
+    background: rgba(255, 255, 255, 0.75);
     left: 0;
     top: 0;
+    z-index: 2;
+    overflow: hidden;
+    border-right-color: var(--primary);
+    border-right-style: solid;
+    border-right-width: 5px;
+    transition: width 0.3s;
+
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 0;
+    //   right: 0;
+    //   width: 0px;
+    //   height: 100%;
+    //   background: #1e90ff;
+    //   box-shadow: -3px 0 10px #1e90ff;
+    // }
+
+    &:hover {
+      width: 100%;
+    }
   }
 }
 
@@ -404,6 +462,9 @@ export default {
   right: 6px;
   top: 10px;
   color: var(--peace);
+  width: 20px;
+  text-align: center;
+  height: 30px;
 
   &:hover {
     > ul {
@@ -454,7 +515,7 @@ export default {
   cursor: pointer;
   box-shadow: 0 0 0 var(--color);
   transition: all 0.3s;
-  
+
   &:hover {
     background: var(--color);
     box-shadow: 0 0 5px var(--color);
@@ -483,7 +544,7 @@ export default {
     align-items: center;
     overflow: hidden;
     position: absolute;
-    z-index: 10;
+    z-index: 1;
     color: #fff;
   }
 

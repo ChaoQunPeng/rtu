@@ -73,8 +73,8 @@ export default {
       headline: '',
       modifyExpClassifyVisible: false,
       skillList: [],
-      expItem: null,
-      skillIdValue: 0
+      skillIdValue: 0,
+      expItem: null
     };
   },
   computed: {
