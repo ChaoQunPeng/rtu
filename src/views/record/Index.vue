@@ -85,7 +85,7 @@
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import dayjs from 'dayjs';
-import UploadAdapter from '@utils/upload-adapter';
+import UploadAdapter from '@utils/ck-upload-adapter';
 
 export default {
   name: 'record',
@@ -111,16 +111,16 @@ export default {
     this.item = this.$route.params;
     this.skillName = this.$route.query.skillName;
 
-    // window.onbeforeunload = function(e) {
-    //   e = e || window.event;
-    //   if (e) {
-    //     // 按照标准取消事件
-    //     e.returnValue = '';
-    //   }
-    //   // Chrome需要设置returnValue。
-    //   e.preventDefault();
-    //   return '';
-    // };
+    window.onbeforeunload = function(e) {
+      e = e || window.event;
+      if (e) {
+        // 按照标准取消事件
+        e.returnValue = '';
+      }
+      // Chrome需要设置returnValue。
+      e.preventDefault();
+      return '';
+    };
     this.startTime = this.endTime = dayjs().format('YYYY-MM-DDTHH:mm');
     this.setLocalDraftToRecord();
   },

@@ -17,6 +17,7 @@ export default {
   padding: 30px 0 60px 30px;
   background: var(--gray);
   min-height: calc(100vh - 70px);
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>

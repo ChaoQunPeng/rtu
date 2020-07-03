@@ -1,9 +1,10 @@
 import Vue from 'vue';
+import { APP_CONFIG } from '../config/app-config'
 
 Vue.mixin({
   data() {
     return {
-      SEARCH_BTN_TEXT: '搜索'
+      ...APP_CONFIG
     }
   }
 });

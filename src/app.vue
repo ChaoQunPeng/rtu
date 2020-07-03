@@ -2,13 +2,13 @@
   <div>
     <router-view name="layout"></router-view>
     <router-view name="lock"></router-view>
+    <router-view name="webpage"></router-view>
+    <router-view name="book"></router-view>
   </div>
 </template>
 
 <script>
 import Layout from './layout/layout.vue';
-
-import svg from './assets/image/pcq_i.svg';
 
 export default {
   components: {
@@ -29,4 +29,8 @@ export default {
 </script>
 
 <style lang="less" scoped>
+p {
+  color: #f00;
+  font-size: 60px;
+}
 </style>

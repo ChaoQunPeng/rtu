@@ -19,8 +19,8 @@
               <div class="exp">{{item.Exp}}</div>
             </div>
             <div style="flex:1;">
-              <div class="title">{{item.Title}}</div>
-              <div class="content">{{item.Content}}</div>
+              <a class="title" @click="viewExp(item)">{{item.Title}}</a>
+              <a class="content" @click="viewExp(item)">{{item.Content}}</a>
               <div class="date">
                 <a @click="editExp(item)">编辑</a>
                 |
@@ -99,11 +99,12 @@ export default {
       axios.get(`experience/${queryParamsId}`).then(res => {
         this.items = res.data.data;
         this.items.forEach(e => {
-          // 不能这么干，要弄成一个过滤器，因为我后面直接用的就是这里的数据
           e.Content = trimHtml(e.Content, {
             limit: 200,
             preserveTags: false
           }).html;
+
+          e.Content = this.escape2Html(e.Content);
         });
       });
     },
@@ -167,6 +168,24 @@ export default {
         .catch(err => {
           this.$message.error(`修改分类失败！`);
         });
+    },
+    viewExp(item) {
+      this.$router.push({
+        // 如果提供了path params会自动忽略
+        name: 'web-page',
+        query: {
+          expId: item.ExperienceID
+        }
+        // params: {
+        //   ...item
+        // }
+      });
+    },
+    escape2Html(str) {
+      var arrEntities = { lt: '<', gt: '>', nbsp: ' ', amp: '&', quot: '"' };
+      return str.replace(/&(lt|gt|nbsp|amp|quot);/gi, function(all, t) {
+        return arrEntities[t];
+      });
     }
   }
 };
@@ -251,9 +270,15 @@ export default {
   }
 
   .title {
+    display: block;
     color: #333;
     font-size: 20px;
     margin-bottom: 10px;
+    transition: all 0.3s;
+
+    &:hover {
+      color: var(--primary);
+    }
   }
 
   .content {
@@ -265,6 +290,11 @@ export default {
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
     overflow: hidden;
+    transition: all 0.3s;
+
+    &:hover {
+      color: var(--primary);
+    }
   }
 
   .date {

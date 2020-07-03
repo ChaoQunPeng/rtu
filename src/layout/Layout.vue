@@ -1,6 +1,7 @@
 
 <template>
   <div style="height: 100%;">
+
     <header-layout></header-layout>
 
     <left-layout></left-layout>
@@ -13,10 +14,10 @@
 </template>
 
 <script>
-import HeaderLayout from './default/header.vue';
-import LeftLayout from './default/left.vue';
-import BodyLayout from './default/body.vue';
-import ContentLayout from './default/content.vue';
+import HeaderLayout from './default/header-layout.vue';
+import LeftLayout from './default/side-layout.vue';
+import BodyLayout from './default/body-layout.vue';
+import ContentLayout from './default/content-layout.vue';
 
 export default {
   data() {

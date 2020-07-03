@@ -66,7 +66,7 @@
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import dayjs from 'dayjs';
-import UploadAdapter from '@utils/upload-adapter';
+import UploadAdapter from '@utils/ck-upload-adapter';
 
 export default {
   name: 'edit',

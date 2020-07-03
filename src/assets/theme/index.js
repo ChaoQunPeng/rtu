@@ -8,4 +8,4 @@ import './animation/animation.less';
 import './animation/routeAnimate.less';
 
 // iconfont
-import '../icon/iconfont.css';
+// import '../icon/iconfont.css';

@@ -6,7 +6,7 @@
         type="password"
         v-model="password"
         v-on:keyup.enter="unlock"
-        placeholder="请输入密码"
+        placeholder="请输入密码 pcq1230"
       />
 
       <button v-pcq-button btnType="primary" class="block" @click="unlock">解锁</button>
@@ -15,13 +15,14 @@
 </template>
 
 <script>
-const TEMPORARY_PASSWORD = 'pcq1230.';
+const TEMPORARY_PASSWORD = 'pcq1230';
 
 export default {
   name: 'LockScreen',
   data() {
     return {
-      password: ''
+      password: '',
+      ht: `<p>sdfsdfds</p>`
     };
   },
   methods: {
@@ -51,4 +52,5 @@ body {
   margin-left: -260px;
   margin-top: -160px;
 }
+
 </style>

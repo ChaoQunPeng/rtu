@@ -17,6 +17,10 @@
       <router-link to="/chart" tag="div" class="left-layout-nav" replace>
         <i class="iconfont icon-chart-line"></i>
       </router-link>
+
+      <router-link to="/book" tag="div" class="left-layout-nav" replace>
+        <i class="iconfont icon-map"></i>
+      </router-link>
     </div>
 
     <!-- 说明 -->

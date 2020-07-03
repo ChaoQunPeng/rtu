@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router'
+import { APP_CONFIG } from '../config/app-config'
 
 Vue.use(VueRouter)
 
@@ -10,13 +11,15 @@ import Edit from '../views/edit/index.vue';
 import Recycle from '../views/recycle/index.vue';
 import Chart from '../views/chart/index.vue';
 
-
 import Layout from '../layout/layout.vue'
 import LockScreen from '../layout/lock-screen.vue'
+import Webpage from '../layout/web-page.vue';
+import Book from '../layout/book.vue';
+
 
 const routes = [
   {
-    path: '/',
+    path: '',
     components: {
       layout: Layout
     },
@@ -24,13 +27,51 @@ const routes = [
       {
         path: 'home',
         component: Home,
-        name: 'home'
+        name: 'home',
+        meta: {
+          title: '首页'
+        }
       },
-      { path: 'detail/:id', component: Detail, name: 'detail' },
-      { path: 'record/:id', component: Record, name: 'record' },
-      { path: 'edit/:experienceId', component: Edit, name: 'edit' },
-      { path: 'recycle', component: Recycle, name: 'recycle' },
-      { path: 'chart', component: Chart, name: 'chart' },
+      {
+        path: 'detail/:id',
+        component: Detail,
+        name: 'detail',
+        meta: {
+          title: '经验列表'
+        }
+      },
+      {
+        path: 'record/:id',
+        component: Record,
+        name: 'record',
+        meta: {
+          title: '记录'
+        }
+      },
+      {
+        path: 'edit/:experienceId',
+        component: Edit,
+        name: 'edit',
+        meta: {
+          title: '编辑'
+        }
+      },
+      {
+        path: 'recycle',
+        component: Recycle,
+        name: 'recycle',
+        meta: {
+          title: '回收站'
+        }
+      },
+      {
+        path: 'chart',
+        component: Chart,
+        name: 'chart',
+        meta: {
+          title: '回收站'
+        }
+      },
       { path: '', component: Home, redirect: '/home' }
     ]
   },
@@ -39,9 +80,30 @@ const routes = [
     name: 'lock-screen',
     components: {
       lock: LockScreen
+    },
+    meta: {
+      title: '锁屏'
+    }
+  },
+  {
+    path: '/web-page',
+    name: 'web-page',
+    components: {
+      webpage: Webpage
+    },
+    meta: {
+      title: '文章内容'
+    }
+  },
+  {
+    path: '/book',
+    name: 'book',
+    components: {
+      book: Book
     }
   }
-]
+];
+
 
 const router = new VueRouter({
   // mode: 'history',
@@ -49,8 +111,13 @@ const router = new VueRouter({
   linkActiveClass: 'actived'
 })
 
-
 router.beforeEach((to, from, next) => {
+  if (to.meta.title) {
+    document.title = `${APP_CONFIG.APP_NAME}-${to.meta.title}-${ENV}`;
+  } else {
+    document.title = `${APP_CONFIG.APP_NAME}-${to.name}-${ENV}`;
+  }
+
   next(true);
 })
 
