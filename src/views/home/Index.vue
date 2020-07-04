@@ -19,11 +19,12 @@
           <div :id="'card'+index" class="skill-card">
             <div class="descr-line" @click="$event.stopPropagation()">
               <div style="width:150px;">
-                <label>
+                这里感觉可以放点什么东西，但是暂时还没想到~~
+                <!-- <label>
                   选择一个颜色：
                   <input type="color" tabindex="-1"/>
                   <button v-pcq-button btnType="primary" btnSize="sm" tabindex="-1">确定</button>
-                </label>
+                </label>-->
               </div>
             </div>
             <div class="name">
@@ -37,16 +38,7 @@
               <span class="exp-text">{{item.TotalExp || 0}} exp</span>
             </div>
             <div class="exp">
-              <div class="progress">
-                <div class="progress-bar" :style="item.TotalExp | expFormat('width')">
-                  <span
-                    class="progress-text"
-                  >{{item.TotalExp | expFormat('currentExp')}}/{{item.TotalExp | expFormat('levelBaseExp')}}exp</span>
-                </div>
-                <span
-                  class="progress-text"
-                >{{item.TotalExp | expFormat('currentExp')}}/{{item.TotalExp | expFormat('levelBaseExp')}}exp</span>
-              </div>
+              <level-progress-bar :totalExp="item.TotalExp"></level-progress-bar>
             </div>
           </div>
           <div class="skill-card-handle">
@@ -74,6 +66,7 @@
 import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import LevelStar from '@components/content/level-star/level-star.vue';
+import LevelProgressBar from '@components/content/level-progress-bar/level-progress-bar.vue';
 
 export default {
   data() {
@@ -89,7 +82,8 @@ export default {
     };
   },
   components: {
-    LevelStar
+    LevelStar,
+    LevelProgressBar
   },
   created() {
     this.getList();
@@ -106,12 +100,10 @@ export default {
     // };
   },
   methods: {
-    descr(){},
     getList() {
       axios('skill').then(res => {
         this.list = res.data.data;
         this.originData = this.list;
-
         // TODO: 仔细研究一下
         // this.$nextTick(() => {
         //   const skillCardWraps = document.querySelectorAll('.skill-card-wrap');
@@ -125,12 +117,18 @@ export default {
       });
     },
     goDetail(item) {
+      this.setRecordingItem(item);
       this.$router.push({
         path: `/detail/${item.SkillID}`,
         query: {
-          skillName: item.Name
+          skillName: item.Name,
+          totalExp: item.TotalExp
         }
       });
+    },
+    // 设置准备记录的技能数据，用于新增后显示提示的信息
+    setRecordingItem(item) {
+      localStorage.setItem('RECORDING_ITEM', JSON.stringify(item));
     },
     cancel() {
       this.handleModal();
@@ -238,82 +236,82 @@ export default {
           this.getList();
         }
       });
-    },
-    getPhaseInfo(totalExp) {
-      if (totalExp >= 0 && totalExp < 1000) {
-        const expRange = [
-          [0, 199],
-          [200, 399],
-          [400, 599],
-          [600, 799],
-          [800, 999]
-        ];
-        return this.getLevelInfo(totalExp, expRange, '新手', 199);
-      } else if (totalExp >= 1000 && totalExp < 3000) {
-        const expRange = [
-          [1000, 1399],
-          [1400, 1799],
-          [1800, 2199],
-          [2200, 2599],
-          [2600, 2999]
-        ];
-        return this.getLevelInfo(totalExp, expRange, '高级新手', 399);
-      } else if (totalExp >= 3000 && totalExp < 6000) {
-        const expRange = [
-          [3000, 3599],
-          [3600, 4199],
-          [4200, 4799],
-          [4800, 5399],
-          [5400, 5999]
-        ];
-        return this.getLevelInfo(totalExp, expRange, '胜任者', 599);
-      } else if (totalExp >= 6000 && totalExp < 10000) {
-        const expRange = [
-          [6000, 6799],
-          [6800, 7599],
-          [7600, 8399],
-          [8400, 9199],
-          [9200, 9999]
-        ];
-        return this.getLevelInfo(totalExp, expRange, '精通者', 799);
-      } else {
-        return { name: '专家', level: '' };
-      }
-    },
-    getLevelInfo(totalExp, expRange, levelName, levelExp) {
-      const data = {
-        name: levelName,
-        level: 0,
-        baseExp: levelExp,
-        range: []
-      };
-      for (let i = 0; i < expRange.length; i++) {
-        if (totalExp >= expRange[i][0] && totalExp <= expRange[i][1]) {
-          switch (i) {
-            case 0:
-              data.level = 'I';
-              break;
-            case 1:
-              data.level = 'II';
-              break;
-            case 2:
-              data.level = 'III';
-              break;
-            case 3:
-              data.level = 'IV';
-              break;
-            case 4:
-              data.level = 'V';
-              break;
-          }
-
-          data.currentExp = totalExp - expRange[i][0];
-          data.range = expRange[i];
-        }
-      }
-
-      return data;
     }
+    // getPhaseInfo(totalExp) {
+    //   if (totalExp >= 0 && totalExp < 1000) {
+    //     const expRange = [
+    //       [0, 199],
+    //       [200, 399],
+    //       [400, 599],
+    //       [600, 799],
+    //       [800, 999]
+    //     ];
+    //     return this.getLevelInfo(totalExp, expRange, '新手', 199);
+    //   } else if (totalExp >= 1000 && totalExp < 3000) {
+    //     const expRange = [
+    //       [1000, 1399],
+    //       [1400, 1799],
+    //       [1800, 2199],
+    //       [2200, 2599],
+    //       [2600, 2999]
+    //     ];
+    //     return this.getLevelInfo(totalExp, expRange, '高级新手', 399);
+    //   } else if (totalExp >= 3000 && totalExp < 6000) {
+    //     const expRange = [
+    //       [3000, 3599],
+    //       [3600, 4199],
+    //       [4200, 4799],
+    //       [4800, 5399],
+    //       [5400, 5999]
+    //     ];
+    //     return this.getLevelInfo(totalExp, expRange, '胜任者', 599);
+    //   } else if (totalExp >= 6000 && totalExp < 10000) {
+    //     const expRange = [
+    //       [6000, 6799],
+    //       [6800, 7599],
+    //       [7600, 8399],
+    //       [8400, 9199],
+    //       [9200, 9999]
+    //     ];
+    //     return this.getLevelInfo(totalExp, expRange, '精通者', 799);
+    //   } else {
+    //     return { name: '专家', level: '' };
+    //   }
+    // },
+    // getLevelInfo(totalExp, expRange, levelName, levelExp) {
+    //   const data = {
+    //     name: levelName,
+    //     level: 0,
+    //     baseExp: levelExp,
+    //     range: []
+    //   };
+    //   for (let i = 0; i < expRange.length; i++) {
+    //     if (totalExp >= expRange[i][0] && totalExp <= expRange[i][1]) {
+    //       switch (i) {
+    //         case 0:
+    //           data.level = 'I';
+    //           break;
+    //         case 1:
+    //           data.level = 'II';
+    //           break;
+    //         case 2:
+    //           data.level = 'III';
+    //           break;
+    //         case 3:
+    //           data.level = 'IV';
+    //           break;
+    //         case 4:
+    //           data.level = 'V';
+    //           break;
+    //       }
+
+    //       data.currentExp = totalExp - expRange[i][0];
+    //       data.range = expRange[i];
+    //     }
+    //   }
+
+    //   return data;
+    // }
   },
   watch: {
     searchKey: function(val) {
@@ -520,39 +518,6 @@ export default {
     background: var(--color);
     box-shadow: 0 0 5px var(--color);
     color: #fff;
-  }
-}
-
-.progress {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 20px;
-  box-sizing: content-box;
-  background: var(--gray);
-  border-radius: 1px;
-  font-size: 12px;
-  overflow: hidden;
-
-  &-bar {
-    background: var(--primary);
-    width: 100%;
-    text-align: center;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    position: absolute;
-    z-index: 1;
-    color: #fff;
-  }
-
-  &-text {
-    position: absolute;
-    transform: translate(-50%, 0);
-    left: 130px;
-    top: 2px;
   }
 }
 

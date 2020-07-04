@@ -1,6 +1,7 @@
 <template>
   <div class="book">
     <div class="book-wrap">
+      这里感觉也能做点好玩的事...
       <div class="book-page">
         在笛卡尔坐标系中，每个
         欧氏空间 里的点都由横坐标和纵坐标这两个值来确定。

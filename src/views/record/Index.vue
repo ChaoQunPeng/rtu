@@ -65,10 +65,7 @@
       pcqPopconfirmTitle="确定要清空内容吗？"
       @onConfirm="clearForm"
     >重置所有内容</button>
-    
     {{saveLocalTip}}
-    
-    
     <button
       v-pcq-button
       btnType="danger"
@@ -77,6 +74,18 @@
       @onConfirm="clearDraft"
       class="float-right mr-6"
     >清除此草稿</button>
+
+    <!-- successModalVisible -->
+    <modal :visible="successModalVisible" @cancel="handleSuccessModal">
+
+      <record-success-info :total="totalExp" @ballAnimationEnd="ballAnimationEnd"></record-success-info>
+
+      <template v-slot:footer>
+        <div class="text-center">
+          <button v-pcq-button btnType="primary" @click="handleSuccessModal">再接再厉!</button>
+        </div>
+      </template>
+    </modal>
   </div>
 </template>
 
@@ -86,9 +95,15 @@ import axios from 'axios';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import dayjs from 'dayjs';
 import UploadAdapter from '@utils/ck-upload-adapter';
+import LevelProgressBar from '@components/content/level-progress-bar/level-progress-bar.vue';
+import RecordSuccessInfo from './record-success-info/record-success-info.vue';
 
 export default {
   name: 'record',
+  components: {
+    LevelProgressBar,
+    RecordSuccessInfo
+  },
   data() {
     return {
       skillName: '',
@@ -100,37 +115,48 @@ export default {
       endTime: null,
       spendTime: 0,
       editor: ClassicEditor,
-      isPosting: false,
+      isPosting: false, // 是否正在提交中，如果是，则阻止ctrl+s事件，不保存草稿
       actionTimer: null,
       actionTime: 0,
       saveLocalTip: '',
-      draftLocalKey: 'RTU_DRAFT'
+      draftLocalKey: 'RTU_DRAFT',
+      successModalVisible: false,
+      totalExp: 0,
+      recordingItem: null // 正在记录的经验的数据
     };
   },
   created() {
     this.item = this.$route.params;
     this.skillName = this.$route.query.skillName;
 
-    window.onbeforeunload = function(e) {
-      e = e || window.event;
-      if (e) {
-        // 按照标准取消事件
-        e.returnValue = '';
-      }
-      // Chrome需要设置returnValue。
-      e.preventDefault();
-      return '';
-    };
+    this.getRecordingItem();
+
+    // window.onbeforeunload = function(e) {
+    //   e = e || window.event;
+    //   if (e) {
+    //     // 按照标准取消事件
+    //     e.returnValue = '';
+    //   }
+    //   // Chrome需要设置returnValue。
+    //   e.preventDefault();
+    //   return '';
+    // };
     this.startTime = this.endTime = dayjs().format('YYYY-MM-DDTHH:mm');
     this.setLocalDraftToRecord();
   },
   mounted() {
-    document.addEventListener('keydown', this.handleEve);
-    document.addEventListener('mousedown', this.handleEve);
+    document.addEventListener('keydown', this.handleEvent);
+    document.addEventListener('mousedown', this.handleEvent);
 
     this.setAutoSaveTimer();
   },
   methods: {
+    ballAnimationEnd(e){
+      console.log(e);
+    },
+    handleSuccessModal() {
+      this.successModalVisible = !this.successModalVisible;
+    },
     ckReady(editor) {
       editor.plugins.get('FileRepository').createUploadAdapter = loader => {
         return new UploadAdapter(loader);
@@ -149,7 +175,10 @@ export default {
           endTime: this.endTime
         })
         .then(res => {
-          this.$message.success(successInfo);
+          // this.$message.success(successInfo);
+
+          this.successModalVisible = true;
+
           // 清除这个分类的草稿
           const skillName = this.$route.query.skillName;
           const draft = JSON.parse(localStorage.getItem(this.draftLocalKey));
@@ -157,6 +186,27 @@ export default {
             delete draft[skillName];
             localStorage.setItem(this.draftLocalKey, JSON.stringify(draft));
           }
+          // 重新设置localStore里的RECORDING_ITEM。可能会有继续记录的情况，防止总经验值不准
+          this.recordingItem.TotalExp = parseInt(
+            this.totalExp + parseInt(this.exp)
+          );
+
+          // const expSpan = document.querySelector('#exp-animate');
+          // const expSpa1n = document.getElementById('exp-animate');
+
+          // this.$nextTick(() => {
+          //   const expSpan = document.querySelector('#exp-animate');
+          //   expSpan.classList.add('exp-animate');
+          // });
+
+          // setTimeout(() => {
+          //   this.totalExp = this.recordingItem.TotalExp;
+          // }, 1000); // 1000是动画效果的一半，用于在放到最大的时候变换数字
+
+          localStorage.setItem(
+            'RECORDING_ITEM',
+            JSON.stringify(this.recordingItem)
+          );
         })
         .catch(err => {
           this.$message.error(err.msg);
@@ -165,7 +215,7 @@ export default {
           this.isPosting = false;
         });
     },
-    handleEve(e) {
+    handleEvent(e) {
       this.actionTime = 0;
 
       if (this.isPosting) {
@@ -268,19 +318,21 @@ export default {
     },
     clearDraft() {
       const draftStore = JSON.parse(localStorage.getItem(this.draftLocalKey));
-      debugger;
       delete draftStore[this.skillName];
       console.log(draftStore);
+    },
+    getRecordingItem() {
+      this.recordingItem = JSON.parse(localStorage.getItem('RECORDING_ITEM'));
+      this.totalExp = this.recordingItem.TotalExp;
     }
   },
   destroyed() {
-    document.removeEventListener('keydown', this.handleEve);
+    document.removeEventListener('keydown', this.handleEvent);
     window.onbeforeunload = function() {};
     clearInterval(this.actionTimer);
   }
 };
 </script>
-
 
 <style lang="less" scoped>
 </style>

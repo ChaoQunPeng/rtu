@@ -112,7 +112,8 @@ export default {
       this.$router.push({
         name: `record`,
         query: {
-          skillName: this.$route.query.skillName
+          skillName: this.$route.query.skillName,
+          totalExp: this.$route.query.totalExp
         }
       });
     },

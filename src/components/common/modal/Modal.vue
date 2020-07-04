@@ -218,9 +218,9 @@ export default {
             onClick={() => cancel(this.$el)}
           ></div>
           <div class="modal-content modal-content-in" style="min-height:50px;">
-            <ModalHeader />
+            {title ? <ModalHeader /> : null}
             <ModalBody />
-            <ModalFooter />
+            {footer ? <ModalFooter /> : null}
           </div>
         </div>
       );

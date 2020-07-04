@@ -28,11 +28,18 @@
     </h2>
 
     <div style="margin-right:20px">
-      <v-chart :forceFit="true" :height="height" :padding="padding" :data="data" :scale="scale">
+      <v-chart
+        ref="chart"
+        :forceFit="true"
+        :height="height"
+        :padding="padding"
+        :data="data"
+        :scale="scale"
+      >
         <v-tooltip />
         <v-axis data-key="days" :label="label" :title="xAxisTitle" />
         <v-axis data-key="Exp" :label="label" :title="yAxisTitle" />
-        <v-bar position="days*Exp" size="20" />
+        <v-bar ref="bar" position="days*Exp" size="20"/>
         <v-legend data-key="days" />
       </v-chart>
     </div>
@@ -108,6 +115,10 @@ export default {
     this.getSkillList();
   },
   methods: {
+    clickBar(e,b) {
+      console.log(e);
+     console.log(b); 
+    },
     search() {
       this.getChartData();
     },
