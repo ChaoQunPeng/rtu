@@ -43,7 +43,7 @@
     "@ckeditor/ckeditor5-vue": "^1.0.1",
     "@vue/babel-helper-vue-jsx-merge-props": "^1.0.0",
     "@vue/babel-preset-jsx": "^1.1.2",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.28",
     "mongoose": "^5.9.3",
     "trim-html": "^0.1.9",
